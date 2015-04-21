@@ -43,6 +43,7 @@
             android:layout_marginLeft="5dp"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:maxLength="19"
             android:singleLine="true"
             android:lines="1" />
     </LinearLayout>
@@ -88,6 +89,7 @@
 	            android:layout_weight="1"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
+	            android:maxLength="19"
 	            android:inputType="number"
             	android:digits="0123456789"
             	android:singleLine="true"
@@ -147,6 +149,7 @@
 	            android:layout_marginLeft="5dp"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
+	            android:maxLength="19"
 	            android:singleLine="true"
            		android:lines="1" />
 	        
