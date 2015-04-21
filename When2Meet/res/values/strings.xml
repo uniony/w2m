@@ -6,6 +6,7 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="title_activity_join">JoinActivity</string>
     <string name="title_activity_create_room">CreateRoomActivity</string>
-    <string name="title_activity_room">RoomActivity</string><string name="title_activity_room_vote">RoomVoteActivity</string>
+    <string name="title_activity_room">RoomActivity</string>
+    <string name="title_activity_room_vote">RoomVoteActivity</string>
 
 </resources>

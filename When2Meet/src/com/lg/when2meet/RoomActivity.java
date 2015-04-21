@@ -11,7 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -67,6 +67,7 @@ public class RoomActivity extends Activity {
 				if(i==0){
 					if(j>0){
 						tv.setText(datelist.get(j-1).getDate().substring(0, 10));
+						tv.setTextColor(Color.parseColor("#F5908D"));
 					}
 				}else{
 					if(j==0){
@@ -77,11 +78,13 @@ public class RoomActivity extends Activity {
 						} else{
 							tv.setText((s_time++)+"~"+s_time+"½Ã");
 						}
+						tv.setTextColor(Color.parseColor("#F5908D"));
 					}else{
 						tv.setText(".");
 						tv.setTextColor(Color.parseColor("#bbeeff"));
 						String str = datelist.get(j-1).getDate().substring(0, 10)+" "+(Integer.parseInt(start_time)+i-1);
 						tv.setHint(str);
+						tv.setTextColor(Color.parseColor("#F5908D"));
 
 						boolean check=false;
 						for(int z=0; z<votelist.size(); z++){
@@ -111,7 +114,7 @@ public class RoomActivity extends Activity {
 			}
 			tablelayout.addView(row);
 		}
-		Button button = (Button)findViewById(R.id.vote);
+		ImageView button = (ImageView)findViewById(R.id.vote);
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
@@ -12,39 +11,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@drawable/main_bar"
-        android:textColor="#000" />
+        android:src="@drawable/main_bar" />
 
     <TextView
         android:id="@+id/setting1"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
         android:text="@string/hello_world"
-        android:textColor="#000" />
+        android:textColor="#F5908D"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/setting2"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:text="@string/hello_world" />
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/hello_world"
+        android:textColor="#F5908D"
+        android:textSize="20sp" />
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_width="match_parent"
+        android:layout_height="390dp"
         android:scrollbars="vertical" >
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:fadeScrollbars="false" >
 
             <TableLayout
                 android:id="@+id/table"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:padding="10dp" >
             </TableLayout>
         </HorizontalScrollView>
@@ -52,22 +54,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
-        <Button
+        <ImageView
             android:id="@+id/complete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="완료" />
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/fin_selector"
+            android:clickable="true" />
 
-        <Button
+        <ImageView
             android:id="@+id/clear"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="초기화" />
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/reset_selector"
+            android:clickable="true" />
     </LinearLayout>
+
 </LinearLayout>
