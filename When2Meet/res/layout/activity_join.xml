@@ -42,7 +42,9 @@
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:layout_width="200dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:lines="1" />
     </LinearLayout>
     
     <TextView 
@@ -85,7 +87,11 @@
 	            android:layout_gravity="center"
 	            android:layout_weight="1"
 	            android:layout_width="match_parent"
-	            android:layout_height="match_parent" />
+	            android:layout_height="match_parent"
+	            android:inputType="number"
+            	android:digits="0123456789"
+            	android:singleLine="true"
+            	android:lines="1" />
 	        
 	        <TextView 
 	            android:layout_weight="4"
@@ -140,7 +146,9 @@
 	            android:layout_gravity="center"
 	            android:layout_marginLeft="5dp"
 	            android:layout_width="match_parent"
-	            android:layout_height="match_parent" />
+	            android:layout_height="match_parent"
+	            android:singleLine="true"
+           		android:lines="1" />
 	        
 	        <TextView 
 	            android:layout_weight="4"
