@@ -29,8 +29,6 @@ public class LoginActivity extends Activity {
 	EditText login_id;
 	EditText login_pwd;
 	
-	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
