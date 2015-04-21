@@ -1,6 +1,17 @@
 package com.lg.when2meet;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,10 +46,24 @@ public class ListActivity extends Activity {
 		ArrayList<String> roomname = new ArrayList<String>();
 		ArrayList<String> member = new ArrayList<String>();
 		String pinkColor = "#F5908D";
-		//SharedPreferences setting = getSharedPreferences("login", 0);
-
-
-		//data.add(setting.getString("id", "010"));
+		
+		SharedPreferences setting = getSharedPreferences("login", 0);
+		final String id = setting.getString("id", "");
+		
+		new Thread(){
+			@Override
+			public void run() {
+				String result = SendByHttpPartyList(id);
+				try {
+					JSONObject json = new JSONObject(result);
+					JSONArray jsonArray = new JSONArray(json.getString("partyList"));
+					
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		
 		roomname.add("room2");
 		roomname.add("room3");
 
@@ -105,5 +130,41 @@ public class ListActivity extends Activity {
 				listView.setAdapter(adapter);
 			}
 		});
+	}
+	
+	/**
+	 * 서버에 데이터를 보내는 메소드
+	 */
+	private String SendByHttpPartyList(String id) {
+		String URL = "http://192.168.0.130:8080/getPartyList";
+		
+		DefaultHttpClient client = new DefaultHttpClient();
+		try {
+			/* 체크할 id와 pwd값 서버로 전송 */
+			HttpPost post = new HttpPost(URL+"?id="+id);
+
+			/* 지연시간 최대 5초 */
+			HttpParams params = client.getParams();
+			HttpConnectionParams.setConnectionTimeout(params, 3000);
+			HttpConnectionParams.setSoTimeout(params, 3000);
+
+			/* 데이터 보낸 뒤 서버에서 데이터를 받아오는 과정 */
+			HttpResponse response = client.execute(post);
+			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"utf-8"));
+
+			String line = null;
+			String result = "";
+
+			while ((line = bufreader.readLine()) != null) {
+				result += line;
+			}
+			
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			client.getConnectionManager().shutdown();	// 연결 지연 종료
+			return ""; 
+		}
+		
 	}
 }

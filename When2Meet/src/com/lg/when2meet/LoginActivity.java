@@ -74,9 +74,9 @@ public class LoginActivity extends Activity {
 							String isSuccess = json.getString("isSuccess");
 							
 							if(isSuccess.equals("true")){
-								editor.putString("id", loginId);
+								editor.putString("phoneNo", loginId);
 								editor.putString("pwd", loginPwd);
-								
+								editor.putString("id", json.getString("id"));
 								editor.commit();
 								Intent intent = new Intent(getApplicationContext(),
 										ListActivity.class);
