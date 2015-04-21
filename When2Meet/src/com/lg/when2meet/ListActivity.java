@@ -80,7 +80,6 @@ public class ListActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				add.setImageResource(R.drawable.button_add_click);
 				Intent intent = new Intent(ListActivity.this,
 						CreateRoomActivity.class);
 				startActivity(intent);
