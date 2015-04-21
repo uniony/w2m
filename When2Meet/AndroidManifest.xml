@@ -47,7 +47,8 @@
         </activity>
         <activity
             android:name=".RoomVoteActivity"
-            android:label="@string/title_activity_room_vote" >
+            android:label="@string/title_activity_room_vote"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
     </application>
 
