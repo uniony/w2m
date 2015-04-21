@@ -2,7 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical" >    
+
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/main_bar"
+	    android:layout_height="wrap_content"/>    
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,6 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="350dp"
             android:layout_weight="7"
+            android:focusedMonthDateColor="#000"
             android:selectedWeekBackgroundColor="#fff"
             android:showWeekNumber="false"
             android:unfocusedMonthDateColor="#aaa" />
@@ -45,27 +53,30 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bb"
+            android:text="Start"
+            android:textColor="#000"
             android:textSize="25dp" />
 
         <Spinner
             android:id="@+id/start_time"
-            android:spinnerMode="dropdown"
-            android:entries="@array/start_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:entries="@array/start_time"
+            android:spinnerMode="dropdown" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="aa"
-            android:textSize="25sp" />
+            android:text="End"
+            android:textColor="#000"
+            android:textSize="25dp" />
+
         <Spinner
             android:id="@+id/end_time"
-            android:spinnerMode="dropdown"
-            android:entries="@array/end_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:entries="@array/end_time"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <Button
@@ -74,5 +85,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="Create Room" />
+
 
 </LinearLayout>

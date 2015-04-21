@@ -3,15 +3,25 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/main_bar"
+        android:textColor="#000" />
 
     <TextView
         android:id="@+id/setting1"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="0.5"
-        android:text="@string/hello_world" />
+        android:text="@string/hello_world"
+        android:textColor="#000" />
 
     <TextView
         android:id="@+id/setting2"

@@ -38,6 +38,7 @@ public class RoomActivity extends Activity {
 		final String end_time = b.getString("e_time");
 		final ArrayList<DateClass> datelist = b.getParcelableArrayList("datelist");
 		ArrayList<String> selectedlist = b.getStringArrayList("selectedlist");
+		
 		if(selectedlist==null){
 			selectedlist= new ArrayList<String>();
 		}
@@ -85,7 +86,12 @@ public class RoomActivity extends Activity {
 							}
 						}
 						if(check){
-							tv.setBackgroundResource(R.drawable.table_selected); 
+							tv.setBackgroundResource(R.drawable.table_sel);
+//							tv.setAlpha((float) 0.2);
+							tv.setAlpha((float) 0.4);		// 1~2명 이상
+							tv.setAlpha((float) 0.6);		// 25%이상
+							tv.setAlpha((float) 0.8);		// 50% 이상
+							tv.setAlpha((float) 1.0);		// 75% 이상
 						}
 
 					}

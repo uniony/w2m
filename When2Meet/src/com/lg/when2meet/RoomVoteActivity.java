@@ -72,9 +72,7 @@ public class RoomVoteActivity extends Activity {
 						tv.setText(".");
 						tv.setTextColor(Color.parseColor("#bbeeff"));
 						tv.setHint(datelist.get(j - 1).getDate().substring(0, 10) + " " + (Integer.parseInt(start_time) + i - 1));
-						
-						
-						
+										
 						tv.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {
