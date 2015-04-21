@@ -97,6 +97,7 @@ public class ListActivity extends Activity {
 //					clickTime++;
 //				} else if(clickTime == 1) {
 //					del.setImageResource(R.drawable.button_del);
+//					adapter.changeVisibility(false);
 //					deleteList = adapter.getSelectedRooms();
 //					clickTime = 0;
 //				}
