@@ -10,12 +10,12 @@
         android:id="@+id/setting1"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:text="@string/hello_world" />
 
     <TextView
         android:id="@+id/setting2"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/hello_world" />
@@ -23,7 +23,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="16"
         android:scrollbars="vertical" >
 
         <HorizontalScrollView
@@ -43,7 +43,7 @@
     </ScrollView>
 	<Button 
 	    android:id="@+id/vote"
-	    android:layout_weight="1"
+	    android:layout_weight="2"
 	    android:layout_width="match_parent"
 	    android:layout_height="0dp"
 	    android:text="내 스케줄 등록"
