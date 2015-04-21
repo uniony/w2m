@@ -58,8 +58,7 @@ public class ListActivity extends Activity {
 				// Toast.LENGTH_SHORT).show();
 				String pinkColor = "#F5908D";
 
-				LinearLayout layout = (LinearLayout) view
-						.findViewById(R.id.room_bg);
+				LinearLayout layout = (LinearLayout) view.findViewById(R.id.room_bg);
 				layout.setBackgroundColor(Color.parseColor(pinkColor));
 				ImageView icon = (ImageView) view.findViewById(R.id.room_icon);
 				icon.setImageResource(R.drawable.room_icon_click);
@@ -74,8 +73,7 @@ public class ListActivity extends Activity {
 				datelist.add(new DateClass(21, 4, 2015, 1));
 				datelist.add(new DateClass(22, 4, 2015, 2));
 
-				Intent intent = new Intent(ListActivity.this,
-						RoomActivity.class);
+				Intent intent = new Intent(ListActivity.this, RoomActivity.class);
 				Bundle bundle = new Bundle();
 
 				bundle.putParcelableArrayList("datelist", datelist);

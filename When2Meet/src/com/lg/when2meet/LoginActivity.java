@@ -50,9 +50,7 @@ public class LoginActivity extends Activity {
 		login.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				login.setImageResource(R.drawable.button_login_click);
-				
+			public void onClick(View v) {				
 				String loginId = login_id.getText().toString();
 				String loginPwd = login_pwd.getText().toString();
 				
@@ -106,7 +104,6 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				join.setImageResource(R.drawable.button_join_click);
 				Intent intent = new Intent(getApplicationContext(),
 						JoinActivity.class);
 				startActivity(intent);
