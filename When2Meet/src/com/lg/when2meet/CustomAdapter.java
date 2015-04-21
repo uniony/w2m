@@ -90,47 +90,45 @@ public class CustomAdapter extends BaseAdapter{
 				String name = roomname.get(position);
 				if(selected_room.contains(name)) {
 					selected_room.remove(roomname.get(position));
-					Log.d("check", "deleted");
 				} else {
 					selected_room.add(roomname.get(position));
-					Log.d("check", "selected "+ position);
 				}
 			}
 		});
 		
-		view.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				String pinkColor = "#F5908D";
-				LinearLayout layout = (LinearLayout)v.findViewById(R.id.room_bg);
-				TextView name = (TextView)v.findViewById(R.id.room_name);
-				TextView mem_list = (TextView)v.findViewById(R.id.room_mem);
-				ImageView icon = (ImageView)v.findViewById(R.id.room_icon);
-				
-				switch(event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					Log.d("check", "touch");
-					layout.setBackgroundColor(Color.parseColor(pinkColor));
-					name.setTextColor(Color.WHITE);
-					mem_list.setTextColor(Color.WHITE);
-					icon.setImageResource(R.drawable.room_icon_click);
-					return true;
-					
-				case MotionEvent.ACTION_UP:
-					Log.d("check", "touch end");
-					layout.setBackgroundColor(Color.WHITE);
-					name.setTextColor(Color.parseColor(pinkColor));
-					mem_list.setTextColor(Color.parseColor(pinkColor));
-					icon.setImageResource(R.drawable.room_icon);
-					break;
-					
-				default:
-					break;
-				}
-				return false;		
-			}
-		});
+//		view.setOnTouchListener(new OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				String pinkColor = "#F5908D";
+//				LinearLayout layout = (LinearLayout)v.findViewById(R.id.room_bg);
+//				TextView name = (TextView)v.findViewById(R.id.room_name);
+//				TextView mem_list = (TextView)v.findViewById(R.id.room_mem);
+//				ImageView icon = (ImageView)v.findViewById(R.id.room_icon);
+//				
+//				switch(event.getAction()) {
+//				case MotionEvent.ACTION_DOWN:
+//					Log.d("check", "touch");
+//					layout.setBackgroundColor(Color.parseColor(pinkColor));
+//					name.setTextColor(Color.WHITE);
+//					mem_list.setTextColor(Color.WHITE);
+//					icon.setImageResource(R.drawable.room_icon_click);
+//					return true;
+//					
+//				case MotionEvent.ACTION_UP:
+//					Log.d("check", "touch end");
+//					layout.setBackgroundColor(Color.WHITE);
+//					name.setTextColor(Color.parseColor(pinkColor));
+//					mem_list.setTextColor(Color.parseColor(pinkColor));
+//					icon.setImageResource(R.drawable.room_icon);
+//					break;
+//					
+//				default:
+//					break;
+//				}
+//				return false;		
+//			}
+//		});
 		
 		return view;
 	}	
