@@ -15,7 +15,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-
 public class RoomVoteActivity extends Activity {
 	int total_size;
 
@@ -137,5 +136,4 @@ public class RoomVoteActivity extends Activity {
 			}
 		});
 	}
-
 }
