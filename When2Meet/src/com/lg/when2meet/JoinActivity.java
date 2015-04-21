@@ -48,6 +48,12 @@ public class JoinActivity extends Activity {
 			};
 		};
 		
+		final Handler duplicate = new Handler(){
+			public void handleMessage(android.os.Message msg){
+				Toast.makeText(JoinActivity.this, "중복된 휴대폰 번호입니다.", Toast.LENGTH_SHORT).show();
+			};
+		};
+		
 		join.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -86,7 +92,10 @@ public class JoinActivity extends Activity {
 								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivity(intent);
 								
-							} 
+							} else if(isSuccess.equals("duplicated")){
+								Log.d("duplicated", "ok");
+								duplicate.sendMessage(Message.obtain());
+							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -123,6 +132,8 @@ public class JoinActivity extends Activity {
 			while ((line = bufreader.readLine()) != null){
 				result += line;
 			}
+			
+			Log.d("result", result);
 			
 			return result;
 			
