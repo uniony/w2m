@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,11 +63,11 @@ public class CreateRoomActivity extends Activity {
 				}
 				TextView t = (TextView) findViewById(R.id.storedDates);
 				t.setText(date.setStoredDates(datelist));
-
+				t.setTextColor(Color.parseColor("#F5908D"));
 			}
 		});
 
-		Button b = (Button) findViewById(R.id.finish_select);
+		ImageView b = (ImageView) findViewById(R.id.finish_select);
 		b.setOnClickListener(new OnClickListener() {
 			Spinner s1 = (Spinner) findViewById(R.id.start_time);
 			Spinner s2 = (Spinner) findViewById(R.id.end_time);
