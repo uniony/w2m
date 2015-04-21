@@ -14,7 +14,7 @@ public class JoinActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_join);
 
-		join = (ImageView)findViewById(R.id.join);
+		join = (ImageView)findViewById(R.id.join2);
 		
 		join.setOnClickListener(new OnClickListener() {
 			
