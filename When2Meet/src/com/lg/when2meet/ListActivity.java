@@ -24,23 +24,25 @@ public class ListActivity extends Activity {
 	CustomAdapter adapter;
 	ImageView add;
 	ImageView del;
-
+	ArrayList<String> deleteList;
 	ArrayList<DateClass> datelist;
+	int clickTime=0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
-		ArrayList<String> data = new ArrayList<String>();
+		ArrayList<String> roomname = new ArrayList<String>();
+		ArrayList<String> member = new ArrayList<String>();
 		String pinkColor = "#F5908D";
 		//SharedPreferences setting = getSharedPreferences("login", 0);
-		
-		
-		//data.add(setting.getString("id", "010"));
-		data.add("room2");
-		data.add("room3");
 
-		adapter = new CustomAdapter(this, R.layout.room_list, data, false);
+
+		//data.add(setting.getString("id", "010"));
+		roomname.add("room2");
+		roomname.add("room3");
+
+		adapter = new CustomAdapter(this, R.layout.room_list, roomname, member, false);
 		listView = (ListView) findViewById(R.id.room_list);
 		listView.setDivider(new ColorDrawable(Color.parseColor(pinkColor)));
 		listView.setDividerHeight(4);
@@ -89,8 +91,16 @@ public class ListActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				del.setImageResource(R.drawable.button_del_click);
-				adapter.changeVisibility(true);
+				
+//				if(clickTime == 0) {
+					del.setImageResource(R.drawable.button_del_click);
+					adapter.changeVisibility(true);
+//					clickTime++;
+//				} else if(clickTime == 1) {
+//					del.setImageResource(R.drawable.button_del);
+//					deleteList = adapter.getSelectedRooms();
+//					clickTime = 0;
+//				}
 				adapter.notifyDataSetChanged();
 				listView.setAdapter(adapter);
 			}

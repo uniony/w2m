@@ -1,31 +1,26 @@
 package com.lg.when2meet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class RoomActivity extends Activity {
 	int total_size;
+	static ArrayList<String> votelist = new ArrayList<String>();
+	static int count=0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +33,16 @@ public class RoomActivity extends Activity {
 		final String end_time = b.getString("e_time");
 		final ArrayList<DateClass> datelist = b.getParcelableArrayList("datelist");
 		ArrayList<String> selectedlist = b.getStringArrayList("selectedlist");
-		
+
 		if(selectedlist==null){
 			selectedlist= new ArrayList<String>();
+		}else{
+			count++;
+			for(int i=0; i<selectedlist.size(); i++){
+				votelist.add(selectedlist.get(i));
+			}
 		}
+
 		int time_span = (Integer.parseInt(end_time) - Integer.parseInt(start_time));
 		total_size = datelist.size()* time_span;
 
@@ -69,31 +70,41 @@ public class RoomActivity extends Activity {
 					}
 				}else{
 					if(j==0){
-						if(s_time<10){
-							tv.setText("0"+(s_time++)+"시");
-						}else{
-							tv.setText((s_time++)+"시");
+						if (s_time < 9) {
+							tv.setText("0" + (s_time++) + "~0"+s_time+"시");
+						} else if(s_time==9){
+							tv.setText("0"+(s_time++) + "~"+s_time+"시");
+						} else{
+							tv.setText((s_time++)+"~"+s_time+"시");
 						}
 					}else{
 						tv.setText(".");
 						tv.setTextColor(Color.parseColor("#bbeeff"));
-						tv.setHint(datelist.get(j-1).getDate().substring(0, 10)+" "+(Integer.parseInt(start_time)+i-1));
+						String str = datelist.get(j-1).getDate().substring(0, 10)+" "+(Integer.parseInt(start_time)+i-1);
+						tv.setHint(str);
 
 						boolean check=false;
-						for(int z=0; z<selectedlist.size(); z++){
-							if(selectedlist.get(z).equals(tv.getHint())){
+						for(int z=0; z<votelist.size(); z++){
+							if(votelist.get(z).equals(tv.getHint())){
 								check=true;
 							}
 						}
 						if(check){
 							tv.setBackgroundResource(R.drawable.table_sel);
-//							tv.setAlpha((float) 0.2);
-							tv.setAlpha((float) 0.4);		// 1~2명 이상
-							tv.setAlpha((float) 0.6);		// 25%이상
-							tv.setAlpha((float) 0.8);		// 50% 이상
-							tv.setAlpha((float) 1.0);		// 75% 이상
-						}
 
+							int occurrences = Collections.frequency(votelist, str);
+							tv.setText(occurrences+"");
+							if(occurrences>0)
+								tv.setAlpha((float) 0.2);		// 1~2명 이상...?
+							if(occurrences>=count*0.2)
+								tv.setAlpha((float) 0.4);		// 20%이상
+							if(occurrences>=count*0.4)
+								tv.setAlpha((float) 0.6);		// 40% 이상
+							if(occurrences>=count*0.6)
+								tv.setAlpha((float) 0.8);		// 65% 이상
+							if(occurrences>=count*0.8)
+								tv.setAlpha((float) 1.0);		// 80% 이상
+						}
 					}
 				}
 				row.addView(tv);
@@ -115,8 +126,5 @@ public class RoomActivity extends Activity {
 				startActivity(i);
 			}
 		});
-
 	}
-
-
 }

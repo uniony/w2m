@@ -24,7 +24,7 @@ public class RoomVoteActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_room_vote);
-		
+
 		final ArrayList<String> selectedlist = new ArrayList<String>();
 
 		final Bundle b = this.getIntent().getExtras();
@@ -63,16 +63,20 @@ public class RoomVoteActivity extends Activity {
 					}
 				} else {
 					if (j == 0) {
-						if (s_time < 10) {
-							tv.setText("0" + (s_time++) + "시");
-						} else {
-							tv.setText((s_time++) + "시");
+						if (s_time < 9) {
+							tv.setText("0" + (s_time++) + "~0"+s_time+"시");
+						} else if(s_time==9){
+							tv.setText("0"+(s_time++) + "~"+s_time+"시");
+						} else{
+							tv.setText((s_time++)+"~"+s_time+"시");
 						}
 					} else {
 						tv.setText(".");
 						tv.setTextColor(Color.parseColor("#bbeeff"));
 						tv.setHint(datelist.get(j - 1).getDate().substring(0, 10) + " " + (Integer.parseInt(start_time) + i - 1));
-										
+
+
+
 						tv.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {
@@ -98,7 +102,7 @@ public class RoomVoteActivity extends Activity {
 			}
 			tablelayout.addView(row);
 		}
-		
+
 		Button button1 = (Button) findViewById(R.id.complete);
 		Button button2 = (Button) findViewById(R.id.clear);
 		button1.setOnClickListener(new OnClickListener() {
@@ -114,7 +118,7 @@ public class RoomVoteActivity extends Activity {
 				startActivity(i);
 			}
 		});
-		
+
 		button2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -133,4 +137,5 @@ public class RoomVoteActivity extends Activity {
 			}
 		});
 	}
+
 }
