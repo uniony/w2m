@@ -56,16 +56,6 @@ public class ListActivity extends Activity {
 					int position, long id) {
 				// Toast.makeText(ListActivity.this, "clicked",
 				// Toast.LENGTH_SHORT).show();
-				String pinkColor = "#F5908D";
-
-				LinearLayout layout = (LinearLayout) view.findViewById(R.id.room_bg);
-				layout.setBackgroundColor(Color.parseColor(pinkColor));
-				ImageView icon = (ImageView) view.findViewById(R.id.room_icon);
-				icon.setImageResource(R.drawable.room_icon_click);
-				TextView name = (TextView) view.findViewById(R.id.room_name);
-				name.setTextColor(Color.WHITE);
-				TextView mem_list = (TextView) view.findViewById(R.id.room_mem);
-				mem_list.setTextColor(Color.WHITE);
 
 				/* datelist 임시 추가 */
 				datelist = new ArrayList<DateClass>();
