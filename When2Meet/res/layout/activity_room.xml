@@ -16,7 +16,7 @@
         android:textSize="20sp"
         android:gravity="center_vertical|center_horizontal"
         android:adjustViewBounds="true"
-        android:background="#87D3DC"/>
+        android:background="@drawable/back_bar"/>
 
     <TextView
         android:id="@+id/setting1"

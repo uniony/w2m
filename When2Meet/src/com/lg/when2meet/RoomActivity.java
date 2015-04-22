@@ -41,6 +41,12 @@ public class RoomActivity extends Activity {
 	ArrayList<DateClass> datelist = new ArrayList<DateClass>();
 	TextView room;
 	ArrayList<PartyClass> partylist;
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+//		super.onBackPressed();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,17 @@ public class RoomActivity extends Activity {
 		//		memlist = b.getStringArrayList("mem_name");
 		ArrayList<String> selectedlist = b.getStringArrayList("selectedlist");
 
+		room.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(RoomActivity.this, ListActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+			}
+		});
+		
 		final Handler handler = new Handler(){
 			public void handleMessage(android.os.Message msg){
 				TextView t1 = (TextView) findViewById(R.id.setting1);
