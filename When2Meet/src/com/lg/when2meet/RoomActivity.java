@@ -56,21 +56,21 @@ public class RoomActivity extends Activity {
 		votelist.clear();
 		final int partyId;
 
-		Bundle b = this.getIntent().getExtras();
+		Bundle bundle = this.getIntent().getExtras();
 		room = (TextView)findViewById(R.id.room_name);
 
-		start_time = b.getString("s_time");
-		end_time = b.getString("e_time");
-		room_name = b.getString("room_name");
-		int index = b.getInt("index");
+		start_time = bundle.getString("s_time");
+		end_time = bundle.getString("e_time");
+		room_name = bundle.getString("room_name");
+		int index = bundle.getInt("index");
 		final int time_span = (Integer.parseInt(end_time) - Integer.parseInt(start_time));
 
 		room.setText(room_name);
 		final int s_time = Integer.parseInt(start_time);
-		partylist = b.getParcelableArrayList("partylist");
+		partylist = bundle.getParcelableArrayList("partylist");
 		partyId = partylist.get(index).getId();
-		//		memlist = b.getStringArrayList("mem_name");
-		ArrayList<String> selectedlist = b.getStringArrayList("selectedlist");
+		//		memlist = bundle.getStringArrayList("mem_name");
+		ArrayList<String> selectedlist = bundle.getStringArrayList("selectedlist");
 
 		room.setOnClickListener(new OnClickListener() {
 			
@@ -86,11 +86,10 @@ public class RoomActivity extends Activity {
 		
 		final Handler handler = new Handler(){
 			public void handleMessage(android.os.Message msg){
-				TextView t1 = (TextView) findViewById(R.id.setting1);
-				t1.setText(datelist.get(0).getDate().substring(0, 10)+" ~ "+datelist.get(datelist.size()-1).getDate().substring(0, 10));
-				TextView t2 = (TextView) findViewById(R.id.setting2);
-				t2.setText("약속 시간: " + start_time + "시 ~ " + end_time + "시");
-
+				TextView date = (TextView) findViewById(R.id.date_set);
+				date.setText(datelist.get(0).getDate().substring(0, 10)+" ~ "+datelist.get(datelist.size()-1).getDate().substring(0, 10));
+				TextView time = (TextView) findViewById(R.id.time_set);
+				time.setText("약속 시간: " + start_time + "시 ~ " + end_time + "시");
 
 				TableLayout tablelayout = (TableLayout)findViewById(R.id.table);
 				int s_time_tmp = s_time;
@@ -98,61 +97,61 @@ public class RoomActivity extends Activity {
 					TableRow row = new TableRow(RoomActivity.this);
 					row.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 					for(int j=0; j<datelist.size()+1; j++){	
-						final TextView tv = new TextView(RoomActivity.this);
-						tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-						tv.setGravity(Gravity.CENTER);
+						final TextView cell = new TextView(RoomActivity.this);
+						cell.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+						cell.setGravity(Gravity.CENTER);
 						int pad_size=5;
-						tv.setPadding(pad_size, pad_size, pad_size, pad_size);
-						tv.setBackgroundResource(R.drawable.table_border); 
-						tv.setHighlightColor(0);
+						cell.setPadding(pad_size, pad_size, pad_size, pad_size);
+						cell.setBackgroundResource(R.drawable.table_border); 
+						cell.setHighlightColor(0);
 
 						if(i==0){
 							if(j>0){
-								tv.setText(datelist.get(j-1).getDate().substring(0, 10));
-								tv.setTextColor(Color.parseColor("#F5908D"));
+								cell.setText(datelist.get(j-1).getDate().substring(0, 10));
+								cell.setTextColor(Color.parseColor("#F5908D"));
 							}
 						}else{
 							if(j==0){
 								if (s_time_tmp < 9) {
-									tv.setText("0" + (s_time_tmp++) + "~0"+s_time_tmp+"시");
+									cell.setText("0" + (s_time_tmp++) + "~0"+s_time_tmp+"시");
 								} else if(s_time==9){
-									tv.setText("0"+(s_time_tmp++) + "~"+s_time_tmp+"시");
+									cell.setText("0"+(s_time_tmp++) + "~"+s_time_tmp+"시");
 								} else{
-									tv.setText((s_time_tmp++)+"~"+s_time_tmp+"시");
+									cell.setText((s_time_tmp++)+"~"+s_time_tmp+"시");
 								}
-								tv.setTextColor(Color.parseColor("#F5908D"));
+								cell.setTextColor(Color.parseColor("#F5908D"));
 							}else{
-								tv.setText(".");
-								tv.setTextColor(Color.parseColor("#bbeeff"));
+								cell.setText(".");
+								cell.setTextColor(Color.parseColor("#bbeeff"));
 								String str = datelist.get(j-1).getDate().substring(0, 10)+" "+(Integer.parseInt(start_time)+i-1);
-								tv.setHint(str);
-								tv.setTextColor(Color.parseColor("#F5908D"));
+								cell.setHint(str);
+								cell.setTextColor(Color.parseColor("#F5908D"));
 
 								boolean check=false;
 								for(int z=0; z<votelist.size(); z++){
-									if(votelist.get(z).equals(tv.getHint())){
+									if(votelist.get(z).equals(cell.getHint())){
 										check=true;
 									}
 								}
 								if(check){
-									tv.setBackgroundResource(R.drawable.table_sel);
+									cell.setBackgroundResource(R.drawable.table_sel);
 
 									int occurrences = Collections.frequency(votelist, str);
-									tv.setText(occurrences+"");
+									cell.setText(occurrences+"");
 									if(occurrences>0)
-										tv.setAlpha((float) 0.2);		// 1~2명 이상...?
+										cell.setAlpha((float) 0.2);		// 1~2명 이상...?
 									if(occurrences>=count*0.2)
-										tv.setAlpha((float) 0.4);		// 20%이상
+										cell.setAlpha((float) 0.4);		// 20%이상
 									if(occurrences>=count*0.4)
-										tv.setAlpha((float) 0.6);		// 40% 이상
+										cell.setAlpha((float) 0.6);		// 40% 이상
 									if(occurrences>=count*0.6)
-										tv.setAlpha((float) 0.8);		// 65% 이상
+										cell.setAlpha((float) 0.8);		// 65% 이상
 									if(occurrences>=count*0.8)
-										tv.setAlpha((float) 1.0);		// 80% 이상
+										cell.setAlpha((float) 1.0);		// 80% 이상
 								}
 							}
 						}
-						row.addView(tv);
+						row.addView(cell);
 					}
 					tablelayout.addView(row);
 				}
