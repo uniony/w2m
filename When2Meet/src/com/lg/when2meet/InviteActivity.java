@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -200,7 +199,6 @@ class SearchAdapter extends BaseAdapter{
 				} else {
 					if(!(addlist.contains(getItem(position).toString()))) {
 						addlist.add(getItem(position).toString());
-						Log.d("check", "clicked " + addlist.get(getAddNum()-1));
 					}
 					
 					mem.setBackgroundColor(Color.parseColor(mintColor));

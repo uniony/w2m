@@ -68,7 +68,6 @@ public class LoginActivity extends Activity {
 
 					setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 					isAuto = setting.getBoolean("isAuto", false);
-					Log.d("check", "bool "+isAuto);
 
 					if (isAuto){
 						new Thread() {
@@ -133,7 +132,6 @@ public class LoginActivity extends Activity {
 													editor.putString("pwd", loginPwd);
 													editor.putBoolean("isAuto", true);
 													editor.commit();	
-													Log.d("check", "after commit: "+ setting.getBoolean("isAuto", false));
 												} else {
 													editor.clear();
 													editor.commit();
