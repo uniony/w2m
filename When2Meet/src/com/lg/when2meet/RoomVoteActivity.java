@@ -22,6 +22,7 @@ public class RoomVoteActivity extends Activity {
 	ArrayList<DateClass> datelist;
 	ArrayList<String> selectedlist;
 	TextView room;
+	ArrayList<PartyClass> partylist;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class RoomVoteActivity extends Activity {
 		start_time = b.getString("s_time");
 		end_time = b.getString("e_time");
 		room_name = b.getString("room_name");
+		final int index = b.getInt("index");
+		partylist = b.getParcelableArrayList("partylist");
 		datelist = b.getParcelableArrayList("datelist");
 
 		room.setText(room_name);
@@ -116,7 +119,9 @@ public class RoomVoteActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(RoomVoteActivity.this, RoomActivity.class);
-				b.putParcelableArrayList("datelist", datelist);
+//				b.putParcelableArrayList("datelist", datelist);
+				b.putParcelableArrayList("partylist", partylist);
+				b.putInt("index",index);
 				b.putStringArrayList("selectedlist", selectedlist);
 				b.putString("s_time", start_time);
 				b.putString("e_time", end_time);

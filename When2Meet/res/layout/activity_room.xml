@@ -26,7 +26,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
-        android:text="@string/hello_world"
+        android:text="잠시만 기다려주세요"
         android:textColor="#F5908D" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:gravity="center"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:text="@string/hello_world"
+         android:text="서버에서 불러오는 중입니다..."
         android:textColor="#F5908D" />
 
     <ScrollView

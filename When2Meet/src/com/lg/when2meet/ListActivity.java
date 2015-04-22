@@ -2,10 +2,11 @@ package com.lg.when2meet;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
@@ -26,12 +27,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class ListActivity extends Activity {
 	ListView listView;
@@ -39,7 +36,8 @@ public class ListActivity extends Activity {
 	ImageView add;
 	ImageView del;
 	ArrayList<String> deleteList;
-	ArrayList<DateClass> datelist;
+//	ArrayList<DateClass> datelist;
+	ArrayList<PartyClass> partylist = new ArrayList<PartyClass>();
 	int clickTime=0;
 
 	@Override
@@ -63,8 +61,15 @@ public class ListActivity extends Activity {
 			@Override
 			public void run() {
 				String result = SendByHttpPartyList(id);
+				String decode_str = "";
 				try {
-					JSONObject json = new JSONObject(result);
+					decode_str = URLDecoder.decode(result, "UTF-8");
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					JSONObject json = new JSONObject(decode_str);
 					JSONArray jsonArray = new JSONArray(json.getString("partyList"));
 					JSONObject json_partyList, json_partyInfo, json_member;
 					JSONArray json_memberList;
@@ -73,16 +78,33 @@ public class ListActivity extends Activity {
 						String member_name="";
 						json_partyList = (JSONObject) jsonArray.get(i);
 						json_partyInfo = (JSONObject) json_partyList.getJSONObject("partyInfo");
-						roomname.add(json_partyInfo.get("title").toString());
+						roomname.add(json_partyInfo.getString("title").toString());
 						json_memberList = new JSONArray(json_partyInfo.getString("memberList"));
 						
 						for(int j=0; j<json_memberList.length(); j++){
 							json_member = (JSONObject) json_memberList.get(j);
-							member_name+=(json_member.get("name").toString()+", ");
+							member_name+=(json_member.getString("name")+", ");
+//							try {
+//								member_name_tmp = URLEncoder.encode(member_name_tmp,"EUC-KR");
+//								
+//							} catch (UnsupportedEncodingException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
 						}
 						member_name="("+member_name.substring(0, member_name.length()-2)+")";
 						member.add(member_name);
-//					Log.d("member_list", member_name.length()+"."+member_name);
+						
+						PartyClass party_obj = new PartyClass(json_partyInfo.get("title").toString(),
+								Integer.parseInt(json_partyList.get("partyId").toString()),
+								
+								"1988/11/22",
+								
+								Integer.parseInt(json_partyInfo.get("fromHour").toString()),
+								Integer.parseInt(json_partyInfo.get("toHour").toString()), 
+								member_name);
+						partylist.add(party_obj);
+						
 						handler.sendMessage(Message.obtain());
 					}
 				} catch (JSONException e) {
@@ -105,22 +127,29 @@ public class ListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// Toast.makeText(ListActivity.this, "clicked",
-				// Toast.LENGTH_SHORT).show();
-
-				/* datelist 임시 추가 */
-				datelist = new ArrayList<DateClass>();
-				datelist.clear();
-				datelist.add(new DateClass(21, 4, 2015, 1));
-				datelist.add(new DateClass(22, 4, 2015, 2));
+				
+//				datelist = new ArrayList<DateClass>();
+//				datelist.clear();
+//				for(int i=0; i<partylist.size(); i++){
+//					String date = partylist.get(position).getDate();
+//					String parts[] = date.split("/");
+//
+//				    int date_year = Integer.parseInt(parts[0]);
+//				    int date_month = Integer.parseInt(parts[1]);
+//				    int date_day = Integer.parseInt(parts[2]);
+//
+//					datelist.add(new DateClass(date_day, date_month, date_year, 0));
+//				}
+				
 
 				Intent intent = new Intent(ListActivity.this, RoomActivity.class);
 				Bundle bundle = new Bundle();
 
-				bundle.putParcelableArrayList("datelist", datelist);
-				bundle.putString("s_time", "4");
-				bundle.putString("e_time", "7");
-				bundle.putString("room_name", "name");//adapter에서 값 가져와야 할듯
+				bundle.putParcelableArrayList("partylist", partylist);
+				bundle.putInt("index", position);
+				bundle.putString("s_time", partylist.get(position).getFromHour()+"");
+				bundle.putString("e_time", partylist.get(position).getToHour()+"");
+				bundle.putString("room_name", partylist.get(position).getTitle());
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
