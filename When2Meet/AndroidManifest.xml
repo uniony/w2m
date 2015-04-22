@@ -50,6 +50,11 @@
             android:label="@string/title_activity_room_vote"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
+        <activity
+            android:name=".InviteActivity"
+            android:label="@string/title_activity_invite"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
     </application>
 
 </manifest>

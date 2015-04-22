@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -67,16 +68,17 @@ public class CreateRoomActivity extends Activity {
 			}
 		});
 
-		ImageView b = (ImageView) findViewById(R.id.finish_select);
+		ImageView b = (ImageView) findViewById(R.id.invite);
 		b.setOnClickListener(new OnClickListener() {
 			Spinner s1 = (Spinner) findViewById(R.id.start_time);
 			Spinner s2 = (Spinner) findViewById(R.id.end_time);
+			EditText room = (EditText) findViewById(R.id.room_name);
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(CreateRoomActivity.this,
-						RoomActivity.class);
+						InviteActivity.class);
 				Bundle b = new Bundle();
 
 				String start_time = (String.valueOf(s1.getSelectedItem()))
@@ -91,6 +93,7 @@ public class CreateRoomActivity extends Activity {
 					b.putParcelableArrayList("datelist", datelist);
 					b.putString("s_time", start_time);
 					b.putString("e_time", end_time);
+					b.putString("room_name", room.getText().toString());
 					i.putExtras(b);
 					startActivity(i);
 				}

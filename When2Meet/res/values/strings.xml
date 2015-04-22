@@ -8,5 +8,6 @@
     <string name="title_activity_create_room">CreateRoomActivity</string>
     <string name="title_activity_room">RoomActivity</string>
     <string name="title_activity_room_vote">RoomVoteActivity</string>
+    <string name="title_activity_invite">InviteActivity</string>
 
 </resources>
