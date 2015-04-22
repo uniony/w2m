@@ -198,10 +198,12 @@ public class ListActivity extends Activity {
 					adapter.changeVisibility(true);
 //					clickTime++;
 //				} else if(clickTime == 1) {
+//					DeleteByHttpPartyList(String mid, String pid) 가져다 쓰셈
 //					del.setImageResource(R.drawable.button_del);
 //					adapter.changeVisibility(false);
 //					deleteList = adapter.getSelectedRooms();
 //					clickTime = 0;
+//					adapter.getSelectedRooms()하면 ArrayList<String>에 선택한 방들의 이름 ArrayList<String> 형태로 return됨
 //				}
 				adapter.notifyDataSetChanged();
 				listView.setAdapter(adapter);
@@ -235,13 +237,42 @@ public class ListActivity extends Activity {
 			while ((line = bufreader.readLine()) != null) {
 				result += line;
 			}
-			
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 			client.getConnectionManager().shutdown();	// 연결 지연 종료
 			return ""; 
 		}
+	}
+	
+	private String DeleteByHttpPartyList(String mid, String pid) {
+		String URL = "http://192.168.0.130:8080/deletePartyMember";
 		
+		DefaultHttpClient client = new DefaultHttpClient();
+		try {
+			/* 체크할 id와 pwd값 서버로 전송 */
+			HttpPost post = new HttpPost(URL+"?memberId="+mid+"&partyId="+pid);
+			//HttpGet get = new HttpGet(URL+"?id="+id);
+			/* 지연시간 최대 5초  */
+			HttpParams params = client.getParams();
+			HttpConnectionParams.setConnectionTimeout(params, 3000);
+			HttpConnectionParams.setSoTimeout(params, 3000);
+
+			/* 데이터 보낸 뒤 서버에서 데이터를 받아오는 과정 */
+			HttpResponse response = client.execute(post);
+			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+
+			String line = null;
+			String result = "";
+
+			while ((line = bufreader.readLine()) != null) {
+				result += line;
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			client.getConnectionManager().shutdown();	// 연결 지연 종료
+			return ""; 
+		}
 	}
 }
