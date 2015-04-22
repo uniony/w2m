@@ -64,7 +64,9 @@
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:textColor="#87D3DC"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:singleLine="true"
+            android:lines="1" />
     </LinearLayout>
 
     <LinearLayout
