@@ -63,7 +63,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:textColor="#87D3DC"
+            android:textColor="#C4C2C2"
             android:textSize="20sp"
             android:singleLine="true"
             android:lines="1" />
