@@ -31,12 +31,13 @@ import android.widget.TextView;
 
 public class RoomVoteActivity extends Activity {
 	int total_size;
-	Bundle b;
+//	Bundle bundle;
 	String start_time, end_time, room_name;
 	ArrayList<DateClass> datelist;
 	ArrayList<String> selectedlist;
 	TextView room;
 	ArrayList<PartyClass> partylist;
+	TableLayout table;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,75 +45,76 @@ public class RoomVoteActivity extends Activity {
 		setContentView(R.layout.activity_room_vote);
 
 		room = (TextView)findViewById(R.id.room_name);
+		table = (TableLayout) findViewById(R.id.table);		
 		selectedlist = new ArrayList<String>();
-		b = this.getIntent().getExtras();
-		start_time = b.getString("s_time");
-		end_time = b.getString("e_time");
-		room_name = b.getString("room_name");
-		final int index = b.getInt("index");
-		partylist = b.getParcelableArrayList("partylist");
-		datelist = b.getParcelableArrayList("datelist");
+		
+		Bundle bundle = this.getIntent().getExtras();
+		start_time = bundle.getString("s_time");
+		end_time = bundle.getString("e_time");
+		room_name = bundle.getString("room_name");
+		final int index = bundle.getInt("index");
+		partylist = bundle.getParcelableArrayList("partylist");
+		datelist = bundle.getParcelableArrayList("datelist");
 
 		room.setText(room_name);
 		int s_time = Integer.parseInt(start_time);
 		int time_span = (Integer.parseInt(end_time) - Integer.parseInt(start_time));
 		total_size = datelist.size() * time_span;
 
-		TextView t1 = (TextView) findViewById(R.id.date_set);
-		t1.setText(datelist.get(0).getDate().substring(0, 10) + " ~ "
+		TextView date = (TextView) findViewById(R.id.date_set);
+		date.setText(datelist.get(0).getDate().substring(0, 10) + " ~ "
 				+ datelist.get(datelist.size() - 1).getDate().substring(0, 10));
-		TextView t2 = (TextView) findViewById(R.id.time_set);
-		t2.setText("약속 시간: " + start_time + "시 ~ " + end_time + "시");
+		TextView time = (TextView) findViewById(R.id.time_set);
+		time.setText("약속 시간: " + start_time + "시 ~ " + end_time + "시");
 
-		final TableLayout tablelayout = (TableLayout) findViewById(R.id.table);
 		// tablelayout.removeAllViews();
 		for (int i = 0; i < time_span + 1; i++) {
 			TableRow row = new TableRow(this);
 			row.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
 					LayoutParams.WRAP_CONTENT));
 			for (int j = 0; j < datelist.size() + 1; j++) {
-				final TextView tv = new TextView(this);
-				tv.setLayoutParams(new TableRow.LayoutParams(
+				final TextView cell = new TextView(this);
+				cell.setLayoutParams(new TableRow.LayoutParams(
 						TableRow.LayoutParams.WRAP_CONTENT,
 						TableRow.LayoutParams.WRAP_CONTENT));
-				tv.setGravity(Gravity.CENTER);
+				cell.setGravity(Gravity.CENTER);
 				int pad_size = 5;
-				tv.setPadding(pad_size, pad_size, pad_size, pad_size);
-				tv.setBackgroundResource(R.drawable.table_border);
-				tv.setHighlightColor(0);
+				cell.setPadding(pad_size, pad_size, pad_size, pad_size);
+				cell.setBackgroundResource(R.drawable.table_border);
+				cell.setHighlightColor(0);
 				if (i == 0) {
 					if (j > 0) {
-						tv.setText(datelist.get(j - 1).getDate().substring(0, 10));
-						tv.setTextColor(Color.parseColor("#F5908D"));
+						cell.setText(datelist.get(j - 1).getDate().substring(0, 10));
+						cell.setTextColor(Color.parseColor("#F5908D"));
 					}
 				} else {
 					if (j == 0) {
 						if (s_time < 9) {
-							tv.setText("0" + (s_time++) + "~0"+s_time+"시");
+							cell.setText("0" + (s_time++) + "~0"+s_time+"시");
 						} else if(s_time==9){
-							tv.setText("0"+(s_time++) + "~"+s_time+"시");
+							cell.setText("0"+(s_time++) + "~"+s_time+"시");
 						} else{
-							tv.setText((s_time++)+"~"+s_time+"시");
+							cell.setText((s_time++)+"~"+s_time+"시");
 						}
-						tv.setTextColor(Color.parseColor("#F5908D"));
+						cell.setTextColor(Color.parseColor("#F5908D"));
 					} else {
-						tv.setText(".");
-						tv.setTextColor(Color.parseColor("#bbeeff"));
-						tv.setHint(datelist.get(j - 1).getDate().substring(0, 10) + " " + (Integer.parseInt(start_time) + i - 1));
+						cell.setText(".");
+						cell.setTextColor(Color.parseColor("#BBEEFF"));
+						cell.setHint(datelist.get(j - 1).getDate().substring(0, 10) + " " + (Integer.parseInt(start_time) + i - 1));
 
-						tv.setOnClickListener(new OnClickListener() {
+						cell.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
-								if (tv.getHighlightColor() != 7) {
-									tv.setBackgroundResource(R.drawable.table_selected);
-									tv.setHighlightColor(7);
-									selectedlist.add((String) tv.getHint());
+								if (cell.getHighlightColor() != 7) {
+									cell.setBackgroundResource(R.drawable.table_selected);
+									cell.setHighlightColor(7);
+									selectedlist.add((String) cell.getHint());
 								} else {
-									tv.setBackgroundResource(R.drawable.table_border);
-									tv.setHighlightColor(0);
+									cell.setBackgroundResource(R.drawable.table_border);
+									cell.setHighlightColor(0);
 									for(int z=0; z<selectedlist.size(); z++){
-										if(selectedlist.get(z).equals(tv.getHint())){
+										if(selectedlist.get(z).equals(cell.getHint())){
 											selectedlist.remove(z);
 										}
 									}
@@ -121,9 +123,9 @@ public class RoomVoteActivity extends Activity {
 						});
 					}
 				}
-				row.addView(tv);
+				row.addView(cell);
 			}
-			tablelayout.addView(row);
+			table.addView(row);
 		}
 
 		ImageView finish = (ImageView) findViewById(R.id.complete);
@@ -175,14 +177,16 @@ public class RoomVoteActivity extends Activity {
 				}.start();
 				
 				Intent i = new Intent(RoomVoteActivity.this, RoomActivity.class);
-//				b.putParcelableArrayList("datelist", datelist);
-				b.putParcelableArrayList("partylist", partylist);
-				b.putInt("index",index);
-				b.putStringArrayList("selectedlist", selectedlist);
-				b.putString("s_time", start_time);
-				b.putString("e_time", end_time);
-				b.putString("room_name", room_name);
-				i.putExtras(b);
+				Bundle bundle = new Bundle();
+				
+//				bundle.putParcelableArrayList("datelist", datelist);
+				bundle.putParcelableArrayList("partylist", partylist);
+				bundle.putInt("index",index);
+				bundle.putStringArrayList("selectedlist", selectedlist);
+				bundle.putString("s_time", start_time);
+				bundle.putString("e_time", end_time);
+				bundle.putString("room_name", room_name);
+				i.putExtras(bundle);
 				startActivity(i);
 			}
 		});
@@ -191,11 +195,11 @@ public class RoomVoteActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				for (int i = 0; i < tablelayout.getChildCount(); i++) {
-					for (int j = 0; j < ((TableRow) tablelayout.getChildAt(i)).getChildCount(); j++){
-						if (((TableRow) tablelayout.getChildAt(i)).getChildAt(j) instanceof TextView) {
-							((TextView)((TableRow) tablelayout.getChildAt(i)).getChildAt(j)).setBackgroundResource(R.drawable.table_border);
-							((TextView)((TableRow) tablelayout.getChildAt(i)).getChildAt(j)).setHighlightColor(0);
+				for (int i = 0; i < table.getChildCount(); i++) {
+					for (int j = 0; j < ((TableRow) table.getChildAt(i)).getChildCount(); j++){
+						if (((TableRow) table.getChildAt(i)).getChildAt(j) instanceof TextView) {
+							((TextView)((TableRow) table.getChildAt(i)).getChildAt(j)).setBackgroundResource(R.drawable.table_border);
+							((TextView)((TableRow) table.getChildAt(i)).getChildAt(j)).setHighlightColor(0);
 						}
 					}
 				}
