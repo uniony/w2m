@@ -88,7 +88,10 @@ public class CreateRoomActivity extends Activity {
 
 				if (Integer.parseInt(start_time) >= Integer.parseInt(end_time)) {
 					Toast.makeText(CreateRoomActivity.this,
-							"시작시간이 종료시간보다 빨라야 합니다!", Toast.LENGTH_SHORT).show();
+							"종료시간이 시작시간보다 빠릅니다", Toast.LENGTH_SHORT).show();
+				} else if (datelist.size() == 0){
+					Toast.makeText(CreateRoomActivity.this,
+							"날짜를 선택하세요", Toast.LENGTH_SHORT).show();
 				} else {
 					b.putParcelableArrayList("datelist", datelist);
 					b.putString("s_time", start_time);
