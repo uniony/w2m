@@ -75,7 +75,7 @@ public class LoginActivity extends Activity {
 				@Override
 				public void run() {
 
-					loginId = setting.getString("phoneNo", "");
+					loginId = setting.getString("id", "");
 					loginPwd = setting.getString("pwd", "");
 					result = SendByHttpLogin(loginId, loginPwd);
 
