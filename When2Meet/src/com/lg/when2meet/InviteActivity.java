@@ -92,11 +92,11 @@ public class InviteActivity extends Activity {
 				// TODO Auto-generated method stub
 
 				//db에서 search_id가 포함된 멤버 목록 검색해서 selectList에 넣기
-				memberList.add("yhj");
-				memberList.add("ljh");
-				memberList.add("kys");
-				memberList.add("ygy");
-				memberList.add("cjy");
+				memberList.add("01031501104(윤현진)");
+				memberList.add("01040489012(임재현)");
+				memberList.add("01076121493(강용석)");
+				memberList.add("01022610989(유가연)");
+				memberList.add("01091095512(최진영)");
 				adp_mem.notifyDataSetChanged();
 				mem_listView.setAdapter(adp_mem);
 			}

@@ -8,6 +8,6 @@
 	    android:id="@+id/member_name"
 	    android:gravity="center"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
+	    android:layout_height="35dp"
 	    android:textSize="20sp"/>
 </LinearLayout>
