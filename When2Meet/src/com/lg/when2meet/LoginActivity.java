@@ -61,7 +61,7 @@ public class LoginActivity extends Activity {
 
 		final Handler connectErr = new Handler() {
 			public void handleMessage(android.os.Message msg) {
-				Toast.makeText(LoginActivity.this, "접속 오류 입니다. 잠시 후 시도해주세요.",
+				Toast.makeText(LoginActivity.this, "접속 오류 입니다 잠시 후 시도해주세요",
 						Toast.LENGTH_SHORT).show();
 			};
 		};
@@ -162,8 +162,7 @@ public class LoginActivity extends Activity {
 	}
 
 	/**
-	 * 서버에 데이터를 보내는 메소드
-	 */
+	 * 서버에 데이터를 보내는 메소드	 */
 	private String SendByHttpLogin(String phoneNo, String pwd) {
 		String URL = "http://192.168.0.130:8080/checkJoin";
 

@@ -50,10 +50,8 @@ public class ListActivity extends Activity {
 		final ArrayList<String> member = new ArrayList<String>();
 		String pinkColor = "#F5908D";
 
-		Log.d("!!!!!!!!!!!!", "!!!!!!!!");
 		SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 		final String id = setting.getString("id", "");
-		Log.d("!!!!!!!!!!!!", "!!!!!!!!"+id);
 		
 		final Handler handler = new Handler(){
 			public void handleMessage(android.os.Message msg){
@@ -110,7 +108,7 @@ public class ListActivity extends Activity {
 				// Toast.makeText(ListActivity.this, "clicked",
 				// Toast.LENGTH_SHORT).show();
 
-				/* datelist �ӽ� �߰� */
+				/* datelist 임시 추가 */
 				datelist = new ArrayList<DateClass>();
 				datelist.clear();
 				datelist.add(new DateClass(21, 4, 2015, 1));
@@ -122,7 +120,7 @@ public class ListActivity extends Activity {
 				bundle.putParcelableArrayList("datelist", datelist);
 				bundle.putString("s_time", "4");
 				bundle.putString("e_time", "7");
-				bundle.putString("room_name", "name");//adapter���� �� �����;� �ҵ�
+				bundle.putString("room_name", "name");//adapter占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占싶억옙 占쌀듸옙
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -160,22 +158,22 @@ public class ListActivity extends Activity {
 	}
 	
 	/**
-	 * ������ �����͸� ������ �޼ҵ�
+	 * 서버에 데이터를 보내는 메소드
 	 */
 	private String SendByHttpPartyList(String id) {
 		String URL = "http://192.168.0.130:8080/getPartyList";
 		
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
-			/* üũ�� id�� pwd�� ������ ��� */
+			/* 체크할 id와 pwd값 서버로 전송 */
 			HttpPost post = new HttpPost(URL+"?id="+id);
 			//HttpGet get = new HttpGet(URL+"?id="+id);
-			/* �����ð� �ִ� 5�� */
+			/* 지연시간 최대 5초  */
 			HttpParams params = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(params, 3000);
 			HttpConnectionParams.setSoTimeout(params, 3000);
 
-			/* ������ ���� �� �������� �����͸� �޾ƿ��� ���� */
+			/* 데이터 보낸 뒤 서버에서 데이터를 받아오는 과정 */
 			HttpResponse response = client.execute(post);
 			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
 
@@ -189,7 +187,7 @@ public class ListActivity extends Activity {
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			client.getConnectionManager().shutdown();	// ���� ���� ����
+			client.getConnectionManager().shutdown();	// 연결 지연 종료
 			return ""; 
 		}
 		
