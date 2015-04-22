@@ -59,112 +59,119 @@ public class LoginActivity extends Activity {
 			};
 		};
 
+		final Handler connectErr = new Handler() {
+			public void handleMessage(android.os.Message msg) {
+				Toast.makeText(LoginActivity.this, "접속 오류 입니다. 잠시 후 시도해주세요.",
+						Toast.LENGTH_SHORT).show();
+			};
+		};
 
-		final Handler connectErr = new Handler() { public void
-			handleMessage(android.os.Message msg) {
-			Toast.makeText(LoginActivity.this, "접속 오류 입니다. 잠시 후 시도해주세요.",
-					Toast.LENGTH_SHORT).show(); }; };
+		setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
+		isAuto = setting.getBoolean("isAuto", false);
+		Log.d("check", "bool " + isAuto);
 
+		if (isAuto) {
+			new Thread() {
+				@Override
+				public void run() {
 
-					setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
-					isAuto = setting.getBoolean("isAuto", false);
+					loginId = setting.getString("phoneNo", "");
+					loginPwd = setting.getString("pwd", "");
+					result = SendByHttpLogin(loginId, loginPwd);
 
-					if (isAuto){
-						new Thread() {
-							@Override
-							public void run() {
+					try {
+						JSONObject json = new JSONObject(result);
+						String isSuccess = json.getString("isSuccess");
 
-								loginId = setting.getString("phoneNo", "");
-								loginPwd = setting.getString("pwd", "");
-								result = SendByHttpLogin(loginId, loginPwd);
+						if (isSuccess.equals("true")) {
+							goListActivity();
+						} else {
+							connectErr.sendMessage(Message.obtain());
+						}
 
-								try {
-									JSONObject json = new JSONObject(result);
-									String isSuccess = json.getString("isSuccess");
-
-									if (isSuccess.equals("true")) {
-										Intent intent = new Intent(
-												getApplicationContext(),
-												ListActivity.class);
-										intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-										intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-										startActivity(intent);
-									} else {
-										connectErr.sendMessage(Message.obtain());
-									}
-
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
-							};
-						}.start();
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
+				};
+			}.start();
+		}
 
-					login.setOnClickListener(new View.OnClickListener() {
+		login.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				loginId = login_id.getText().toString();
+				loginPwd = login_pwd.getText().toString();
+
+				if (loginId.equals("") || loginId == null) {
+					Toast.makeText(LoginActivity.this, "아이디를 입력하세요",
+							Toast.LENGTH_SHORT).show();
+				} else if (loginPwd.equals("") || loginPwd == null) {
+					Toast.makeText(LoginActivity.this, "비밀번호를 입력하세요",
+							Toast.LENGTH_SHORT).show();
+				} else {
+
+					new Thread() {
 						@Override
-						public void onClick(View v) {
-							loginId = login_id.getText().toString();
-							loginPwd = login_pwd.getText().toString();
+						public void run() {
+							result = SendByHttpLogin(loginId, loginPwd);
+							editor = setting.edit();
 
-							if (loginId.equals("") || loginId == null) {
-								Toast.makeText(LoginActivity.this, "아이디를 입력하세요",
-										Toast.LENGTH_SHORT).show();
-							} else if (loginPwd.equals("") || loginPwd == null) {
-								Toast.makeText(LoginActivity.this, "비밀번호를 입력하세요",
-										Toast.LENGTH_SHORT).show();
-							} else {
+							try {
+								JSONObject json = new JSONObject(result);
+								String isSuccess = json.getString("isSuccess");
 
-								new Thread() {
-									@Override
-									public void run() {
+								if (isSuccess.equals("true")) {
+									if (auto_login.isChecked()) {
+										putSharedPreferences();
+										Log.d("check", "after commit: " + setting.getBoolean("isAuto", false));
+									} else {
+										clearSharedPreferences();
+									}
+									
+									goListActivity();
+									
+								} else {
+									handler.sendMessage(Message.obtain());
+								}
 
-										result = SendByHttpLogin(loginId, loginPwd);
-										editor = setting.edit();
-
-										try {
-											JSONObject json = new JSONObject(result);
-											String isSuccess = json.getString("isSuccess");
-
-											if (isSuccess.equals("true")) {
-												if(auto_login.isChecked()) {
-													editor.putString("phoneNo", loginId);
-													editor.putString("pwd", loginPwd);
-													editor.putBoolean("isAuto", true);
-													editor.commit();	
-												} else {
-													editor.clear();
-													editor.commit();
-												}
-												
-												Intent intent = new Intent(
-														getApplicationContext(),
-														ListActivity.class);
-												intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-												intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-												startActivity(intent);
-											} else {
-												handler.sendMessage(Message.obtain());
-											}
-
-										} catch (JSONException e) {
-											e.printStackTrace();
-										}
-									};
-								}.start();
+							} catch (JSONException e) {
+								e.printStackTrace();
 							}
-						}
-					});
+						};
+					}.start();
+				}
+			}
+		});
 
-					join.setOnClickListener(new View.OnClickListener() {
+		join.setOnClickListener(new View.OnClickListener() {
 
-						@Override
-						public void onClick(View v) {
-							Intent intent = new Intent(getApplicationContext(),
-									JoinActivity.class);
-							startActivity(intent);
-						}
-					});
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),
+						JoinActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
+
+	void putSharedPreferences() {
+		editor.putString("phoneNo", loginId);
+		editor.putString("pwd", loginPwd);
+		editor.putBoolean("isAuto", true);
+		editor.commit();
+	}
+
+	void clearSharedPreferences() {
+		editor.clear();
+		editor.commit();
+	}
+
+	void goListActivity() {
+		Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 
 	/**
@@ -203,6 +210,5 @@ public class LoginActivity extends Activity {
 			client.getConnectionManager().shutdown(); // 연결 지연 종료
 			return "";
 		}
-
 	}
 }
