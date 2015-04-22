@@ -39,7 +39,7 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="40dp"
                 android:text="날짜를 고르세요!"
-                android:textColor="#F5908D" />
+                android:textColor="#87D3DC" />
         </ScrollView>
     </LinearLayout>
     
@@ -55,7 +55,7 @@
             android:gravity="center"
             android:text="ROOM NAME : "
             android:textStyle="bold"
-            android:textColor="#F5908D"
+            android:textColor="#87D3DC"
             android:textSize="20sp" />
 
         <EditText
@@ -63,7 +63,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:textColor="#F5908D"
+            android:textColor="#87D3DC"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -80,7 +80,7 @@
             android:layout_marginLeft="20dp"
             android:text="START:"
             android:textStyle="bold"
-            android:textColor="#F5908D"
+            android:textColor="#87D3DC"
             android:textSize="20sp" />
 
         <Spinner
@@ -99,7 +99,7 @@
             android:layout_marginLeft="20dp"
             android:text="END:"
             android:textStyle="bold"
-            android:textColor="#F5908D"
+            android:textColor="#87D3DC"
             android:textSize="20sp" />
 
         <Spinner

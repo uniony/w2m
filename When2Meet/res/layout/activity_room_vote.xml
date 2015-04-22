@@ -16,7 +16,7 @@
         android:textSize="20sp"
         android:gravity="center_vertical|center_horizontal"
         android:adjustViewBounds="true"
-        android:background="#87D3DC"/>
+        android:background="#F5908D"/>
 
     <TextView
         android:id="@+id/setting1"
@@ -27,7 +27,7 @@
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:text="@string/hello_world"
-        android:textColor="#F5908D" />
+        android:textColor="#87D3DC" />
 
     <TextView
         android:id="@+id/setting2"
@@ -37,7 +37,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         android:text="@string/hello_world"
-        android:textColor="#F5908D" />
+        android:textColor="#87D3DC" />
 
     <ScrollView
         android:layout_width="match_parent"

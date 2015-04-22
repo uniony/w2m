@@ -109,7 +109,7 @@ public class InviteActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				intent = new Intent(InviteActivity.this,
-						CreateRoomActivity.class);
+						RoomActivity.class);
 
 				// bundle.putParcelableArrayList("mem_name", adp_add.getMemList);
 				// bundle.putString("mem_name", adp_add.getaddMemName());
