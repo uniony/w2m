@@ -1,6 +1,19 @@
 package com.lg.when2meet;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,9 +21,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +72,13 @@ public class InviteActivity extends Activity {
 		mem_listView.setDivider(new ColorDrawable(Color.parseColor(mintColor)));
 		mem_listView.setDividerHeight(4);
 		mem_listView.setAdapter(adp_mem);
+		
+		final Handler handler = new Handler(){
+			public void handleMessage(android.os.Message msg){
+				adp_mem.notifyDataSetChanged();
+				mem_listView.setAdapter(adp_mem);
+			};
+		};
 
 		btn_add.setOnClickListener(new OnClickListener() {
 
@@ -92,13 +115,41 @@ public class InviteActivity extends Activity {
 				// TODO Auto-generated method stub
 
 				//db에서 search_id가 포함된 멤버 목록 검색해서 selectList에 넣기
-				memberList.add("01031501104(윤현진)");
-				memberList.add("01040489012(임재현)");
-				memberList.add("01076121493(강용석)");
-				memberList.add("01022610989(유가연)");
-				memberList.add("01091095512(최진영)");
-				adp_mem.notifyDataSetChanged();
-				mem_listView.setAdapter(adp_mem);
+				new Thread(){
+					String id = search_id.getText().toString();
+					public void run(){
+						String result = SendByHttpSearchMember(id);
+						String decode_str="";
+						try {
+							decode_str=URLDecoder.decode(result, "UTF-8");
+						} catch (UnsupportedEncodingException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						Log.d("invite_search", decode_str);
+						try {
+							JSONObject json = new JSONObject(decode_str);
+							JSONArray jsonArray = new JSONArray(json.getString("memberList"));
+							JSONObject json_member;
+							String mem_id;
+							String mem_name;
+							String mem_result;
+							
+							for (int i = 0; i < jsonArray.length(); i++) {
+								json_member = (JSONObject) jsonArray.get(i);
+								mem_id = json_member.getString("id");
+								mem_name = json_member.getString("name");
+								mem_result = mem_id+"("+mem_name+")";
+								memberList.add(mem_result);
+							}
+							
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						
+						handler.sendMessage(Message.obtain());
+					}
+				}.start();
 			}
 		});
 
@@ -116,6 +167,36 @@ public class InviteActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+	}
+	
+	private String SendByHttpSearchMember(String id) {
+		String URL = "http://192.168.0.130:8080/getMembersById";
+
+		DefaultHttpClient client = new DefaultHttpClient();
+		try {
+			HttpPost post = new HttpPost(URL+"?memberId="+id);
+
+			HttpParams params = client.getParams();
+			HttpConnectionParams.setConnectionTimeout(params, 3000);
+			HttpConnectionParams.setSoTimeout(params, 3000);
+
+			HttpResponse response = client.execute(post);
+			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+
+			String line = null;
+			String result = "";
+
+			while ((line = bufreader.readLine()) != null) {
+				result += line;
+			}
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			client.getConnectionManager().shutdown();	
+			return ""; 
+		}
+
 	}
 }
 
