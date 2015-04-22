@@ -213,6 +213,7 @@ public class RoomActivity extends Activity {
 				Intent i = new Intent(RoomActivity.this, RoomVoteActivity.class);
 				Bundle b = new Bundle();
 				b.putParcelableArrayList("datelist", datelist);
+				b.putParcelableArrayList("partylist", partylist);
 				b.putString("s_time", start_time);
 				b.putString("e_time", end_time);
 				b.putString("room_name", room_name);

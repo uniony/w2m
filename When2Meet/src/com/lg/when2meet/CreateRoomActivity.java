@@ -35,7 +35,7 @@ public class CreateRoomActivity extends Activity {
 					int month, int dayOfMonth) {
 				// TODO Auto-generated method stub
 				int d = dayOfMonth;
-				int m = month;
+				int m = month+1;
 				int y = year;
 				int index = -1;
 				int check_unecessary_change = -1;
