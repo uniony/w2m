@@ -1,11 +1,19 @@
 package com.lg.when2meet;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import org.apache.http.client.methods.HttpPost;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CalendarView;
@@ -28,8 +36,8 @@ public class CreateRoomActivity extends Activity {
 
 		final StoredDate date = new StoredDate();
 
-		final CalendarView cv = (CalendarView) findViewById(R.id.calendarView1);
-		cv.setOnDateChangeListener(new OnDateChangeListener() {
+		final CalendarView calendar = (CalendarView) findViewById(R.id.calendar);
+		calendar.setOnDateChangeListener(new OnDateChangeListener() {
 			@Override
 			public void onSelectedDayChange(CalendarView view, int year,
 					int month, int dayOfMonth) {
@@ -68,8 +76,8 @@ public class CreateRoomActivity extends Activity {
 			}
 		});
 
-		ImageView b = (ImageView) findViewById(R.id.invite);
-		b.setOnClickListener(new OnClickListener() {
+		ImageView btn_invite = (ImageView) findViewById(R.id.invite);
+		btn_invite.setOnClickListener(new OnClickListener() {
 			Spinner s1 = (Spinner) findViewById(R.id.start_time);
 			Spinner s2 = (Spinner) findViewById(R.id.end_time);
 			EditText room = (EditText) findViewById(R.id.room_name);
@@ -77,9 +85,6 @@ public class CreateRoomActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(CreateRoomActivity.this,
-						InviteActivity.class);
-				Bundle b = new Bundle();
 
 				String start_time = (String.valueOf(s1.getSelectedItem()))
 						.substring(0, 2);
@@ -93,14 +98,82 @@ public class CreateRoomActivity extends Activity {
 					Toast.makeText(CreateRoomActivity.this,
 							"날짜를 선택하세요", Toast.LENGTH_SHORT).show();
 				} else {
-					b.putParcelableArrayList("datelist", datelist);
-					b.putString("s_time", start_time);
-					b.putString("e_time", end_time);
-					b.putString("room_name", room.getText().toString());
-					i.putExtras(b);
-					startActivity(i);
+					SharedPreferences sharedPreferences = getSharedPreferences(
+							"LOGIN_PREFRENCE", 0);
+
+					CreatePartyThread createPartyThread = new CreatePartyThread(
+							sharedPreferences.getString("id", ""),
+							sharedPreferences.getString("pwd", ""), room
+									.getText().toString(), Integer
+									.parseInt(start_time), Integer
+									.parseInt(end_time), datelist);
+					createPartyThread.start();
 				}
 			}
 		});
+	}
+
+	class CreatePartyThread extends Thread {
+		String id;
+		String pwd;
+		String title;
+		int fromHour;
+		int toHour;
+		ArrayList<DateClass> datelist;
+
+		public CreatePartyThread(String id, String pwd, String title,
+				int fromHour, int toHour, ArrayList<DateClass> datelist) {
+			super();
+			this.id = id;
+			this.pwd = pwd;
+			this.title = title;
+			this.fromHour = fromHour;
+			this.toHour = toHour;
+			this.datelist = datelist;
+		}
+
+		@Override
+		public void run() {
+
+			String URL = "http://192.168.0.130:8080/createParty";
+			JSONArray jsonArray = new JSONArray();
+
+			for (int i = 0; i < datelist.size(); i++) {
+				try {
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("year", "" + datelist.get(i).getYear());
+					jsonObject.put("month", "" + datelist.get(i).getMonth());
+					jsonObject.put("day", "" + datelist.get(i).getDay());
+					jsonArray.put(jsonObject);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			HttpPost httpPost = new HttpPost(URL + "?id=" + id + "&pwd=" + pwd
+					+ "&title=" + title + "&fromHour=" + fromHour + "&toHour="
+					+ toHour + "&partySchedule="
+					+ URLEncoder.encode(jsonArray.toString()));
+
+			String response = MyHttpPost.SendHttpPost(httpPost);
+			Log.d("sukha@@@@@@@@@@@@@@", response);
+			JSONObject jsonObject = null;
+			int partyId = 0;
+			String isSuccess = "";
+			try {
+				jsonObject = new JSONObject(response);
+				partyId = Integer.parseInt(jsonObject.getString("partyId"));
+				isSuccess = jsonObject.getString("isSuccess");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			Log.d("sukha@@@@@@@@@@@@@@", isSuccess + "   " + partyId);
+
+			Intent intent = new Intent(CreateRoomActivity.this,
+					InviteActivity.class);
+			intent.putExtra("partyId", partyId);
+			System.out.println();
+			// startActivity(intent);
+		}
 	}
 }
