@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
@@ -48,9 +49,11 @@ public class ListActivity extends Activity {
 		final ArrayList<String> roomname = new ArrayList<String>();
 		final ArrayList<String> member = new ArrayList<String>();
 		String pinkColor = "#F5908D";
-		
-		SharedPreferences setting = getSharedPreferences("login", 0);
+
+		Log.d("!!!!!!!!!!!!", "!!!!!!!!");
+		SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 		final String id = setting.getString("id", "");
+		Log.d("!!!!!!!!!!!!", "!!!!!!!!"+id);
 		
 		final Handler handler = new Handler(){
 			public void handleMessage(android.os.Message msg){
@@ -107,7 +110,7 @@ public class ListActivity extends Activity {
 				// Toast.makeText(ListActivity.this, "clicked",
 				// Toast.LENGTH_SHORT).show();
 
-				/* datelist ÀÓ½Ã Ãß°¡ */
+				/* datelist ï¿½Ó½ï¿½ ï¿½ß°ï¿½ */
 				datelist = new ArrayList<DateClass>();
 				datelist.clear();
 				datelist.add(new DateClass(21, 4, 2015, 1));
@@ -119,7 +122,7 @@ public class ListActivity extends Activity {
 				bundle.putParcelableArrayList("datelist", datelist);
 				bundle.putString("s_time", "4");
 				bundle.putString("e_time", "7");
-				bundle.putString("room_name", "name");//adapter¿¡¼­ °ª °¡Á®¿Í¾ß ÇÒµí
+				bundle.putString("room_name", "name");//adapterï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¾ï¿½ ï¿½Òµï¿½
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -157,24 +160,24 @@ public class ListActivity extends Activity {
 	}
 	
 	/**
-	 * ¼­¹ö¿¡ µ¥ÀÌÅÍ¸¦ º¸³»´Â ¸Þ¼Òµå
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	 */
 	private String SendByHttpPartyList(String id) {
 		String URL = "http://192.168.0.130:8080/getPartyList";
 		
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
-			/* Ã¼Å©ÇÒ id¿Í pwd°ª ¼­¹ö·Î Àü¼Û */
+			/* Ã¼Å©ï¿½ï¿½ idï¿½ï¿½ pwdï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ */
 			HttpPost post = new HttpPost(URL+"?id="+id);
-
-			/* Áö¿¬½Ã°£ ÃÖ´ë 5ÃÊ */
+			//HttpGet get = new HttpGet(URL+"?id="+id);
+			/* ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½Ö´ï¿½ 5ï¿½ï¿½ */
 			HttpParams params = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(params, 3000);
 			HttpConnectionParams.setSoTimeout(params, 3000);
 
-			/* µ¥ÀÌÅÍ º¸³½ µÚ ¼­¹ö¿¡¼­ µ¥ÀÌÅÍ¸¦ ¹Þ¾Æ¿À´Â °úÁ¤ */
+			/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 			HttpResponse response = client.execute(post);
-			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"utf-8"));
+			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
 
 			String line = null;
 			String result = "";
@@ -186,7 +189,7 @@ public class ListActivity extends Activity {
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			client.getConnectionManager().shutdown();	// ¿¬°á Áö¿¬ Á¾·á
+			client.getConnectionManager().shutdown();	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			return ""; 
 		}
 		

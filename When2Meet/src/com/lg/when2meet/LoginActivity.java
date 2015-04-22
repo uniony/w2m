@@ -54,14 +54,14 @@ public class LoginActivity extends Activity {
 
 		final Handler handler = new Handler() {
 			public void handleMessage(android.os.Message msg) {
-				Toast.makeText(LoginActivity.this, "¾ÆÀÌµğ³ª ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù",
+				Toast.makeText(LoginActivity.this, "ì•„ì´ë””ë‚˜ ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤",
 						Toast.LENGTH_SHORT).show();
 			};
 		};
 
 		final Handler connectErr = new Handler() {
 			public void handleMessage(android.os.Message msg) {
-				Toast.makeText(LoginActivity.this, "Á¢¼Ó ¿À·ù ÀÔ´Ï´Ù. Àá½Ã ÈÄ ½ÃµµÇØÁÖ¼¼¿ä.",
+				Toast.makeText(LoginActivity.this, "ì ‘ì† ì˜¤ë¥˜ ì…ë‹ˆë‹¤. ì ì‹œ í›„ ì‹œë„í•´ì£¼ì„¸ìš”.",
 						Toast.LENGTH_SHORT).show();
 			};
 		};
@@ -104,10 +104,10 @@ public class LoginActivity extends Activity {
 				loginPwd = login_pwd.getText().toString();
 
 				if (loginId.equals("") || loginId == null) {
-					Toast.makeText(LoginActivity.this, "¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä",
+					Toast.makeText(LoginActivity.this, "ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”",
 							Toast.LENGTH_SHORT).show();
 				} else if (loginPwd.equals("") || loginPwd == null) {
-					Toast.makeText(LoginActivity.this, "ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä",
+					Toast.makeText(LoginActivity.this, "ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”",
 							Toast.LENGTH_SHORT).show();
 				} else {
 
@@ -122,15 +122,14 @@ public class LoginActivity extends Activity {
 								String isSuccess = json.getString("isSuccess");
 
 								if (isSuccess.equals("true")) {
+									editor.putString("id", loginId);
+									editor.putString("pwd", loginPwd);
 									if (auto_login.isChecked()) {
-										putSharedPreferences();
+										editor.putBoolean("isAuto", true);
 										Log.d("check", "after commit: " + setting.getBoolean("isAuto", false));
-									} else {
-										clearSharedPreferences();
 									}
-									
+									editor.commit();
 									goListActivity();
-									
 								} else {
 									handler.sendMessage(Message.obtain());
 								}
@@ -155,18 +154,6 @@ public class LoginActivity extends Activity {
 		});
 	}
 
-	void putSharedPreferences() {
-		editor.putString("phoneNo", loginId);
-		editor.putString("pwd", loginPwd);
-		editor.putBoolean("isAuto", true);
-		editor.commit();
-	}
-
-	void clearSharedPreferences() {
-		editor.clear();
-		editor.commit();
-	}
-
 	void goListActivity() {
 		Intent intent = new Intent(getApplicationContext(), ListActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -175,23 +162,23 @@ public class LoginActivity extends Activity {
 	}
 
 	/**
-	 * ¼­¹ö¿¡ µ¥ÀÌÅÍ¸¦ º¸³»´Â ¸Ş¼Òµå
+	 * ì„œë²„ì— ë°ì´í„°ë¥¼ ë³´ë‚´ëŠ” ë©”ì†Œë“œ
 	 */
 	private String SendByHttpLogin(String phoneNo, String pwd) {
 		String URL = "http://192.168.0.130:8080/checkJoin";
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
-			/* Ã¼Å©ÇÒ id¿Í pwd°ª ¼­¹ö·Î Àü¼Û */
+			/* ì²´í¬í•  idì™€ pwdê°’ ì„œë²„ë¡œ ì „ì†¡ */
 			HttpPost post = new HttpPost(URL + "?phoneNo=" + phoneNo + "&pwd="
 					+ pwd);
 
-			/* Áö¿¬½Ã°£ ÃÖ´ë 5ÃÊ */
+			/* ì§€ì—°ì‹œê°„ ìµœëŒ€ 5ì´ˆ */
 			HttpParams params = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(params, 3000);
 			HttpConnectionParams.setSoTimeout(params, 3000);
 
-			/* µ¥ÀÌÅÍ º¸³½ µÚ ¼­¹ö¿¡¼­ µ¥ÀÌÅÍ¸¦ ¹Ş¾Æ¿À´Â °úÁ¤ */
+			/* ë°ì´í„° ë³´ë‚¸ ë’¤ ì„œë²„ì—ì„œ ë°ì´í„°ë¥¼ ë°›ì•„ì˜¤ëŠ” ê³¼ì • */
 			HttpResponse response = client.execute(post);
 			BufferedReader bufreader = new BufferedReader(
 					new InputStreamReader(response.getEntity().getContent(),
@@ -207,7 +194,7 @@ public class LoginActivity extends Activity {
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			client.getConnectionManager().shutdown(); // ¿¬°á Áö¿¬ Á¾·á
+			client.getConnectionManager().shutdown(); // ì—°ê²° ì§€ì—° ì¢…ë£Œ
 			return "";
 		}
 	}
