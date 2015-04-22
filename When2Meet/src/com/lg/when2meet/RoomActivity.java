@@ -22,7 +22,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -141,29 +140,31 @@ public class RoomActivity extends Activity {
 				}
 			};
 		};
-		//		new Thread(){
-		//			@Override
-		//			public void run() {
-		//				String result1 = SendByHttpVoteList(partyId);
-		//				try {
-		//					JSONObject json = new JSONObject(result1);
-		//					JSONArray jsonArray = new JSONArray(json.getString("voteList"));
-		//					JSONObject json_voteList ;
-		//					Log.d("room_getVote", ""+jsonArray.length()+"");
-		//					for (int i = 0; i < jsonArray.length(); i++) {
-		//						json_voteList = (JSONObject) jsonArray.get(i);
-		//						String vote_tmp = json_voteList.getString("year")+"/"+json_voteList.getString("month")+"/"+json_voteList.getString("day")+" "+json_voteList.getString("hour");
-		//						votelist.add(vote_tmp);
-		//						
-		//					}
-		//				} catch (JSONException e) {
-		//					e.printStackTrace();
-		//				}
-		//			}
-		//		}.start();
+
 		new Thread(){
 			@Override
 			public void run() {
+				String result1 = SendByHttpVoteList(partyId);
+				try {
+					JSONObject json = new JSONObject(result1);
+					JSONArray jsonArray = new JSONArray(json.getString("voteList"));
+					JSONObject json_voteList ;
+
+					for (int i = 0; i < jsonArray.length(); i++) {
+						json_voteList = (JSONObject) jsonArray.get(i);
+						String vote_month = json_voteList.getString("month");
+						if(Integer.parseInt(vote_month)<10){
+							vote_month="0"+vote_month;
+						}
+						String vote_tmp = json_voteList.getString("year")+"/"+vote_month+"/"+json_voteList.getString("day")+" "+json_voteList.getString("hour");
+						//						Log.d("room_Votes!", vote_tmp+"");
+						votelist.add(vote_tmp);
+
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
 				String result2 = SendByHttpDateList(partyId);
 				String decode_str = "";
 				try {
@@ -191,7 +192,6 @@ public class RoomActivity extends Activity {
 			}
 		}.start();
 
-
 		if(selectedlist==null){
 			selectedlist= new ArrayList<String>();
 		}else{
@@ -200,9 +200,6 @@ public class RoomActivity extends Activity {
 				votelist.add(selectedlist.get(i));
 			}
 		}
-
-
-
 
 		ImageView button = (ImageView)findViewById(R.id.vote);
 		button.setOnClickListener(new OnClickListener() {
@@ -222,36 +219,36 @@ public class RoomActivity extends Activity {
 			}
 		});
 	}
-	//	
-	//	private String SendByHttpVoteList(int id) {
-	//		String URL = "http://192.168.0.130:8080/getMemberSchedule";
-	//		
-	//		DefaultHttpClient client = new DefaultHttpClient();
-	//		try {
-	//			HttpPost post = new HttpPost(URL+"?partyId="+id);
-	//
-	//			HttpParams params = client.getParams();
-	//			HttpConnectionParams.setConnectionTimeout(params, 3000);
-	//			HttpConnectionParams.setSoTimeout(params, 3000);
-	//
-	//			HttpResponse response = client.execute(post);
-	//			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
-	//
-	//			String line = null;
-	//			String result = "";
-	//
-	//			while ((line = bufreader.readLine()) != null) {
-	//				result += line;
-	//			}
-	//			
-	//			return result;
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			client.getConnectionManager().shutdown();	
-	//			return ""; 
-	//		}
-	//		
-	//	}
+
+	private String SendByHttpVoteList(int id) {
+		String URL = "http://192.168.0.130:8080/getMemberSchedule";
+
+		DefaultHttpClient client = new DefaultHttpClient();
+		try {
+			HttpPost post = new HttpPost(URL+"?partyId="+id);
+
+			HttpParams params = client.getParams();
+			HttpConnectionParams.setConnectionTimeout(params, 3000);
+			HttpConnectionParams.setSoTimeout(params, 3000);
+
+			HttpResponse response = client.execute(post);
+			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+
+			String line = null;
+			String result = "";
+
+			while ((line = bufreader.readLine()) != null) {
+				result += line;
+			}
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			client.getConnectionManager().shutdown();	
+			return ""; 
+		}
+	}
+
 	private String SendByHttpDateList(int id) {
 		String URL = "http://192.168.0.130:8080/getPartyInfo";
 
@@ -279,6 +276,5 @@ public class RoomActivity extends Activity {
 			client.getConnectionManager().shutdown();	
 			return ""; 
 		}
-
 	}
 }
