@@ -44,7 +44,7 @@ public class InviteActivity extends Activity {
 		btn_add = (Button) findViewById(R.id.btn_add);
 		search_id = (EditText) findViewById(R.id.search_id);
 		create = (ImageView) findViewById(R.id.invite);
-		String pinkColor = "#F5908D";
+		String mintColor = "#87D3DC";
 
 		adp_add = new SearchAdapter(this, R.layout.member_list, selectList, false);//같은거 써볼까
 		add_listView = (ListView) findViewById(R.id.add_list);
@@ -54,7 +54,7 @@ public class InviteActivity extends Activity {
 
 		adp_mem = new SearchAdapter(InviteActivity.this, R.layout.member_list, memberList, true);
 		mem_listView = (ListView) findViewById(R.id.mem_list);
-		mem_listView.setDivider(new ColorDrawable(Color.parseColor(pinkColor)));
+		mem_listView.setDivider(new ColorDrawable(Color.parseColor(mintColor)));
 		mem_listView.setDividerHeight(4);
 		mem_listView.setAdapter(adp_mem);
 
@@ -171,7 +171,7 @@ class SearchAdapter extends BaseAdapter{
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		LinearLayout view = (LinearLayout)convertView;
-		final String pinkColor = "#F5908D";
+		final String mintColor = "#87D3DC";
 
 		if(convertView == null) {
 			view = (LinearLayout)View.inflate(context, resID, null);
@@ -181,9 +181,9 @@ class SearchAdapter extends BaseAdapter{
 
 		if(isMem) {//mem list
 			mem.setBackgroundColor(Color.WHITE);
-			mem.setTextColor(Color.parseColor(pinkColor));
+			mem.setTextColor(Color.parseColor(mintColor));
 		} else {//add list
-			mem.setBackgroundColor(Color.parseColor(pinkColor));
+			mem.setBackgroundColor(Color.parseColor(mintColor));
 			mem.setTextColor(Color.WHITE);
 		}			
 
@@ -195,7 +195,7 @@ class SearchAdapter extends BaseAdapter{
 				
 				if(mem.getCurrentTextColor() == Color.WHITE) {
 					mem.setBackgroundColor(Color.WHITE);
-					mem.setTextColor(Color.parseColor(pinkColor));
+					mem.setTextColor(Color.parseColor(mintColor));
 					addlist.remove(getItem(position).toString());
 				} else {
 					if(!(addlist.contains(getItem(position).toString()))) {
@@ -203,7 +203,7 @@ class SearchAdapter extends BaseAdapter{
 						Log.d("check", "clicked " + addlist.get(getAddNum()-1));
 					}
 					
-					mem.setBackgroundColor(Color.parseColor(pinkColor));
+					mem.setBackgroundColor(Color.parseColor(mintColor));
 					mem.setTextColor(Color.WHITE);
 				}
 			}
