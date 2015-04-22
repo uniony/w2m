@@ -9,8 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -65,18 +63,25 @@ public class InviteActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				String selected_mem = adp_mem.getaddMemName();
-				
-				if(selected_mem.equals("")) {
+				if(adp_mem.getAddNum() == 0) {
 					Toast.makeText(InviteActivity.this, "추가할 멤버를 먼저 선택하세요", Toast.LENGTH_SHORT).show();
+				} else if(adp_mem.getAddNum() > 1) {
+					Toast.makeText(InviteActivity.this, "한 명만 선택해주세요", Toast.LENGTH_SHORT).show();	
 				} else {
-					selectList.add(selected_mem);
-					adp_add.notifyDataSetChanged();
-					add_listView.setAdapter(adp_add);
+					String selected_mem = adp_mem.getaddMemName();
 					
-					memberList.clear();
-					adp_mem.notifyDataSetChanged();
-					mem_listView.setAdapter(adp_mem);
+					if(selectList.contains(selected_mem)) {
+						Toast.makeText(InviteActivity.this, "이미 선택한 ID입니다", Toast.LENGTH_SHORT).show();
+					} else {
+						selectList.add(selected_mem);
+						adp_add.notifyDataSetChanged();
+						add_listView.setAdapter(adp_add);
+						
+						adp_mem.clearAddList();
+						memberList.clear();
+						adp_mem.notifyDataSetChanged();
+						mem_listView.setAdapter(adp_mem);
+					}
 				}
 			}
 		});
@@ -119,15 +124,24 @@ class SearchAdapter extends BaseAdapter{
 	Context context;
 	int resID;
 	ArrayList<String> list;
-	String addMemName;
+	ArrayList<String> addlist;
 	boolean isMem;
 
 	String getaddMemName() {
-		return addMemName;
+		if(addlist.size() == 0)	return "";
+		else	return addlist.get(0);
+	}
+	
+	public void clearAddList() {
+		addlist.clear();
 	}
 
 	ArrayList<String> getMemList() {
 		return list;
+	}
+	
+	public int getAddNum() {
+		return addlist.size();
 	}
 
 	public SearchAdapter(Context context, int resID, ArrayList<String> list, boolean isMem) {
@@ -135,8 +149,8 @@ class SearchAdapter extends BaseAdapter{
 		this.context = context;
 		this.resID = resID;
 		this.list = list;
-		addMemName = "";
 		this.isMem = isMem;
+		this.addlist = new ArrayList<String>();
 	}
 
 	@Override
@@ -178,16 +192,17 @@ class SearchAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Log.d("check", "selected" + position);
 				
 				if(mem.getCurrentTextColor() == Color.WHITE) {
-					Log.d("check", "re clicked");
-					addMemName = "";
 					mem.setBackgroundColor(Color.WHITE);
 					mem.setTextColor(Color.parseColor(pinkColor));
+					addlist.remove(getItem(position).toString());
 				} else {
-					Log.d("check", "clicked");
-					addMemName = list.get(position);
+					if(!(addlist.contains(getItem(position).toString()))) {
+						addlist.add(getItem(position).toString());
+						Log.d("check", "clicked " + addlist.get(getAddNum()-1));
+					}
+					
 					mem.setBackgroundColor(Color.parseColor(pinkColor));
 					mem.setTextColor(Color.WHITE);
 				}
