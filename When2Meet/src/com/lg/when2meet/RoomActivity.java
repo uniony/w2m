@@ -218,8 +218,8 @@ public class RoomActivity extends Activity {
 //			}
 //		}
 
-		ImageView button = (ImageView)findViewById(R.id.vote);
-		button.setOnClickListener(new OnClickListener() {
+		ImageView vote = (ImageView)findViewById(R.id.vote);
+		vote.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
