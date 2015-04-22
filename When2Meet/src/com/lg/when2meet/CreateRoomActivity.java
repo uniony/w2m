@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lg.util.MyHttpPost;
+
 public class CreateRoomActivity extends Activity {
 
 	ArrayList<DateClass> datelist = new ArrayList<DateClass>();
