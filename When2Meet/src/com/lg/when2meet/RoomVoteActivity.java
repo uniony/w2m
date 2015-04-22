@@ -17,20 +17,27 @@ import android.widget.TextView;
 
 public class RoomVoteActivity extends Activity {
 	int total_size;
-
+	Bundle b;
+	String start_time, end_time, room_name;
+	ArrayList<DateClass> datelist;
+	ArrayList<String> selectedlist;
+	TextView room;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_room_vote);
 
-		final ArrayList<String> selectedlist = new ArrayList<String>();
+		room = (TextView)findViewById(R.id.room_name);
+		selectedlist = new ArrayList<String>();
+		b = this.getIntent().getExtras();
+		start_time = b.getString("s_time");
+		end_time = b.getString("e_time");
+		room_name = b.getString("room_name");
+		datelist = b.getParcelableArrayList("datelist");
 
-		final Bundle b = this.getIntent().getExtras();
-		final String start_time = b.getString("s_time");
+		room.setText(room_name);
 		int s_time = Integer.parseInt(start_time);
-		final String end_time = b.getString("e_time");
-		final ArrayList<DateClass> datelist = b.getParcelableArrayList("datelist");
 		int time_span = (Integer.parseInt(end_time) - Integer.parseInt(start_time));
 		total_size = datelist.size() * time_span;
 
@@ -38,7 +45,7 @@ public class RoomVoteActivity extends Activity {
 		t1.setText(datelist.get(0).getDate().substring(0, 10) + " ~ "
 				+ datelist.get(datelist.size() - 1).getDate().substring(0, 10));
 		TextView t2 = (TextView) findViewById(R.id.setting2);
-		t2.setText(start_time + "시 ~ " + end_time + "시 사이에 약속잡기");
+		t2.setText("약속 시간: " + start_time + "시 ~ " + end_time + "시");
 
 		final TableLayout tablelayout = (TableLayout) findViewById(R.id.table);
 		// tablelayout.removeAllViews();
@@ -113,6 +120,7 @@ public class RoomVoteActivity extends Activity {
 				b.putStringArrayList("selectedlist", selectedlist);
 				b.putString("s_time", start_time);
 				b.putString("e_time", end_time);
+				b.putString("room_name", room_name);
 				i.putExtras(b);
 				startActivity(i);
 			}

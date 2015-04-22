@@ -119,6 +119,7 @@ public class ListActivity extends Activity {
 				bundle.putParcelableArrayList("datelist", datelist);
 				bundle.putString("s_time", "4");
 				bundle.putString("e_time", "7");
+				bundle.putString("room_name", "name");//adapter에서 값 가져와야 할듯
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}

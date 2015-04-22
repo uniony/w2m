@@ -21,6 +21,10 @@ public class RoomActivity extends Activity {
 	int total_size;
 	static ArrayList<String> votelist = new ArrayList<String>();
 	static int count=0;
+	String start_time, end_time, room_name;
+//	ArrayList<String> memlist;
+	ArrayList<DateClass> datelist;
+	TextView room;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +32,16 @@ public class RoomActivity extends Activity {
 		setContentView(R.layout.activity_room);
 
 		Bundle b = this.getIntent().getExtras();
-		final String start_time = b.getString("s_time");
+		room = (TextView)findViewById(R.id.room_name);
+		
+		start_time = b.getString("s_time");
+		end_time = b.getString("e_time");
+		room_name = b.getString("room_name");
+		
+		room.setText(room_name);
 		int s_time = Integer.parseInt(start_time);
-		final String end_time = b.getString("e_time");
-		final ArrayList<DateClass> datelist = b.getParcelableArrayList("datelist");
+		datelist = b.getParcelableArrayList("datelist");
+//		memlist = b.getStringArrayList("mem_name");
 		ArrayList<String> selectedlist = b.getStringArrayList("selectedlist");
 
 		if(selectedlist==null){
@@ -49,7 +59,7 @@ public class RoomActivity extends Activity {
 		TextView t1 = (TextView) findViewById(R.id.setting1);
 		t1.setText(datelist.get(0).getDate().substring(0, 10)+" ~ "+datelist.get(datelist.size()-1).getDate().substring(0, 10));
 		TextView t2 = (TextView) findViewById(R.id.setting2);
-		t2.setText(start_time+"시 ~ "+end_time+"시 사이에 약속잡기");
+		t2.setText("약속 시간: " + start_time + "시 ~ " + end_time + "시");
 
 		TableLayout tablelayout = (TableLayout)findViewById(R.id.table);
 		//		tablelayout.removeAllViews();
@@ -125,6 +135,7 @@ public class RoomActivity extends Activity {
 				b.putParcelableArrayList("datelist", datelist);
 				b.putString("s_time", start_time);
 				b.putString("e_time", end_time);
+				b.putString("room_name", room_name);
 				i.putExtras(b);
 				startActivity(i);
 			}
