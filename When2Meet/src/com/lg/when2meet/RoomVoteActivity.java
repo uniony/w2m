@@ -1,11 +1,25 @@
 package com.lg.when2meet;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -112,14 +126,55 @@ public class RoomVoteActivity extends Activity {
 			tablelayout.addView(row);
 		}
 
-		ImageView button1 = (ImageView) findViewById(R.id.complete);
-		ImageView button2 = (ImageView) findViewById(R.id.clear);
-		button1.setOnClickListener(new OnClickListener() {
+		ImageView finish = (ImageView) findViewById(R.id.complete);
+		ImageView reset = (ImageView) findViewById(R.id.clear);
+		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
+				final String id = setting.getString("id", "");
+				final String pwd = setting.getString("pwd", "");
+
+				new Thread(){
+					String data ="";
+					public void run() {
+						JSONObject json = new JSONObject();
+						JSONArray jarray = new JSONArray();
+						for(int i=0; i<selectedlist.size(); i++){
+							String sel[] = selectedlist.get(i).split("/");
+							String sel_year = sel[0];
+							String sel_month = sel[1];
+							String sel_[] = sel[2].split(" ");
+							String sel_day = sel_[0];
+							String sel_hour = sel_[1];
+
+							if(Integer.parseInt(sel_month)<10){
+								sel_month = sel_month.substring(1);
+							}
+							if(Integer.parseInt(sel_day)<10){
+								sel_day = sel_day.substring(1);
+							}
+							try {
+								json.put("partyId", (partylist.get(index).getId()+""));
+								json.put("memberId", id);
+								json.put("year", sel_year);
+								json.put("month", sel_month);
+								json.put("day", sel_day);
+								json.put("hour", sel_hour);
+								jarray.put(json);
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						data = jarray.toString();
+						SendByHttpSelectedList(id, pwd, data);
+						Log.d("sel" , data);
+					}					
+				}.start();
+
 				Intent i = new Intent(RoomVoteActivity.this, RoomActivity.class);
-//				b.putParcelableArrayList("datelist", datelist);
 				b.putParcelableArrayList("partylist", partylist);
 				b.putInt("index",index);
 				b.putStringArrayList("selectedlist", selectedlist);
@@ -131,7 +186,7 @@ public class RoomVoteActivity extends Activity {
 			}
 		});
 
-		button2.setOnClickListener(new OnClickListener() {
+		reset.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -148,5 +203,36 @@ public class RoomVoteActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	private String SendByHttpSelectedList(String id, String pwd, String data) {
+		String URL = "http://192.168.0.130:8080/insertMemberSchedule";
+
+		DefaultHttpClient client = new DefaultHttpClient();
+		try {
+			String url = URL+"?phoneNo="+id+"&pwd="+pwd+"&data="+URLEncoder.encode(data);
+//			String url = URL+"?phoneNo="+id+"&pwd="+pwd+"&data="+URLEncoder.encode(data, "UTF-8");
+			HttpPost post = new HttpPost(url);
+
+			HttpParams params = client.getParams();
+			HttpConnectionParams.setConnectionTimeout(params, 3000);
+			HttpConnectionParams.setSoTimeout(params, 3000);
+
+			HttpResponse response = client.execute(post);
+			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+
+			String line = null;
+			String result = "";
+
+			while ((line = bufreader.readLine()) != null) {
+				result += line;
+			}
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			client.getConnectionManager().shutdown();	
+			return ""; 
+		}
 	}
 }

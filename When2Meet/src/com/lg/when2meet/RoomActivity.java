@@ -210,14 +210,14 @@ public class RoomActivity extends Activity {
 			}
 		}.start();
 
-		if(selectedlist==null){
-			selectedlist= new ArrayList<String>();
-		}else{
-			count++;
-			for(int i=0; i<selectedlist.size(); i++){
-				votelist.add(selectedlist.get(i));
-			}
-		}
+//		if(selectedlist==null){
+//			selectedlist= new ArrayList<String>();
+//		}else{
+//			count++;
+//			for(int i=0; i<selectedlist.size(); i++){
+//				votelist.add(selectedlist.get(i));
+//			}
+//		}
 
 		ImageView button = (ImageView)findViewById(R.id.vote);
 		button.setOnClickListener(new OnClickListener() {
@@ -240,7 +240,7 @@ public class RoomActivity extends Activity {
 
 	private String SendByHttpVoteList(int id) {
 		String URL = "http://192.168.0.130:8080/getMemberSchedule";
-
+		
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
 			HttpPost post = new HttpPost(URL+"?partyId="+id);
@@ -258,7 +258,7 @@ public class RoomActivity extends Activity {
 			while ((line = bufreader.readLine()) != null) {
 				result += line;
 			}
-
+			
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
