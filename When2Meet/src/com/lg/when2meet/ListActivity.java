@@ -19,6 +19,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,12 +45,18 @@ public class ListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
-		ArrayList<String> roomname = new ArrayList<String>();
-		ArrayList<String> member = new ArrayList<String>();
+		final ArrayList<String> roomname = new ArrayList<String>();
+		final ArrayList<String> member = new ArrayList<String>();
 		String pinkColor = "#F5908D";
 		
 		SharedPreferences setting = getSharedPreferences("login", 0);
 		final String id = setting.getString("id", "");
+		
+		final Handler handler = new Handler(){
+			public void handleMessage(android.os.Message msg){
+				adapter.notifyDataSetChanged();
+			};
+		};
 		
 		new Thread(){
 			@Override
@@ -57,15 +65,30 @@ public class ListActivity extends Activity {
 				try {
 					JSONObject json = new JSONObject(result);
 					JSONArray jsonArray = new JSONArray(json.getString("partyList"));
+					JSONObject json_partyList, json_partyInfo, json_member;
+					JSONArray json_memberList;
 					
+					for (int i = 0; i < jsonArray.length(); i++) {
+						String member_name="";
+						json_partyList = (JSONObject) jsonArray.get(i);
+						json_partyInfo = (JSONObject) json_partyList.getJSONObject("partyInfo");
+						roomname.add(json_partyInfo.get("title").toString());
+						json_memberList = new JSONArray(json_partyInfo.getString("memberList"));
+						
+						for(int j=0; j<json_memberList.length(); j++){
+							json_member = (JSONObject) json_memberList.get(j);
+							member_name+=(json_member.get("name").toString()+", ");
+						}
+						member_name="("+member_name.substring(0, member_name.length()-2)+")";
+						member.add(member_name);
+//					Log.d("member_list", member_name.length()+"."+member_name);
+						handler.sendMessage(Message.obtain());
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
 		}.start();
-		
-		roomname.add("room2");
-		roomname.add("room3");
 
 		adapter = new CustomAdapter(this, R.layout.room_list, roomname, member, false);
 		listView = (ListView) findViewById(R.id.room_list);

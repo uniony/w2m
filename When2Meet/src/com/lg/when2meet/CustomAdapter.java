@@ -4,12 +4,9 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -66,14 +63,17 @@ public class CustomAdapter extends BaseAdapter{
 			view = (LinearLayout)View.inflate(context, resID, null);
 		}
 		LinearLayout layout = (LinearLayout)view.findViewById(R.id.room_bg);
-		TextView name = (TextView)view.findViewById(R.id.room_name);
+		TextView room_name = (TextView)view.findViewById(R.id.room_name);
+		TextView member_name = (TextView)view.findViewById(R.id.room_mem);
 		TextView mem_list = (TextView)view.findViewById(R.id.room_mem);
 		CheckBox check = (CheckBox)view.findViewById(R.id.check_delete);
 		ImageView icon = (ImageView) view.findViewById(R.id.room_icon);
 		
 		layout.setBackgroundColor(Color.WHITE);
-		name.setTextColor(Color.parseColor(pinkColor));
-		name.setText(roomname.get(position));
+		room_name.setTextColor(Color.parseColor(pinkColor));
+		room_name.setText(roomname.get(position));
+		member_name.setTextColor(Color.parseColor(pinkColor));
+		member_name.setText(member.get(position));
 		mem_list.setTextColor(Color.parseColor(pinkColor));
 		icon.setImageResource(R.drawable.room_icon);
 		
