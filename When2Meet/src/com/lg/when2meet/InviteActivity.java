@@ -37,7 +37,7 @@ public class InviteActivity extends Activity {
 		setContentView(R.layout.activity_invite);
 		memberList = new ArrayList<String>();
 		selectList = new ArrayList<String>();
-		bundle = this.getIntent().getExtras();//³¯Â¥, ¹æ ÀÌ¸§ Á¤º¸ ¹Ş¾Æ¿È
+		bundle = this.getIntent().getExtras();//ë‚ ì§œ, ë°© ì´ë¦„ ì •ë³´ ë°›ì•„ì˜´
 		intent = new Intent(InviteActivity.this, CreateRoomActivity.class);
 		btn_search = (Button) findViewById(R.id.btn_search);
 		btn_add = (Button) findViewById(R.id.btn_add);
@@ -45,7 +45,7 @@ public class InviteActivity extends Activity {
 		create = (ImageView) findViewById(R.id.invite);
 		String mintColor = "#87D3DC";
 
-		adp_add = new SearchAdapter(this, R.layout.member_list, selectList, false);//°°Àº°Å ½áº¼±î
+		adp_add = new SearchAdapter(this, R.layout.member_list, selectList, false);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½áº¼ï¿½ï¿½
 		add_listView = (ListView) findViewById(R.id.add_list);
 		add_listView.setDivider(new ColorDrawable(Color.WHITE));
 		add_listView.setDividerHeight(4);
@@ -63,14 +63,14 @@ public class InviteActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(adp_mem.getAddNum() == 0) {
-					Toast.makeText(InviteActivity.this, "Ãß°¡ÇÒ ¸â¹ö¸¦ ¸ÕÀú ¼±ÅÃÇÏ¼¼¿ä", Toast.LENGTH_SHORT).show();
+					Toast.makeText(InviteActivity.this, "ì¶”ê°€í•  ë©¤ë²„ë¥¼ ë¨¼ì € ì„ íƒí•˜ì„¸ìš”", Toast.LENGTH_SHORT).show();
 				} else if(adp_mem.getAddNum() > 1) {
-					Toast.makeText(InviteActivity.this, "ÇÑ ¸í¸¸ ¼±ÅÃÇØÁÖ¼¼¿ä", Toast.LENGTH_SHORT).show();	
+					Toast.makeText(InviteActivity.this, "í•œ ëª…ë§Œ ì„ íƒí•´ì£¼ì„¸ìš”", Toast.LENGTH_SHORT).show();	
 				} else {
 					String selected_mem = adp_mem.getaddMemName();
 					
 					if(selectList.contains(selected_mem)) {
-						Toast.makeText(InviteActivity.this, "ÀÌ¹Ì ¼±ÅÃÇÑ IDÀÔ´Ï´Ù", Toast.LENGTH_SHORT).show();
+						Toast.makeText(InviteActivity.this, "ì´ë¯¸ ì„ íƒí•œ IDì…ë‹ˆë‹¤", Toast.LENGTH_SHORT).show();
 					} else {
 						selectList.add(selected_mem);
 						adp_add.notifyDataSetChanged();
@@ -91,12 +91,12 @@ public class InviteActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				//db¿¡¼­ search_id°¡ Æ÷ÇÔµÈ ¸â¹ö ¸ñ·Ï °Ë»öÇØ¼­ selectList¿¡ ³Ö±â
-				memberList.add("01031501104(À±ÇöÁø)");
-				memberList.add("01040489012(ÀÓÀçÇö)");
-				memberList.add("01076121493(°­¿ë¼®)");
-				memberList.add("01022610989(À¯°¡¿¬)");
-				memberList.add("01091095512(ÃÖÁø¿µ)");
+				//dbì—ì„œ search_idê°€ í¬í•¨ëœ ë©¤ë²„ ëª©ë¡ ê²€ìƒ‰í•´ì„œ selectListì— ë„£ê¸°
+				memberList.add("01031501104(ìœ¤í˜„ì§„)");
+				memberList.add("01040489012(ì„ì¬í˜„)");
+				memberList.add("01076121493(ê°•ìš©ì„)");
+				memberList.add("01022610989(ìœ ê°€ì—°)");
+				memberList.add("01091095512(ìµœì§„ì˜)");
 				adp_mem.notifyDataSetChanged();
 				mem_listView.setAdapter(adp_mem);
 			}

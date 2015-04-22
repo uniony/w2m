@@ -45,7 +45,7 @@ public class RoomVoteActivity extends Activity {
 		t1.setText(datelist.get(0).getDate().substring(0, 10) + " ~ "
 				+ datelist.get(datelist.size() - 1).getDate().substring(0, 10));
 		TextView t2 = (TextView) findViewById(R.id.setting2);
-		t2.setText("¾à¼Ó ½Ã°£: " + start_time + "½Ã ~ " + end_time + "½Ã");
+		t2.setText("ì•½ì† ì‹œê°„: " + start_time + "ì‹œ ~ " + end_time + "ì‹œ");
 
 		final TableLayout tablelayout = (TableLayout) findViewById(R.id.table);
 		// tablelayout.removeAllViews();
@@ -71,11 +71,11 @@ public class RoomVoteActivity extends Activity {
 				} else {
 					if (j == 0) {
 						if (s_time < 9) {
-							tv.setText("0" + (s_time++) + "~0"+s_time+"½Ã");
+							tv.setText("0" + (s_time++) + "~0"+s_time+"ì‹œ");
 						} else if(s_time==9){
-							tv.setText("0"+(s_time++) + "~"+s_time+"½Ã");
+							tv.setText("0"+(s_time++) + "~"+s_time+"ì‹œ");
 						} else{
-							tv.setText((s_time++)+"~"+s_time+"½Ã");
+							tv.setText((s_time++)+"~"+s_time+"ì‹œ");
 						}
 						tv.setTextColor(Color.parseColor("#F5908D"));
 					} else {

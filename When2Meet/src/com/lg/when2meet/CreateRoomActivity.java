@@ -88,10 +88,10 @@ public class CreateRoomActivity extends Activity {
 
 				if (Integer.parseInt(start_time) >= Integer.parseInt(end_time)) {
 					Toast.makeText(CreateRoomActivity.this,
-							"Á¾·á½Ã°£ÀÌ ½ÃÀÛ½Ã°£º¸´Ù ºü¸¨´Ï´Ù", Toast.LENGTH_SHORT).show();
+							"ì¢…ë£Œì‹œê°„ì´ ì‹œì‘ì‹œê°„ë³´ë‹¤ ë¹ ë¦…ë‹ˆë‹¤", Toast.LENGTH_SHORT).show();
 				} else if (datelist.size() == 0){
 					Toast.makeText(CreateRoomActivity.this,
-							"³¯Â¥¸¦ ¼±ÅÃÇÏ¼¼¿ä", Toast.LENGTH_SHORT).show();
+							"ë‚ ì§œë¥¼ ì„ íƒí•˜ì„¸ìš”", Toast.LENGTH_SHORT).show();
 				} else {
 					b.putParcelableArrayList("datelist", datelist);
 					b.putString("s_time", start_time);

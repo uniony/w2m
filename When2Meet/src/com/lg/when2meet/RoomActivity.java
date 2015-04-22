@@ -59,7 +59,7 @@ public class RoomActivity extends Activity {
 		TextView t1 = (TextView) findViewById(R.id.setting1);
 		t1.setText(datelist.get(0).getDate().substring(0, 10)+" ~ "+datelist.get(datelist.size()-1).getDate().substring(0, 10));
 		TextView t2 = (TextView) findViewById(R.id.setting2);
-		t2.setText("¾à¼Ó ½Ã°£: " + start_time + "½Ã ~ " + end_time + "½Ã");
+		t2.setText("ì•½ì† ì‹œê°„: " + start_time + "ì‹œ ~ " + end_time + "ì‹œ");
 
 		TableLayout tablelayout = (TableLayout)findViewById(R.id.table);
 		//		tablelayout.removeAllViews();
@@ -82,11 +82,11 @@ public class RoomActivity extends Activity {
 				}else{
 					if(j==0){
 						if (s_time < 9) {
-							tv.setText("0" + (s_time++) + "~0"+s_time+"½Ã");
+							tv.setText("0" + (s_time++) + "~0"+s_time+"ì‹œ");
 						} else if(s_time==9){
-							tv.setText("0"+(s_time++) + "~"+s_time+"½Ã");
+							tv.setText("0"+(s_time++) + "~"+s_time+"ì‹œ");
 						} else{
-							tv.setText((s_time++)+"~"+s_time+"½Ã");
+							tv.setText((s_time++)+"~"+s_time+"ì‹œ");
 						}
 						tv.setTextColor(Color.parseColor("#F5908D"));
 					}else{
@@ -108,15 +108,15 @@ public class RoomActivity extends Activity {
 							int occurrences = Collections.frequency(votelist, str);
 							tv.setText(occurrences+"");
 							if(occurrences>0)
-								tv.setAlpha((float) 0.2);		// 1~2¸í ÀÌ»ó...?
+								tv.setAlpha((float) 0.2);		// 1~2ëª… ì´ìƒ...?
 							if(occurrences>=count*0.2)
-								tv.setAlpha((float) 0.4);		// 20%ÀÌ»ó
+								tv.setAlpha((float) 0.4);		// 20%ì´ìƒ
 							if(occurrences>=count*0.4)
-								tv.setAlpha((float) 0.6);		// 40% ÀÌ»ó
+								tv.setAlpha((float) 0.6);		// 40% ì´ìƒ
 							if(occurrences>=count*0.6)
-								tv.setAlpha((float) 0.8);		// 65% ÀÌ»ó
+								tv.setAlpha((float) 0.8);		// 65% ì´ìƒ
 							if(occurrences>=count*0.8)
-								tv.setAlpha((float) 1.0);		// 80% ÀÌ»ó
+								tv.setAlpha((float) 1.0);		// 80% ì´ìƒ
 						}
 					}
 				}

@@ -120,7 +120,7 @@ public class ListActivity extends Activity {
 				bundle.putParcelableArrayList("datelist", datelist);
 				bundle.putString("s_time", "4");
 				bundle.putString("e_time", "7");
-				bundle.putString("room_name", "name");//adapter占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占싶억옙 占쌀듸옙
+				bundle.putString("room_name", "name");//adapter에서 값 가져와야 할듯
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}

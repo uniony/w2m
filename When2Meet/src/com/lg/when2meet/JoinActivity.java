@@ -41,13 +41,13 @@ public class JoinActivity extends Activity {
 		
 		final Handler handler = new Handler(){
 			public void handleMessage(android.os.Message msg){
-				Toast.makeText(JoinActivity.this, "È¸¿ø°¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(JoinActivity.this, "íšŒì›ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.", Toast.LENGTH_SHORT).show();
 			};
 		};
 		
 		final Handler duplicate = new Handler(){
 			public void handleMessage(android.os.Message msg){
-				Toast.makeText(JoinActivity.this, "Áßº¹µÈ ÈŞ´ëÆù ¹øÈ£ÀÔ´Ï´Ù.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(JoinActivity.this, "ì¤‘ë³µëœ íœ´ëŒ€í° ë²ˆí˜¸ì…ë‹ˆë‹¤.", Toast.LENGTH_SHORT).show();
 			};
 		};
 		
@@ -60,11 +60,11 @@ public class JoinActivity extends Activity {
 				String pwd = join_pwd.getText().toString();
 				
 				if (name.equals("") || name == null){
-					Toast.makeText(getApplicationContext(), "ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”", Toast.LENGTH_SHORT).show();
 				} else if (phone.equals("") || phone == null){
-					Toast.makeText(getApplicationContext(), "ÇÚµåÆù ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "í•¸ë“œí° ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”", Toast.LENGTH_SHORT).show();
 				} else if (pwd.equals("") || pwd == null){
-					Toast.makeText(getApplicationContext(), "ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”", Toast.LENGTH_SHORT).show();
 				}
 				
 				new Thread(){
