@@ -17,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="초대할 멤버 검색"
         android:textColor="#C4C2C2"
         android:textSize="20sp" />
@@ -27,8 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:orientation="horizontal" >
 
         <EditText
@@ -45,18 +45,18 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
+            android:text="검색"
             android:textColor="#87D3DC"
-            android:textSize="15sp"
-            android:text="검색" />
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/btn_add"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
+            android:text="추가"
             android:textColor="#87D3DC"
-            android:textSize="15sp"
-            android:text="추가" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <ListView
@@ -75,6 +75,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="110dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/button_cre" />
-    <!-- android:clickable="true" /> -->
+        android:background="@drawable/cre_selector"
+        android:clickable="true" />
+
 </LinearLayout>
