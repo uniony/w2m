@@ -44,7 +44,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
-            android:textColor="#F5908D"
+            android:textColor="#87D3DC"
             android:textSize="15sp"
             android:text="검색" />
 
@@ -53,7 +53,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
-            android:textColor="#F5908D"
+            android:textColor="#87D3DC"
             android:textSize="15sp"
             android:text="추가" />
     </LinearLayout>
