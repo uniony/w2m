@@ -58,10 +58,10 @@ public class RoomVoteActivity extends Activity {
 		int time_span = (Integer.parseInt(end_time) - Integer.parseInt(start_time));
 		total_size = datelist.size() * time_span;
 
-		TextView t1 = (TextView) findViewById(R.id.setting1);
+		TextView t1 = (TextView) findViewById(R.id.date_set);
 		t1.setText(datelist.get(0).getDate().substring(0, 10) + " ~ "
 				+ datelist.get(datelist.size() - 1).getDate().substring(0, 10));
-		TextView t2 = (TextView) findViewById(R.id.setting2);
+		TextView t2 = (TextView) findViewById(R.id.time_set);
 		t2.setText("약속 시간: " + start_time + "시 ~ " + end_time + "시");
 
 		final TableLayout tablelayout = (TableLayout) findViewById(R.id.table);
@@ -135,7 +135,7 @@ public class RoomVoteActivity extends Activity {
 				SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 				final String id = setting.getString("id", "");
 				final String pwd = setting.getString("pwd", "");
-
+				
 				new Thread(){
 					String data ="";
 					public void run() {
@@ -148,14 +148,14 @@ public class RoomVoteActivity extends Activity {
 							String sel_[] = sel[2].split(" ");
 							String sel_day = sel_[0];
 							String sel_hour = sel_[1];
-
+							
 							if(Integer.parseInt(sel_month)<10){
 								sel_month = sel_month.substring(1);
 							}
 							if(Integer.parseInt(sel_day)<10){
 								sel_day = sel_day.substring(1);
 							}
-							try {
+							 try {
 								json.put("partyId", (partylist.get(index).getId()+""));
 								json.put("memberId", id);
 								json.put("year", sel_year);
@@ -173,8 +173,9 @@ public class RoomVoteActivity extends Activity {
 						Log.d("sel" , data);
 					}					
 				}.start();
-
+				
 				Intent i = new Intent(RoomVoteActivity.this, RoomActivity.class);
+//				b.putParcelableArrayList("datelist", datelist);
 				b.putParcelableArrayList("partylist", partylist);
 				b.putInt("index",index);
 				b.putStringArrayList("selectedlist", selectedlist);
