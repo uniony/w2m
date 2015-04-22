@@ -59,12 +59,12 @@ public class LoginActivity extends Activity {
 			};
 		};
 
-		final Handler connectErr = new Handler() {
-			public void handleMessage(android.os.Message msg) {
-				Toast.makeText(LoginActivity.this, "접속 오류 입니다 잠시 후 시도해주세요",
-						Toast.LENGTH_SHORT).show();
-			};
-		};
+//		final Handler connectErr = new Handler() {
+//			public void handleMessage(android.os.Message msg) {
+//				Toast.makeText(LoginActivity.this, "접속 오류 입니다 잠시 후 시도해주세요",
+//						Toast.LENGTH_SHORT).show();
+//			};
+//		};
 
 		setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 		isAuto = setting.getBoolean("isAuto", false);
@@ -85,8 +85,8 @@ public class LoginActivity extends Activity {
 
 						if (isSuccess.equals("true")) {
 							goListActivity();
-						} else {
-							connectErr.sendMessage(Message.obtain());
+//						} else {
+//							connectErr.sendMessage(Message.obtain());
 						}
 
 					} catch (JSONException e) {

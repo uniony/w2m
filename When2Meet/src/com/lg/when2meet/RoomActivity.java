@@ -60,7 +60,7 @@ public class RoomActivity extends Activity {
 		int index = b.getInt("index");
 		final int time_span = (Integer.parseInt(end_time) - Integer.parseInt(start_time));
 
-		//room.setText(room_name);
+		room.setText(room_name);
 		final int s_time = Integer.parseInt(start_time);
 		partylist = b.getParcelableArrayList("partylist");
 		partyId = partylist.get(index).getId();
