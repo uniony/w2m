@@ -33,12 +33,13 @@ import android.widget.ListView;
 public class ListActivity extends Activity {
 	ListView listView;
 	CustomAdapter adapter;
-	ImageView add;
-	ImageView del;
+	ImageView add, del, btn_logout;
 	ArrayList<String> deleteList;
 //	ArrayList<DateClass> datelist;
 	ArrayList<PartyClass> partylist = new ArrayList<PartyClass>();
 	int clickTime=0;
+	SharedPreferences setting;
+	SharedPreferences.Editor editor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class ListActivity extends Activity {
 		final ArrayList<String> member = new ArrayList<String>();
 		String pinkColor = "#F5908D";
 
-		SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
+		setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 		final String id = setting.getString("id", "");
 		
 		final Handler handler = new Handler(){
@@ -121,6 +122,28 @@ public class ListActivity extends Activity {
 
 		add = (ImageView) findViewById(R.id.add_room);
 		del = (ImageView) findViewById(R.id.del_room);
+		btn_logout = (ImageView) findViewById(R.id.btn_logout);
+
+		btn_logout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new Thread() {
+					@Override
+					public void run() {
+						editor = setting.edit();
+						editor.putBoolean("isAuto", false);
+						editor.commit();
+					};
+				}.start();
+
+				Intent intent = new Intent(ListActivity.this, LoginActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
+			}
+		});
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
