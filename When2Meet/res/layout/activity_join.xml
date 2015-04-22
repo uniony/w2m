@@ -2,181 +2,180 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFFFFF"
+    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-     <ImageView 
-        android:layout_height="wrap_content"
+    <ImageView
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@drawable/join_bar"/>
-    
+        android:src="@drawable/join_bar" />
+
     <LinearLayout
-    	android:background="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:orientation="horizontal">        
-        
-        <ImageView 
-		    android:layout_width="20dp"
-		    android:layout_height="20dp"
-	    	android:layout_gravity="center_vertical"
-	    	android:src="@drawable/join_icon"
-	    	android:layout_marginLeft="10dp" />
-        
+        android:background="#FFFFFF"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/join_icon" />
+
         <TextView
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:text="NAME"
             android:textColor="#87D3DC"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="center"
-	    	android:layout_marginLeft="3dp" 
-            android:text="NAME" />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/join_name"
-            android:background="@null"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:background="@null"
+            android:lines="1"
             android:maxLength="19"
-            android:singleLine="true"
-            android:lines="1" />
+            android:singleLine="true" />
     </LinearLayout>
-    
-    <TextView 
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#87D3DC"/>
-    
+        android:background="#87D3DC" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:orientation="horizontal">    
-        
-        <ImageView 
-		    android:layout_width="20dp"
-		    android:layout_height="20dp"
-	    	android:layout_gravity="center_vertical"
-	    	android:src="@drawable/join_icon"
-	    	android:layout_marginLeft="10dp" />
-        
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/join_icon" />
+
         <TextView
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:text="PHONE"
             android:textColor="#87D3DC"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="center"
-	    	android:layout_marginLeft="3dp" 
-            android:text="PHONE" />
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:orientation="vertical"
-	        android:layout_marginLeft="5dp"
             android:layout_width="200dp"
-            android:layout_height="match_parent">
-        
-	        <EditText
-	            android:id="@+id/join_phone"
-	            android:background="@null"
-	            android:layout_gravity="center"
-	            android:layout_weight="1"
-	            android:layout_width="match_parent"
-	            android:layout_height="match_parent"
-	            android:maxLength="19"
-	            android:inputType="number"
-            	android:digits="0123456789"
-            	android:singleLine="true"
-            	android:lines="1" />
-	        
-	        <TextView 
-	            android:layout_weight="4"
-	        	android:layout_marginLeft="5dp"
-		        android:layout_width="match_parent"
-	            android:layout_height="match_parent"
-		        android:textSize="10sp"
-		        android:text="※아이디로 사용됩니다"
-		        android:textColor="#C4C2C2"/>
-        
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/join_phone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@null"
+                android:digits="0123456789"
+                android:inputType="number"
+                android:lines="1"
+                android:maxLength="19"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="4"
+                android:text="※아이디로 사용됩니다"
+                android:textColor="#C4C2C2"
+                android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
-    
-    <TextView 
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#87D3DC"/>
-    
+        android:background="#87D3DC" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:orientation="horizontal">    
-        
-        <ImageView 
-		    android:layout_width="20dp"
-		    android:layout_height="20dp"
-	    	android:layout_gravity="center_vertical"
-	    	android:src="@drawable/join_icon"
-	    	android:layout_marginLeft="10dp" />
-        
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/join_icon" />
+
         <TextView
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:text="PWD"
             android:textColor="#87D3DC"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="center"
-	    	android:layout_marginLeft="3dp" 
-            android:text="PWD" />
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:orientation="vertical"
-	        android:layout_marginLeft="5dp"
             android:layout_width="200dp"
-            android:layout_height="match_parent">
-        
-	        <EditText
-	            android:id="@+id/join_pwd"
-	            android:background="@null"
-	            android:layout_weight="1"
-	            android:layout_gravity="center"
-	            android:layout_marginLeft="5dp"
-	            android:layout_width="match_parent"
-	            android:layout_height="match_parent"
-	            android:maxLength="19"
-	            android:singleLine="true"
-           		android:lines="1" />
-	        
-	        <TextView 
-	            android:layout_weight="4"
-	        	android:layout_marginLeft="5dp"
-		        android:layout_width="match_parent"
-	            android:layout_height="match_parent"
-		        android:textSize="10sp"
-		        android:text="※추후 변경이 불가합니다"
-		        android:textColor="#C4C2C2"/>
-        
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/join_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:lines="1"
+                android:maxLength="19"
+                android:password="true"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="4"
+                android:text="※추후 변경이 불가합니다"
+                android:textColor="#C4C2C2"
+                android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
-    
-    <TextView 
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#87D3DC"/>
-    
-    <ImageView 
-	        android:id="@+id/join2"
-	        android:layout_width="120dp"
-	        android:layout_height="40dp"
-	        android:layout_marginTop="30dp"
-	        android:layout_gravity="center_horizontal"
-	        android:clickable="true"
-	        android:background="@drawable/join2_selector"/>
+        android:background="#87D3DC" />
+
+    <ImageView
+        android:id="@+id/join2"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/join2_selector"
+        android:clickable="true" />
 
 </LinearLayout>
