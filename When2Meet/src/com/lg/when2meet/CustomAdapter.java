@@ -19,13 +19,13 @@ public class CustomAdapter extends BaseAdapter{
 	ArrayList<String> roomname;
 	ArrayList<String> member;
 	boolean checkBoxVisible;
-	ArrayList<String> selected_room;
+	ArrayList<Integer> selected_room;
 	
 	public void changeVisibility(boolean checkBoxVisible) {
 		this.checkBoxVisible = checkBoxVisible;
 	}
 	
-	ArrayList<String> getSelectedRooms() {
+	ArrayList<Integer> getSelectedRooms() {
 		return selected_room;
 	}
 	
@@ -36,7 +36,7 @@ public class CustomAdapter extends BaseAdapter{
 		this.roomname = roomname;
 		this.member = member;
 		this.checkBoxVisible = checkBoxVisible;
-		selected_room = new ArrayList<String>();
+		selected_room = new ArrayList<Integer>();
 	}
 
 	@Override
@@ -64,7 +64,6 @@ public class CustomAdapter extends BaseAdapter{
 		}
 		LinearLayout layout = (LinearLayout)view.findViewById(R.id.room_bg);
 		TextView room_name = (TextView)view.findViewById(R.id.room_name);
-		TextView member_name = (TextView)view.findViewById(R.id.room_mem);
 		TextView mem_list = (TextView)view.findViewById(R.id.room_mem);
 		CheckBox check = (CheckBox)view.findViewById(R.id.check_delete);
 		ImageView icon = (ImageView) view.findViewById(R.id.room_icon);
@@ -72,8 +71,8 @@ public class CustomAdapter extends BaseAdapter{
 		layout.setBackgroundColor(Color.WHITE);
 		room_name.setTextColor(Color.parseColor(pinkColor));
 		room_name.setText(roomname.get(position));
-		member_name.setTextColor(Color.parseColor(pinkColor));
-		member_name.setText(member.get(position));
+//		member_name.setTextColor(Color.parseColor(pinkColor));
+//		member_name.setText(member.get(position));
 		mem_list.setTextColor(Color.parseColor(pinkColor));
 		icon.setImageResource(R.drawable.room_icon);
 		
@@ -87,48 +86,13 @@ public class CustomAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				String name = roomname.get(position);
-				if(selected_room.contains(name)) {
-					selected_room.remove(roomname.get(position));
+				if(selected_room.contains(position)) {
+					selected_room.remove(selected_room.indexOf(position));
 				} else {
-					selected_room.add(roomname.get(position));
+					selected_room.add(selected_room.size(), position);
 				}
 			}
 		});
-		
-//		view.setOnTouchListener(new OnTouchListener() {
-//			
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-//				String pinkColor = "#F5908D";
-//				LinearLayout layout = (LinearLayout)v.findViewById(R.id.room_bg);
-//				TextView name = (TextView)v.findViewById(R.id.room_name);
-//				TextView mem_list = (TextView)v.findViewById(R.id.room_mem);
-//				ImageView icon = (ImageView)v.findViewById(R.id.room_icon);
-//				
-//				switch(event.getAction()) {
-//				case MotionEvent.ACTION_DOWN:
-//					Log.d("check", "touch");
-//					layout.setBackgroundColor(Color.parseColor(pinkColor));
-//					name.setTextColor(Color.WHITE);
-//					mem_list.setTextColor(Color.WHITE);
-//					icon.setImageResource(R.drawable.room_icon_click);
-//					return true;
-//					
-//				case MotionEvent.ACTION_UP:
-//					Log.d("check", "touch end");
-//					layout.setBackgroundColor(Color.WHITE);
-//					name.setTextColor(Color.parseColor(pinkColor));
-//					mem_list.setTextColor(Color.parseColor(pinkColor));
-//					icon.setImageResource(R.drawable.room_icon);
-//					break;
-//					
-//				default:
-//					break;
-//				}
-//				return false;		
-//			}
-//		});
 		
 		return view;
 	}	
