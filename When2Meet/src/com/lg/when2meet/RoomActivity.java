@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -18,6 +17,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class RoomActivity extends Activity {
@@ -113,22 +114,29 @@ public class RoomActivity extends Activity {
 								}
 								cell.setTextColor(Color.parseColor("#F5908D"));
 							}else{
+								SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
+								String mem_name = setting.getString("name", "");
 								cell.setText(".");
 								cell.setTextColor(Color.parseColor("#bbeeff"));
 								String str = datelist.get(j-1).getDate().substring(0, 10)+" "+(Integer.parseInt(start_time)+i-1);
 								cell.setHint(str);
 								cell.setTextColor(Color.parseColor("#F5908D"));
 
+								int occurrences=0;
+
 								boolean check=false;
 								for(int z=0; z<votelist.size(); z++){
-									if(votelist.get(z).equals(cell.getHint())){
+									if(votelist.get(z).split("@")[0].equals(cell.getHint())){
+										occurrences++;
 										check=true;
 									}
 								}
 								if(check){
-									cell.setBackgroundResource(R.drawable.table_sel);
+//									cell.setBackgroundResource(R.drawable.table_sel);
+									cell.setBackgroundResource(R.drawable.cell_shape_sel);
 
-									int occurrences = Collections.frequency(votelist, str);
+//									int occurrences = Collections.frequency(votelist, str);
+									count = partylist.get(index).getMemberList().length();
 									cell.setText(occurrences+"");
 									if(occurrences>0)
 										cell.setAlpha((float) 0.2);		// 1~2명 이상...?
@@ -142,6 +150,26 @@ public class RoomActivity extends Activity {
 										cell.setAlpha((float) 1.0);		// 80% 이상
 								}
 							}
+							cell.setOnClickListener(new OnClickListener() {
+								
+								@Override
+								public void onClick(View v) {
+									// TODO Auto-generated method stub
+
+									String memberlist_of_schedule="";
+									for(int k=0;k<votelist.size();k++){
+										String votelist_elements[] = votelist.get(k).split("@");
+										if(votelist.get(k).split("@")[0].equals(cell.getHint()) && !(memberlist_of_schedule.contains(votelist_elements[1]))){
+											memberlist_of_schedule+=votelist_elements[1]+", ";
+										}
+									}
+									if(memberlist_of_schedule.length()!=0){
+										memberlist_of_schedule = memberlist_of_schedule.substring(0, memberlist_of_schedule.length()-2);
+									}
+									// Log.d("memberlist of schedule", cell.getHint()+" : "+memberlist_of_schedule);
+									Toast.makeText(RoomActivity.this, memberlist_of_schedule, Toast.LENGTH_SHORT).show();
+								}
+							});
 						}
 						row.addView(cell);
 					}
@@ -165,8 +193,12 @@ public class RoomActivity extends Activity {
 						if(Integer.parseInt(vote_month)<10){
 							vote_month="0"+vote_month;
 						}
-						String vote_tmp = json_voteList.getString("year")+"/"+vote_month+"/"+json_voteList.getString("day")+" "+json_voteList.getString("hour");
-						//						Log.d("room_Votes!", vote_tmp+"");
+						String vote_day = json_voteList.getString("day");
+						if(Integer.parseInt(vote_day)<10){
+							vote_day="0"+vote_day;
+						}
+						String vote_tmp = json_voteList.getString("year")+"/"+vote_month+"/"+vote_day+" "+json_voteList.getString("hour")+"@"+json_voteList.getString("name");
+						// Log.d("room_Votes!", vote_tmp+""+jsonArray.length());
 						votelist.add(vote_tmp);
 
 					}

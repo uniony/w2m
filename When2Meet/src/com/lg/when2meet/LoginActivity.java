@@ -124,6 +124,7 @@ public class LoginActivity extends Activity {
 								if (isSuccess.equals("true")) {
 									editor.putString("id", loginId);
 									editor.putString("pwd", loginPwd);
+									editor.putString("name", json.getString("name"));
 									if (auto_login.isChecked()) {
 										editor.putBoolean("isAuto", true);
 										Log.d("check", "after commit: " + setting.getBoolean("isAuto", false));
