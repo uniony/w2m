@@ -158,7 +158,6 @@ public class CreateRoomActivity extends Activity {
 					+ URLEncoder.encode(jsonArray.toString()));
 
 			String response = MyHttpPost.SendHttpPost(httpPost);
-			Log.d("sukha@@@@@@@@@@@@@@", response);
 			JSONObject jsonObject = null;
 			int partyId = 0;
 			String isSuccess = "";
@@ -169,13 +168,12 @@ public class CreateRoomActivity extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			Log.d("sukha@@@@@@@@@@@@@@", isSuccess + "   " + partyId);
 
 			Intent intent = new Intent(CreateRoomActivity.this,
 					InviteActivity.class);
 			intent.putExtra("partyId", partyId);
 			System.out.println();
-			// startActivity(intent);
+			startActivity(intent);
 		}
 	}
 }

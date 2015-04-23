@@ -53,15 +53,15 @@ public class InviteActivity extends Activity {
 		setContentView(R.layout.activity_invite);
 		memberList = new ArrayList<String>();
 		selectList = new ArrayList<String>();
-		bundle = this.getIntent().getExtras();//날짜, 방 이름 정보 받아옴
-		intent = new Intent(InviteActivity.this, CreateRoomActivity.class);
+		//bundle = this.getIntent().getExtras();//날짜, 방 이름 정보 받아옴
+		//intent = new Intent(InviteActivity.this, CreateRoomActivity.class);
 		btn_search = (Button) findViewById(R.id.btn_search);
 		btn_add = (Button) findViewById(R.id.btn_add);
 		search_id = (EditText) findViewById(R.id.search_id);
 		create = (ImageView) findViewById(R.id.invite);
 		String mintColor = "#87D3DC";
 
-		adp_add = new SearchAdapter(this, R.layout.member_list, selectList, false);//������ �Ẽ��
+		adp_add = new SearchAdapter(this, R.layout.member_list, selectList, false);//?????? ????
 		add_listView = (ListView) findViewById(R.id.add_list);
 		add_listView.setDivider(new ColorDrawable(Color.WHITE));
 		add_listView.setDividerHeight(4);
@@ -135,6 +135,7 @@ public class InviteActivity extends Activity {
 							String mem_name;
 							String mem_result;
 							
+							memberList.clear();
 							for (int i = 0; i < jsonArray.length(); i++) {
 								json_member = (JSONObject) jsonArray.get(i);
 								mem_id = json_member.getString("id");
@@ -157,16 +158,16 @@ public class InviteActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				intent = new Intent(InviteActivity.this,
-						RoomActivity.class);
-
-				// bundle.putParcelableArrayList("mem_name", adp_add.getMemList);
-				// bundle.putString("mem_name", adp_add.getaddMemName());
-				intent.putExtras(bundle);
+				
+				
+				intent = new Intent(InviteActivity.this, RoomActivity.class);
 				startActivity(intent);
 			}
 		});
+	}
+	
+	class InsertMemberThread extends Thread {
+		
 	}
 	
 	private String SendByHttpSearchMember(String id) {
