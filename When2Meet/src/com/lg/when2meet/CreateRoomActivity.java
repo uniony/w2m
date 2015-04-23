@@ -2,6 +2,7 @@ package com.lg.when2meet;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.apache.http.client.methods.HttpPost;
 import org.json.JSONArray;
@@ -47,36 +48,48 @@ public class CreateRoomActivity extends Activity {
 					int month, int dayOfMonth) {
 				// TODO Auto-generated method stub
 				int d = dayOfMonth;
-				int m = month+1;
+				int m = month + 1;
 				int y = year;
 				int index = -1;
 				int check_unecessary_change = -1;
 				boolean stored = false;
 				DateClass newDate = new DateClass(d, m, y, count++);
 
-				for (int i = 0; i < datelist.size(); i++) {
-					if (d == datelist.get(i).getDay()
-							&& m == datelist.get(i).getMonth()
-							&& y == datelist.get(i).getYear()) {
-						stored = true;
-						index = i;
-					}
-					if (check_unecessary_change < ((DateClass) datelist.get(i))
-							.getCount()) {
-						check_unecessary_change = ((DateClass) datelist.get(i))
-								.getCount();
-					}
-				}
+				Calendar today = Calendar.getInstance();
 
-				if (stored == false) {
-					datelist.add(newDate);
-				} else if (stored == true
-						&& ((DateClass) datelist.get(index)).getCount() != check_unecessary_change) {
-					datelist.remove(index);
+				if (y <= today.get(Calendar.YEAR)
+						&& m <= (today.get(Calendar.MONTH) + 1)
+						&& d < today.get(Calendar.DAY_OF_MONTH)) {
+
+					Toast.makeText(CreateRoomActivity.this,
+							"과거의 날짜는 입력할 수 없습니다.", Toast.LENGTH_SHORT).show();
+
+				} else {
+
+					for (int i = 0; i < datelist.size(); i++) {
+						if (d == datelist.get(i).getDay()
+								&& m == datelist.get(i).getMonth()
+								&& y == datelist.get(i).getYear()) {
+							stored = true;
+							index = i;
+						}
+						if (check_unecessary_change < ((DateClass) datelist
+								.get(i)).getCount()) {
+							check_unecessary_change = ((DateClass) datelist
+									.get(i)).getCount();
+						}
+					}
+
+					if (stored == false) {
+						datelist.add(newDate);
+					} else if (stored == true
+							&& ((DateClass) datelist.get(index)).getCount() != check_unecessary_change) {
+						datelist.remove(index);
+					}
+					TextView t = (TextView) findViewById(R.id.storedDates);
+					t.setText(date.setStoredDates(datelist));
+					t.setTextColor(Color.parseColor("#F5908D"));
 				}
-				TextView t = (TextView) findViewById(R.id.storedDates);
-				t.setText(date.setStoredDates(datelist));
-				t.setTextColor(Color.parseColor("#F5908D"));
 			}
 		});
 
@@ -99,15 +112,16 @@ public class CreateRoomActivity extends Activity {
 				if (Integer.parseInt(start_time) >= Integer.parseInt(end_time)) {
 					Toast.makeText(CreateRoomActivity.this,
 							"종료시간이 시작시간보다 빠릅니다", Toast.LENGTH_SHORT).show();
-				} else if (datelist.size() == 0){
-					Toast.makeText(CreateRoomActivity.this,
-							"날짜를 선택하세요", Toast.LENGTH_SHORT).show();
-				} else if (room_name.equals("") || room_name == null){
-					Toast.makeText(CreateRoomActivity.this,
-							"방 이름을 입력하세요", Toast.LENGTH_SHORT).show();
+				} else if (datelist.size() == 0) {
+					Toast.makeText(CreateRoomActivity.this, "날짜를 선택하세요",
+							Toast.LENGTH_SHORT).show();
+				} else if (room_name.equals("") || room_name == null) {
+					Toast.makeText(CreateRoomActivity.this, "방 이름을 입력하세요",
+							Toast.LENGTH_SHORT).show();
 				} else {
-					dialog = ProgressDialog.show(CreateRoomActivity.this, "", "잠시만 기다려 주세요", true);
-					
+					dialog = ProgressDialog.show(CreateRoomActivity.this, "",
+							"잠시만 기다려 주세요", true);
+
 					SharedPreferences sharedPreferences = getSharedPreferences(
 							"LOGIN_PREFRENCE", 0);
 
