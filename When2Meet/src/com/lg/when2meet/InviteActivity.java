@@ -232,9 +232,9 @@ public class InviteActivity extends Activity {
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
-			Log.d("@@@@@@@@@@", masterId + "@@@@@@@@@@@@@@@2");
+			Log.d("@@@@@@@@@@", masterId + "@@@@@@@@@@@@@@@2" + id + "@@@@");
 			HttpPost post = new HttpPost(URL + "?masterId=" + masterId
-					+ "&memberId" + id);
+					+ "&memberId=" + id);
 
 			HttpParams params = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(params, 3000);
