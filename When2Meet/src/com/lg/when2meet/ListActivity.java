@@ -44,12 +44,6 @@ public class ListActivity extends Activity {
 	ArrayList<String> member = new ArrayList<String>();
 	String id;
 
-//	@Override
-//	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		//		super.onBackPressed();
-//	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
