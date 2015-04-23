@@ -168,12 +168,12 @@ public class CreateRoomActivity extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-
-			Intent intent = new Intent(CreateRoomActivity.this,
-					InviteActivity.class);
-			intent.putExtra("partyId", partyId);
-			System.out.println();
-			startActivity(intent);
+			if ("true".equals(isSuccess)) {
+				Intent intent = new Intent(CreateRoomActivity.this,
+						InviteActivity.class);
+				intent.putExtra("partyId", partyId);
+				startActivity(intent);
+			}
 		}
 	}
 }
