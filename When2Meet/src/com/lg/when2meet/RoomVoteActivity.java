@@ -81,6 +81,7 @@ public class RoomVoteActivity extends Activity {
 				int pad_size = 5;
 				cell.setPadding(pad_size, pad_size, pad_size, pad_size);
 				cell.setBackgroundResource(R.drawable.table_border);
+//				cell.setBackgroundColor(Color.parseColor("#????"));///////////////////////////here
 				cell.setHighlightColor(0);
 				if (i == 0) {
 					if (j > 0) {
