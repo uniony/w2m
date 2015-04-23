@@ -78,7 +78,12 @@ public class CustomAdapter extends BaseAdapter{
 		icon.setImageResource(R.drawable.room_icon);
 		mem_list.setTextColor(Color.parseColor(pinkColor));
 		mem_list.setText(member.get(position));
-		
+		boolean isCheck = false;
+		for(int i = 0 ; i < selected_room.size() ; i++) {
+			if (selected_room.get(i) == position)
+				isCheck = true;
+		}
+		check.setChecked(isCheck);
 		if(checkBoxVisible)
 			check.setVisibility(View.VISIBLE);
 		else
