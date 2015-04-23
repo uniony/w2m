@@ -182,6 +182,8 @@ public class InviteActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				Toast.makeText(InviteActivity.this,
+						"잠시만 기다리세요", Toast.LENGTH_SHORT).show();
 				InsertMemberThread insertMemberThread = new InsertMemberThread(); 
 				insertMemberThread.start();
 			}
@@ -202,7 +204,7 @@ public class InviteActivity extends Activity {
 					jsonObject = new JSONObject(response);
 					Log.d("머지", jsonObject.getString("isSuccess"));
 					if("true".equals(jsonObject.getString("isSuccess"))) {
-						Log.d("!@@@@@@@@@@", "added!!" + selectMemberIdList.get(i));
+//						Log.d("!@@@@@@@@@@", "added!!" + selectMemberIdList.get(i));
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

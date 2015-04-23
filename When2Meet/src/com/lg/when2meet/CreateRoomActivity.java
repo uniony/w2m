@@ -104,6 +104,8 @@ public class CreateRoomActivity extends Activity {
 					Toast.makeText(CreateRoomActivity.this,
 							"방 이름을 입력하세요", Toast.LENGTH_SHORT).show();
 				} else {
+					Toast.makeText(CreateRoomActivity.this,
+						"잠시만 기다리세요", Toast.LENGTH_SHORT).show();
 					SharedPreferences sharedPreferences = getSharedPreferences(
 							"LOGIN_PREFRENCE", 0);
 
