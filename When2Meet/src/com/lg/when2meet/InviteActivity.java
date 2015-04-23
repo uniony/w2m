@@ -133,7 +133,6 @@ public class InviteActivity extends Activity {
 						add_listView.setAdapter(adp_add);
 
 						if(adp_add.getCount() > 4) {
-							Log.d("@@@@", "in1");
 							LinearLayout layout = (LinearLayout) findViewById(R.id.add_layout);
 							ViewGroup.LayoutParams params = layout.getLayoutParams();
 							params.height = 540;
@@ -166,9 +165,9 @@ public class InviteActivity extends Activity {
 				// db에서 search_id가 포함된 멤버 목록 검색해서 selectList에 넣기
 				dialog = ProgressDialog.show(InviteActivity.this, "", "잠시만 기다려 주세요", true);
 				new Thread() {
-					String id = search_id.getText().toString();
-
 					public void run() {
+						String id = search_id.getText().toString();
+						Log.d("dd", id);
 						String result = SendByHttpSearchMember(id, masterId);
 						String decode_str = "";
 						try {
@@ -253,6 +252,7 @@ public class InviteActivity extends Activity {
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
+			Log.d("ㅇㅇㅇ", id);
 //			Log.d("@@@@@@@@@@", masterId + "@@@@@@@@@@@@@@@2" + id + "@@@@");
 			HttpPost post = new HttpPost(URL + "?masterId=" + masterId
 					+ "&memberId=" + id);
