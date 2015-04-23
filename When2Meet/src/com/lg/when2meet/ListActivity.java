@@ -40,8 +40,8 @@ public class ListActivity extends Activity {
 	int clickTime=0;
 	SharedPreferences setting;
 	SharedPreferences.Editor editor;
-	ArrayList<String> roomname = new ArrayList<String>();
-	ArrayList<String> member = new ArrayList<String>();
+	ArrayList<String> roomname;
+	ArrayList<String> member;
 	String id;
 
 	@Override
@@ -68,6 +68,13 @@ public class ListActivity extends Activity {
 
 		setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 		id = setting.getString("id", "");
+		
+		roomname = new ArrayList<String>();
+		member = new ArrayList<String>();
+		adapter = new CustomAdapter(this, R.layout.room_list, roomname, member, false);
+		listView = (ListView) findViewById(R.id.room_list);
+		listView.setDivider(new ColorDrawable(Color.parseColor(pinkColor)));
+		listView.setDividerHeight(4);
 
 		final Handler handler = new Handler(){
 			public void handleMessage(android.os.Message msg){
@@ -80,15 +87,11 @@ public class ListActivity extends Activity {
 		final Handler handler2 = new Handler(){
 			public void handleMessage(android.os.Message msg){
 				del.setImageResource(R.drawable.button_del);
-				adapter.changeVisibility(false);
-				adapter.notifyDataSetChanged();
+//				adapter.changeVisibility(false);
+//				adapter.notifyDataSetChanged();
 				listView.setAdapter(adapter);
 			};
 		};
-		adapter = new CustomAdapter(this, R.layout.room_list, roomname, member, false);
-		listView = (ListView) findViewById(R.id.room_list);
-		listView.setDivider(new ColorDrawable(Color.parseColor(pinkColor)));
-		listView.setDividerHeight(4);
 
 		new Thread(){
 			@Override
@@ -169,6 +172,7 @@ public class ListActivity extends Activity {
 							SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 							String mid = setting.getString("id", "");
 							deleteList = adapter.getSelectedRooms();
+//							Log.d("@@@@@@", "click 3, " + deleteList.size());
 							for(int i=0; i<deleteList.size(); i++){
 								DeleteByHttpPartyList(mid, ""+partylist.get(deleteList.get(i)).getId()) ;
 							}
@@ -176,6 +180,7 @@ public class ListActivity extends Activity {
 							if(deleteList.size()>0){
 								getPartyList();
 							}
+							adapter.clearSelectedRooms();
 							handler2.sendMessage(Message.obtain());
 						}
 					}.start();
@@ -273,7 +278,7 @@ public class ListActivity extends Activity {
 				String member_name="";
 				json_partyList = (JSONObject) jsonArray.get(i);
 				
-				Log.d("party id's in list", json_partyList.get("partyId").toString());
+//				Log.d("party id's in list", json_partyList.get("partyId").toString());
 				
 				json_partyInfo = (JSONObject) json_partyList.getJSONObject("partyInfo");
 				roomname.add(json_partyInfo.getString("title").toString());

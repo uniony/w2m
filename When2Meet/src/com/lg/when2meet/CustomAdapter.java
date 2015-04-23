@@ -29,6 +29,10 @@ public class CustomAdapter extends BaseAdapter{
 		return selected_room;
 	}
 	
+	public void clearSelectedRooms() {
+		selected_room = new ArrayList<Integer>();
+	}
+	
 	public CustomAdapter(Context context, int resID, ArrayList<String> roomname, ArrayList<String> member, boolean checkBoxVisible) {
 		super();
 		this.context = context;
