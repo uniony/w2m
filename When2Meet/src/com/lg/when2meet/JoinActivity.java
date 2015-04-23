@@ -59,7 +59,10 @@ public class JoinActivity extends Activity {
 				String phone = join_phone.getText().toString();
 				String pwd = join_pwd.getText().toString();
 				
-				if (name.equals("") || name == null){
+				if (name.contains(" ") || pwd.equals(" ")){
+					Toast.makeText(getApplicationContext(), "공백을 제외하고 입력해주세요",
+							Toast.LENGTH_SHORT).show();
+				} else if (name.equals("") || name == null){
 					Toast.makeText(getApplicationContext(), "이름을 입력하세요", Toast.LENGTH_SHORT).show();
 				} else if (phone.equals("") || phone == null){
 					Toast.makeText(getApplicationContext(), "핸드폰 번호를 입력하세요", Toast.LENGTH_SHORT).show();
