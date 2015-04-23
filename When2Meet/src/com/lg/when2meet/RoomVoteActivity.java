@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 public class RoomVoteActivity extends Activity {
 	int total_size;
-//	Bundle bundle;
+	//	Bundle bundle;
 	String start_time, end_time, room_name;
 	ArrayList<DateClass> datelist;
 	ArrayList<String> selectedlist;
@@ -47,7 +47,7 @@ public class RoomVoteActivity extends Activity {
 		room = (TextView)findViewById(R.id.room_name);
 		table = (TableLayout) findViewById(R.id.table);		
 		selectedlist = new ArrayList<String>();
-		
+
 		Bundle bundle = this.getIntent().getExtras();
 		start_time = bundle.getString("s_time");
 		end_time = bundle.getString("e_time");
@@ -137,11 +137,10 @@ public class RoomVoteActivity extends Activity {
 				SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 				final String id = setting.getString("id", "");
 				final String pwd = setting.getString("pwd", "");
-				
+
 				new Thread(){
 					String data ="";
 					public void run() {
-						JSONObject json = new JSONObject();
 						JSONArray jarray = new JSONArray();
 						for(int i=0; i<selectedlist.size(); i++){
 							String sel[] = selectedlist.get(i).split("/");
@@ -150,15 +149,17 @@ public class RoomVoteActivity extends Activity {
 							String sel_[] = sel[2].split(" ");
 							String sel_day = sel_[0];
 							String sel_hour = sel_[1];
-							
+
 							if(Integer.parseInt(sel_month)<10){
 								sel_month = sel_month.substring(1);
 							}
 							if(Integer.parseInt(sel_day)<10){
 								sel_day = sel_day.substring(1);
 							}
-							 try {
-								json.put("partyId", (partylist.get(index).getId()+""));
+							try {
+								JSONObject json = new JSONObject();
+								json.put("partyId", (partylist.get(index)
+										.getId() + ""));
 								json.put("memberId", id);
 								json.put("year", sel_year);
 								json.put("month", sel_month);
@@ -172,14 +173,14 @@ public class RoomVoteActivity extends Activity {
 						}
 						data = jarray.toString();
 						SendByHttpSelectedList(id, pwd, data);
-						Log.d("sel" , data);
+//						Log.d("sel" , data);
 					}					
 				}.start();
-				
+
 				Intent i = new Intent(RoomVoteActivity.this, RoomActivity.class);
 				Bundle bundle = new Bundle();
-				
-//				bundle.putParcelableArrayList("datelist", datelist);
+
+				//				bundle.putParcelableArrayList("datelist", datelist);
 				bundle.putParcelableArrayList("partylist", partylist);
 				bundle.putInt("index",index);
 				bundle.putStringArrayList("selectedlist", selectedlist);
@@ -187,6 +188,12 @@ public class RoomVoteActivity extends Activity {
 				bundle.putString("e_time", end_time);
 				bundle.putString("room_name", room_name);
 				i.putExtras(bundle);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				startActivity(i);
 			}
 		});
@@ -209,14 +216,14 @@ public class RoomVoteActivity extends Activity {
 			}
 		});
 	}
-	
+
 	private String SendByHttpSelectedList(String id, String pwd, String data) {
 		String URL = "http://192.168.0.130:8080/insertMemberSchedule";
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
 			String url = URL+"?phoneNo="+id+"&pwd="+pwd+"&data="+URLEncoder.encode(data);
-//			String url = URL+"?phoneNo="+id+"&pwd="+pwd+"&data="+URLEncoder.encode(data, "UTF-8");
+			//			String url = URL+"?phoneNo="+id+"&pwd="+pwd+"&data="+URLEncoder.encode(data, "UTF-8");
 			HttpPost post = new HttpPost(url);
 
 			HttpParams params = client.getParams();
