@@ -71,10 +71,18 @@ public class CustomAdapter extends BaseAdapter{
 		layout.setBackgroundColor(Color.WHITE);
 		room_name.setTextColor(Color.parseColor(pinkColor));
 		room_name.setText(roomname.get(position));
-//		member_name.setTextColor(Color.parseColor(pinkColor));
-//		member_name.setText(member.get(position));
-		mem_list.setTextColor(Color.parseColor(pinkColor));
 		icon.setImageResource(R.drawable.room_icon);
+		mem_list.setTextColor(Color.parseColor(pinkColor));
+		String members = "(";
+		
+		for(int i=0; i<member.size(); i++) {
+			if(i == 0)
+				members += member.get(i);
+			else
+				members += ", " + member.get(i);
+		}
+		members += ")";
+		mem_list.setText(members);
 		
 		if(checkBoxVisible)
 			check.setVisibility(View.VISIBLE);
