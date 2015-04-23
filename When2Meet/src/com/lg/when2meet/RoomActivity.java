@@ -62,7 +62,7 @@ public class RoomActivity extends Activity {
 		start_time = bundle.getString("s_time");
 		end_time = bundle.getString("e_time");
 		room_name = bundle.getString("room_name");
-		int index = bundle.getInt("index");
+		final int index = bundle.getInt("index");
 		final int time_span = (Integer.parseInt(end_time) - Integer.parseInt(start_time));
 
 		room.setText(room_name);
@@ -71,6 +71,8 @@ public class RoomActivity extends Activity {
 		partyId = partylist.get(index).getId();
 		//		memlist = bundle.getStringArrayList("mem_name");
 		ArrayList<String> selectedlist = bundle.getStringArrayList("selectedlist");
+
+//		Log.d("party info in room", partyId+", "+room_name+", "+ index);
 
 //		room.setOnClickListener(new OnClickListener() {
 //			
@@ -209,15 +211,6 @@ public class RoomActivity extends Activity {
 			}
 		}.start();
 
-//		if(selectedlist==null){
-//			selectedlist= new ArrayList<String>();
-//		}else{
-//			count++;
-//			for(int i=0; i<selectedlist.size(); i++){
-//				votelist.add(selectedlist.get(i));
-//			}
-//		}
-
 		ImageView vote = (ImageView)findViewById(R.id.vote);
 		vote.setOnClickListener(new OnClickListener() {
 
@@ -228,6 +221,7 @@ public class RoomActivity extends Activity {
 				Bundle b = new Bundle();
 				b.putParcelableArrayList("datelist", datelist);
 				b.putParcelableArrayList("partylist", partylist);
+				b.putInt("index", index);
 				b.putString("s_time", start_time);
 				b.putString("e_time", end_time);
 				b.putString("room_name", room_name);

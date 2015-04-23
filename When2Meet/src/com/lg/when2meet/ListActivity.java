@@ -44,11 +44,11 @@ public class ListActivity extends Activity {
 	ArrayList<String> member = new ArrayList<String>();
 	String id;
 
-	@Override
-	public void onBackPressed() {
+//	@Override
+//	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		//		super.onBackPressed();
-	}
+//	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +72,7 @@ public class ListActivity extends Activity {
 				del.setImageResource(R.drawable.button_del);
 				adapter.changeVisibility(false);
 				adapter.notifyDataSetChanged();
-				//				Log.d("after delete", adapter.getCount()+"");
 				listView.setAdapter(adapter);
-
-				//				listView.setAdapter(adapter);
-				//				Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-				//				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				//				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				//				startActivity(intent);
 			};
 		};
 		adapter = new CustomAdapter(this, R.layout.room_list, roomname, member, false);
@@ -269,6 +262,9 @@ public class ListActivity extends Activity {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				String member_name="";
 				json_partyList = (JSONObject) jsonArray.get(i);
+				
+				Log.d("party id's in list", json_partyList.get("partyId").toString());
+				
 				json_partyInfo = (JSONObject) json_partyList.getJSONObject("partyInfo");
 				roomname.add(json_partyInfo.getString("title").toString());
 				json_memberList = new JSONArray(json_partyInfo.getString("memberList"));
