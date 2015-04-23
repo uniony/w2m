@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,7 +39,8 @@ public class LoginActivity extends Activity {
 	SharedPreferences.Editor editor;
 	String result;
 	Boolean isAuto;
-
+	ProgressDialog dialog;
+	
 	public static final String LOGIN_PREFRENCE = "login_pref";
 
 	@Override
@@ -111,10 +113,12 @@ public class LoginActivity extends Activity {
 							Toast.LENGTH_SHORT).show();
 				} else {
 
+					dialog = ProgressDialog.show(LoginActivity.this, "", "잠시만 기다려 주세요", true);
 					new Thread() {
 						@Override
 						public void run() {
 							result = SendByHttpLogin(loginId, loginPwd);
+							dialog.dismiss();
 							editor = setting.edit();
 
 							try {
