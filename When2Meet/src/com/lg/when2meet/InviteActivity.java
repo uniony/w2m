@@ -210,7 +210,7 @@ public class InviteActivity extends Activity {
 			}
 			
 			Intent intent = new Intent(InviteActivity.this,
-					RoomActivity.class);
+					ListActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -245,6 +245,11 @@ public class InviteActivity extends Activity {
 			return "";
 		}
 
+	}
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		//super.onBackPressed();
 	}
 }
 
@@ -339,4 +344,6 @@ class SearchAdapter extends BaseAdapter {
 		});
 		return view;
 	}
+	
+
 }
