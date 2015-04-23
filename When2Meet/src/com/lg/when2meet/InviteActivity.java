@@ -79,25 +79,28 @@ public class InviteActivity extends Activity {
 		btn_add = (Button) findViewById(R.id.btn_add);
 		search_id = (EditText) findViewById(R.id.search_id);
 		create = (ImageView) findViewById(R.id.invite);
-		String mintColor = "#87D3DC";
 
 		adp_add = new SearchAdapter(this, R.layout.member_list, selectList,
 				false);
 		add_listView = (ListView) findViewById(R.id.add_list);
-		add_listView.setDivider(new ColorDrawable(Color.WHITE));
-		add_listView.setDividerHeight(4);
 		add_listView.setAdapter(adp_add);
 
 		adp_mem = new SearchAdapter(InviteActivity.this, R.layout.member_list,
 				memberList, true);
 		mem_listView = (ListView) findViewById(R.id.mem_list);
-		mem_listView.setDivider(new ColorDrawable(Color.parseColor(mintColor)));
-		mem_listView.setDividerHeight(4);
 		mem_listView.setAdapter(adp_mem);
 
 		final Handler handler = new Handler() {
 			public void handleMessage(android.os.Message msg) {
 				adp_mem.notifyDataSetChanged();
+				if(adp_mem.getCount() > 4) {
+//					Log.d("@@@@", "in1");
+					LinearLayout layout = (LinearLayout) findViewById(R.id.mem_layout);
+					ViewGroup.LayoutParams params = layout.getLayoutParams();
+					params.height = 540;
+					layout.setLayoutParams(params);
+					layout.requestLayout();
+				}
 				mem_listView.setAdapter(adp_mem);
 			};
 		};
@@ -129,6 +132,21 @@ public class InviteActivity extends Activity {
 						adp_add.notifyDataSetChanged();
 						add_listView.setAdapter(adp_add);
 
+						if(adp_add.getCount() > 4) {
+							Log.d("@@@@", "in1");
+							LinearLayout layout = (LinearLayout) findViewById(R.id.add_layout);
+							ViewGroup.LayoutParams params = layout.getLayoutParams();
+							params.height = 540;
+							layout.setLayoutParams(params);
+							layout.requestLayout();
+						}
+
+						LinearLayout layout = (LinearLayout) findViewById(R.id.mem_layout);
+						ViewGroup.LayoutParams params = layout.getLayoutParams();
+						params.height = 10;
+						layout.setLayoutParams(params);
+						layout.requestLayout();
+
 						adp_mem.clearAddList();
 						memberList.clear();
 						adp_mem.notifyDataSetChanged();
@@ -159,7 +177,7 @@ public class InviteActivity extends Activity {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						Log.d("invite_search", decode_str);
+//						Log.d("invite_search", decode_str);
 						try {
 							JSONObject json = new JSONObject(decode_str);
 							JSONArray jsonArray = new JSONArray(json
@@ -193,7 +211,7 @@ public class InviteActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				ProgressDialog dialog = ProgressDialog.show(InviteActivity.this, "",                        "잠시만 기다려 주세요", true);
+				ProgressDialog dialog = ProgressDialog.show(InviteActivity.this, "", "잠시만 기다려 주세요", true);
 
 				InsertMemberThread insertMemberThread = new InsertMemberThread();
 				insertMemberThread.start();
@@ -216,8 +234,7 @@ public class InviteActivity extends Activity {
 					jsonObject = new JSONObject(response);
 					Log.d("머지", jsonObject.getString("isSuccess"));
 					if ("true".equals(jsonObject.getString("isSuccess"))) {
-						Log.d("!@@@@@@@@@@",
-								"added!!" + selectMemberIdList.get(i));
+//						Log.d("!@@@@@@@@@@", "added!!" + selectMemberIdList.get(i));
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -236,7 +253,7 @@ public class InviteActivity extends Activity {
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
-			Log.d("@@@@@@@@@@", masterId + "@@@@@@@@@@@@@@@2" + id + "@@@@");
+//			Log.d("@@@@@@@@@@", masterId + "@@@@@@@@@@@@@@@2" + id + "@@@@");
 			HttpPost post = new HttpPost(URL + "?masterId=" + masterId
 					+ "&memberId=" + id);
 
