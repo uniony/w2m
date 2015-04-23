@@ -108,7 +108,7 @@ public class RoomVoteActivity extends Activity {
 						boolean check=false;
 						for(int z=0; z<selectedlist.size(); z++){
 							if(selectedlist.get(z).equals(cell.getHint())){
-								Log.d("check seleted", cell.getHint()+", "+selectedlist.get(z));
+//								Log.d("check seleted", cell.getHint()+", "+selectedlist.get(z));
 								check=true;
 							}
 						}
@@ -190,7 +190,7 @@ public class RoomVoteActivity extends Activity {
 						if(already_voted==false){
 							SendByHttpSelectedList(id, pwd, data);
 						}else{
-							SendByHttpModifySelectedList(data);
+							SendByHttpModifySelectedList(partylist.get(index).getId()+"",id,data);
 						}
 //						Log.d("sel" , already_voted+"@"+data);
 					}					
@@ -208,7 +208,7 @@ public class RoomVoteActivity extends Activity {
 				bundle.putString("room_name", room_name);
 				i.putExtras(bundle);
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -267,12 +267,12 @@ public class RoomVoteActivity extends Activity {
 		}
 	}
 	
-	private String SendByHttpModifySelectedList(String data) {
+	private String SendByHttpModifySelectedList(String pid, String memId, String data) {
 		String URL = "http://192.168.0.130:8080/updateMemberSchedule";
 		
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
-			String url = URL+"?data="+URLEncoder.encode(data);
+			String url = URL+"?partyId="+pid+"&memberId="+memId+"&data="+URLEncoder.encode(data);
 			//			String url = URL+"?phoneNo="+id+"&pwd="+pwd+"&data="+URLEncoder.encode(data, "UTF-8");
 			HttpPost post = new HttpPost(url);
 			

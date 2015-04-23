@@ -86,6 +86,34 @@ public class RoomActivity extends Activity {
 				date.setText(datelist.get(0).getDate().substring(0, 10)+" ~ "+datelist.get(datelist.size()-1).getDate().substring(0, 10));
 				TextView time = (TextView) findViewById(R.id.time_set);
 				time.setText("약속 시간: " + start_time + "시 ~ " + end_time + "시");
+				
+				/*** get max occur **/
+				int maxOccurrences = 0;
+				
+				for(int i=0; i<time_span+1; i++){
+					for(int j=0; j<datelist.size()+1; j++){	
+						if(i==0){
+						}else{
+							if(j==0){
+							}else{
+								int occurrences=0;
+								for(int z=0; z<votelist.size(); z++){
+									if(votelist.get(z).split("@")[0].equals(
+											datelist.get(j-1).getDate().substring(0, 10)+" "+(Integer.parseInt(start_time)+i-1))){
+										occurrences++;
+									}
+								}
+								if (occurrences > maxOccurrences) {
+									maxOccurrences = occurrences;
+								}
+							}
+						}
+					}
+				}
+
+//				Log.d("@#@#@#@#@", ""+maxOccurrences);
+				// make ColorList
+				ArrayList<String> colorList = getColorList(maxOccurrences);
 
 				TableLayout tablelayout = (TableLayout)findViewById(R.id.table);
 				int s_time_tmp = s_time;
@@ -108,6 +136,7 @@ public class RoomActivity extends Activity {
 								cell.setTextColor(Color.parseColor("#F5908D"));
 							}
 						}else{
+							cell.setLayoutParams(new TableRow.LayoutParams(180, 180));
 							if(j==0){
 								if (s_time_tmp < 9) {
 									cell.setText("0" + (s_time_tmp++) + "~0"+s_time_tmp+"시");
@@ -128,63 +157,44 @@ public class RoomActivity extends Activity {
 
 								int occurrences=0;
 
-								boolean check=false;
 								for(int z=0; z<votelist.size(); z++){
 									if(votelist.get(z).split("@")[0].equals(cell.getHint())){
 										occurrences++;
-										check=true;
 									}
 								}
-								if(check){
+								if(occurrences>0){
 									//									cell.setBackgroundResource(R.drawable.table_sel);
 									cell.setBackgroundResource(R.drawable.cell_shape_sel);
 
 									//									int occurrences = Collections.frequency(votelist, str);
 									count = partylist.get(index).getMemberList().length();
 									cell.setText(occurrences+"");
-									//									if(occurrences>0)
-									//										cell.setAlpha((float) 0.2);		// 1~2명 이상...?
-									//									if(occurrences>=count*0.2)
-									//										cell.setAlpha((float) 0.4);		// 20%이상
-									//									if(occurrences>=count*0.4)
-									//										cell.setAlpha((float) 0.6);		// 40% 이상
-									//									if(occurrences>=count*0.6)
-									//										cell.setAlpha((float) 0.8);		// 65% 이상
-									//									if(occurrences>=count*0.8)
-									//										cell.setAlpha((float) 1.0);		// 80% 이상
-									if(occurrences>0){
-										cell.setBackgroundResource(R.drawable.cell_shape_sel1);
-									}if(occurrences>=count*0.2){
-										cell.setBackgroundResource(R.drawable.cell_shape_sel2);
-									}if(occurrences>=count*0.4){
-										cell.setBackgroundResource(R.drawable.cell_shape_sel3);
-									}if(occurrences>=count*0.6){
-										cell.setBackgroundResource(R.drawable.cell_shape_sel4);
-									}if(occurrences>=count*0.8){
-										cell.setBackgroundResource(R.drawable.cell_shape_sel5);
-									}
+									
+									cell.setBackgroundResource(R.drawable.cell_shape_sel);
+									cell.setBackgroundColor(Color.parseColor(colorList.get(occurrences)));
+									cell.setLayoutParams(new TableRow.LayoutParams(180, 180));//width, height
+									cell.setOnClickListener(new OnClickListener() {
+										
+										@Override
+										public void onClick(View v) {
+											// TODO Auto-generated method stub
+											
+											String memberlist_of_schedule="";
+											for(int k=0;k<votelist.size();k++){
+												String votelist_elements[] = votelist.get(k).split("@");
+												if(votelist.get(k).split("@")[0].equals(cell.getHint()) && !(memberlist_of_schedule.contains(votelist_elements[1]))){
+													memberlist_of_schedule+=votelist_elements[1]+", ";
+												}
+											}
+											if(memberlist_of_schedule.length()!=0){
+												memberlist_of_schedule = memberlist_of_schedule.substring(0, memberlist_of_schedule.length()-2);
+											}
+											// Log.d("memberlist of schedule", cell.getHint()+" : "+memberlist_of_schedule);
+											Toast.makeText(RoomActivity.this, memberlist_of_schedule, Toast.LENGTH_SHORT).show();
+										}
+									});
 								}
 							}
-							cell.setOnClickListener(new OnClickListener() {
-
-								@Override
-								public void onClick(View v) {
-									// TODO Auto-generated method stub
-
-									String memberlist_of_schedule="";
-									for(int k=0;k<votelist.size();k++){
-										String votelist_elements[] = votelist.get(k).split("@");
-										if(votelist.get(k).split("@")[0].equals(cell.getHint()) && !(memberlist_of_schedule.contains(votelist_elements[1]))){
-											memberlist_of_schedule+=votelist_elements[1]+", ";
-										}
-									}
-									if(memberlist_of_schedule.length()!=0){
-										memberlist_of_schedule = memberlist_of_schedule.substring(0, memberlist_of_schedule.length()-2);
-									}
-									// Log.d("memberlist of schedule", cell.getHint()+" : "+memberlist_of_schedule);
-									Toast.makeText(RoomActivity.this, memberlist_of_schedule, Toast.LENGTH_SHORT).show();
-								}
-							});
 						}
 						row.addView(cell);
 					}
@@ -197,8 +207,15 @@ public class RoomActivity extends Activity {
 			@Override
 			public void run() {
 				String result1 = SendByHttpVoteList(partyId);
+				String decode_str1 = "";
 				try {
-					JSONObject json = new JSONObject(result1);
+					decode_str1 = URLDecoder.decode(result1, "UTF-8");
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					JSONObject json = new JSONObject(decode_str1);
 					JSONArray jsonArray = new JSONArray(json.getString("voteList"));
 					JSONObject json_voteList ;
 
@@ -339,5 +356,24 @@ public class RoomActivity extends Activity {
 			client.getConnectionManager().shutdown();	
 			return ""; 
 		}
+	}
+	
+	private ArrayList<String> getColorList(int max) {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("#ffffff");
+		if (max != 0) {
+			int subedR = 209/max;
+			int subedG = 188/max;
+			int subedB = 184/max;
+			int maxR = 242;
+			int maxG = 255;
+			int maxB = 255;
+			for (int i = 1 ; i <= max ; i++) {
+				
+				list.add(String.format("#%02x%02x%02x", maxR - (subedR*i), maxG - (subedG*i), maxB - (subedB*i)));
+//				Log.d("@#@#@#@#@", list.get(i));
+			}
+		}
+		return list;
 	}
 }
