@@ -68,7 +68,7 @@ public class LoginActivity extends Activity {
 
 		setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 		isAuto = setting.getBoolean("isAuto", false);
-		Log.d("check", "bool " + isAuto);
+//		Log.d("check", "bool " + isAuto);
 
 		if (isAuto) {
 			new Thread() {
