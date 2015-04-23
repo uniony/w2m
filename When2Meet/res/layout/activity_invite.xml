@@ -58,6 +58,15 @@
             android:textColor="#87D3DC"
             android:textSize="15sp" />
     </LinearLayout>
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="2dp"
+        android:text="추가 목록"
+        android:textColor="#C4C2C2"
+        android:textSize="12sp" />
 
     <ListView
         android:id="@+id/add_list"
@@ -68,6 +77,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#FFFFFF"/>
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="2dp"
+        android:text="검색 목록"
+        android:textColor="#C4C2C2"
+        android:textSize="12sp" />
 
     <ListView
         android:id="@+id/mem_list"
