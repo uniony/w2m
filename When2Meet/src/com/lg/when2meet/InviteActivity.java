@@ -74,7 +74,7 @@ public class InviteActivity extends Activity {
 		String mintColor = "#87D3DC";
 
 		adp_add = new SearchAdapter(this, R.layout.member_list, selectList,
-				false);// ?????? ????
+				false);
 		add_listView = (ListView) findViewById(R.id.add_list);
 		add_listView.setDivider(new ColorDrawable(Color.WHITE));
 		add_listView.setDividerHeight(4);
@@ -135,6 +135,7 @@ public class InviteActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
+				adp_mem.clearAddList() ;
 				// db에서 search_id가 포함된 멤버 목록 검색해서 selectList에 넣기
 				new Thread() {
 					String id = search_id.getText().toString();
