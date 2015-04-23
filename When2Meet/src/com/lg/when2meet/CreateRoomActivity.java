@@ -55,42 +55,67 @@ public class CreateRoomActivity extends Activity {
 				boolean stored = false;
 				DateClass newDate = new DateClass(d, m, y, count++);
 
-				Calendar today = Calendar.getInstance();
-
-				if (y <= today.get(Calendar.YEAR)
-						&& m <= (today.get(Calendar.MONTH) + 1)
-						&& d < today.get(Calendar.DAY_OF_MONTH)) {
-
-					Toast.makeText(CreateRoomActivity.this,
-							"과거 날짜는 입력할 수 없습니다.", Toast.LENGTH_SHORT).show();
-
-				} else {
-
-					for (int i = 0; i < datelist.size(); i++) {
-						if (d == datelist.get(i).getDay()
-								&& m == datelist.get(i).getMonth()
-								&& y == datelist.get(i).getYear()) {
-							stored = true;
-							index = i;
-						}
-						if (check_unecessary_change < ((DateClass) datelist
-								.get(i)).getCount()) {
-							check_unecessary_change = ((DateClass) datelist
-									.get(i)).getCount();
-						}
+				for (int i = 0; i < datelist.size(); i++) {
+					if (d == datelist.get(i).getDay()
+							&& m == datelist.get(i).getMonth()
+							&& y == datelist.get(i).getYear()) {
+						stored = true;
+						index = i;
 					}
-
-					if (stored == false) {
-						datelist.add(newDate);
-					} else if (stored == true
-							&& ((DateClass) datelist.get(index)).getCount() != check_unecessary_change) {
-						datelist.remove(index);
+					if (check_unecessary_change < ((DateClass) datelist.get(i))
+							.getCount()) {
+						check_unecessary_change = ((DateClass) datelist.get(i))
+								.getCount();
 					}
-					TextView t = (TextView) findViewById(R.id.storedDates);
-					t.setText(date.setStoredDates(datelist));
-					t.setTextColor(Color.parseColor("#F5908D"));
 				}
+
+				if (stored == false) {
+					datelist.add(newDate);
+				} else if (stored == true
+						&& ((DateClass) datelist.get(index)).getCount() != check_unecessary_change) {
+					datelist.remove(index);
+				}
+				TextView t = (TextView) findViewById(R.id.storedDates);
+				t.setText(date.setStoredDates(datelist));
+				t.setTextColor(Color.parseColor("#F5908D"));
 			}
+//
+//				Calendar today = Calendar.getInstance();
+//
+//				if (y <= today.get(Calendar.YEAR)
+//						&& m <= (today.get(Calendar.MONTH) + 1)
+//						&& d < today.get(Calendar.DAY_OF_MONTH)) {
+//
+//					Toast.makeText(CreateRoomActivity.this,
+//							"과거 날짜는 입력할 수 없습니다.", Toast.LENGTH_SHORT).show();
+//
+//				} else {
+//
+//					for (int i = 0; i < datelist.size(); i++) {
+//						if (d == datelist.get(i).getDay()
+//								&& m == datelist.get(i).getMonth()
+//								&& y == datelist.get(i).getYear()) {
+//							stored = true;
+//							index = i;
+//						}
+//						if (check_unecessary_change < ((DateClass) datelist
+//								.get(i)).getCount()) {
+//							check_unecessary_change = ((DateClass) datelist
+//									.get(i)).getCount();
+//						}
+//					}
+//
+//					if (stored == false) {
+//						datelist.add(newDate);
+//					} else if (stored == true
+//							&& ((DateClass) datelist.get(index)).getCount() != check_unecessary_change) {
+//						datelist.remove(index);
+//					}
+//					TextView t = (TextView) findViewById(R.id.storedDates);
+//					t.setText(date.setStoredDates(datelist));
+//					t.setTextColor(Color.parseColor("#F5908D"));
+//				}
+//			}
 		});
 
 		ImageView btn_invite = (ImageView) findViewById(R.id.invite);
