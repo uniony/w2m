@@ -62,7 +62,7 @@ public class CreateRoomActivity extends Activity {
 						&& d < today.get(Calendar.DAY_OF_MONTH)) {
 
 					Toast.makeText(CreateRoomActivity.this,
-							"과거의 날짜는 입력할 수 없습니다.", Toast.LENGTH_SHORT).show();
+							"과거 날짜는 입력할 수 없습니다.", Toast.LENGTH_SHORT).show();
 
 				} else {
 
