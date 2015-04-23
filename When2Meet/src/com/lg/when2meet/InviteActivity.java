@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import com.lg.util.MyHttpPost;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -52,6 +53,7 @@ public class InviteActivity extends Activity {
 	EditText search_id;
 	int partyId;
 	String masterId;
+	ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +146,7 @@ public class InviteActivity extends Activity {
 
 				adp_mem.clearAddList();
 				// db에서 search_id가 포함된 멤버 목록 검색해서 selectList에 넣기
+				dialog = ProgressDialog.show(InviteActivity.this, "", "잠시만 기다려 주세요", true);
 				new Thread() {
 					String id = search_id.getText().toString();
 
@@ -180,6 +183,7 @@ public class InviteActivity extends Activity {
 						}
 
 						handler.sendMessage(Message.obtain());
+						dialog.dismiss();
 					}
 				}.start();
 			}
@@ -189,8 +193,8 @@ public class InviteActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(InviteActivity.this, "잠시만 기다리세요",
-						Toast.LENGTH_SHORT).show();
+				ProgressDialog dialog = ProgressDialog.show(InviteActivity.this, "",                        "잠시만 기다려 주세요", true);
+
 				InsertMemberThread insertMemberThread = new InsertMemberThread();
 				insertMemberThread.start();
 			}

@@ -16,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -43,6 +45,7 @@ public class ListActivity extends Activity {
 	ArrayList<String> roomname;
 	ArrayList<String> member;
 	String id;
+	ProgressDialog dialog;
 
 	@Override
 	public void onBackPressed() {
@@ -93,11 +96,13 @@ public class ListActivity extends Activity {
 			};
 		};
 
+		dialog = ProgressDialog.show(ListActivity.this, "", "잠시만 기다려 주세요", true);
 		new Thread(){
 			@Override
 			public void run() {
 				getPartyList();
 				handler.sendMessage(Message.obtain());
+				dialog.dismiss();
 			}
 		}.start();
 
@@ -167,6 +172,7 @@ public class ListActivity extends Activity {
 					adapter.notifyDataSetChanged();
 					listView.setAdapter(adapter);
 				} else if(clickTime == 1) {
+					dialog = ProgressDialog.show(ListActivity.this, "", "잠시만 기다려 주세요", true);
 					new Thread(){
 						public void run(){
 							SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
@@ -182,6 +188,7 @@ public class ListActivity extends Activity {
 							}
 							adapter.clearSelectedRooms();
 							handler2.sendMessage(Message.obtain());
+							dialog.dismiss();
 						}
 					}.start();
 					del.setImageResource(R.drawable.button_del);

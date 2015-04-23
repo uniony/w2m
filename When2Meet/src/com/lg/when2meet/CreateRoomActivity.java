@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -30,12 +32,12 @@ public class CreateRoomActivity extends Activity {
 
 	ArrayList<DateClass> datelist = new ArrayList<DateClass>();
 	static int count = 0;
+	ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_room);
-
 		final StoredDate date = new StoredDate();
 
 		final CalendarView calendar = (CalendarView) findViewById(R.id.calendar);
@@ -104,8 +106,8 @@ public class CreateRoomActivity extends Activity {
 					Toast.makeText(CreateRoomActivity.this,
 							"방 이름을 입력하세요", Toast.LENGTH_SHORT).show();
 				} else {
-					Toast.makeText(CreateRoomActivity.this,
-						"잠시만 기다리세요", Toast.LENGTH_SHORT).show();
+					dialog = ProgressDialog.show(CreateRoomActivity.this, "", "잠시만 기다려 주세요", true);
+					
 					SharedPreferences sharedPreferences = getSharedPreferences(
 							"LOGIN_PREFRENCE", 0);
 
@@ -174,6 +176,7 @@ public class CreateRoomActivity extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+			dialog.dismiss();
 			if ("true".equals(isSuccess)) {
 				Intent intent = new Intent(CreateRoomActivity.this,
 						InviteActivity.class);
