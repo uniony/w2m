@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -39,6 +40,7 @@ public class RoomVoteActivity extends Activity {
 	ArrayList<PartyClass> partylist;
 	TableLayout table;
 	boolean already_voted;
+	ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +150,8 @@ public class RoomVoteActivity extends Activity {
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				dialog = ProgressDialog.show(RoomVoteActivity.this, "",
+						"잠시만 기다려 주세요", true);
 				// TODO Auto-generated method stub
 				SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
 				final String id = setting.getString("id", "");
@@ -208,11 +212,12 @@ public class RoomVoteActivity extends Activity {
 				bundle.putString("room_name", room_name);
 				i.putExtras(bundle);
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				dialog.dismiss();
 				startActivity(i);
 			}
 		});

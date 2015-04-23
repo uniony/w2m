@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -44,7 +45,9 @@ public class RoomActivity extends Activity {
 	ArrayList<DateClass> datelist = new ArrayList<DateClass>();
 	TextView room;
 	ArrayList<PartyClass> partylist;
-
+	ProgressDialog dialog;
+	
+	
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -267,9 +270,10 @@ public class RoomActivity extends Activity {
 
 		ImageView vote = (ImageView)findViewById(R.id.vote);
 		vote.setOnClickListener(new OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
+				
 				// TODO Auto-generated method stub
 				boolean already_voted=false;
 				SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
@@ -362,9 +366,9 @@ public class RoomActivity extends Activity {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("#ffffff");
 		if (max != 0) {
-			int subedR = 209/max;
-			int subedG = 188/max;
-			int subedB = 184/max;
+			int subedR = 159/max;
+			int subedG = 138/max;
+			int subedB = 134/max;
 			int maxR = 242;
 			int maxG = 255;
 			int maxB = 255;
