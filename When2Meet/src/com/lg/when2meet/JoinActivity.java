@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +29,7 @@ public class JoinActivity extends Activity {
 	EditText join_name;
 	EditText join_phone;
 	EditText join_pwd;
+	ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class JoinActivity extends Activity {
 					Toast.makeText(getApplicationContext(), "비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
 				}
 				
+				dialog = ProgressDialog.show(JoinActivity.this, "", "잠시만 기다려 주세요", true);
 				new Thread(){
 					@Override
 					public void run() {
@@ -78,15 +81,13 @@ public class JoinActivity extends Activity {
 						String pwd = join_pwd.getText().toString(); 
 						
 						String result = sendByHttpJoin(name, phone, pwd);
-						
+						dialog.dismiss();
 						try {			
 							JSONObject json = new JSONObject(result);
 							String isSuccess = json.getString("isSuccess");
 							
 							if (isSuccess.equals("true")){
-								
 								handler.sendMessage(Message.obtain());
-								
 								Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
 								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
