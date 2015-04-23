@@ -36,13 +36,15 @@ import android.widget.Toast;
 public class RoomActivity extends Activity {
 	int total_size;
 	ArrayList<String> votelist = new ArrayList<String>();
+	ArrayList<String> selectedlist = new ArrayList<String>();
+
 	static int count=0;
 	String start_time, end_time, room_name;
 	//	ArrayList<String> memlist;
 	ArrayList<DateClass> datelist = new ArrayList<DateClass>();
 	TextView room;
 	ArrayList<PartyClass> partylist;
-	
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -72,11 +74,12 @@ public class RoomActivity extends Activity {
 		final int s_time = Integer.parseInt(start_time);
 		partylist = bundle.getParcelableArrayList("partylist");
 		partyId = partylist.get(index).getId();
-		//		memlist = bundle.getStringArrayList("mem_name");
-		ArrayList<String> selectedlist = bundle.getStringArrayList("selectedlist");
 
-//		Log.d("party info in room", partyId+", "+room_name+", "+ index);
-		
+		final String mem_list[] = (partylist.get(index).getMemberList()).split(",");
+		count = mem_list.length;
+
+		//		Log.d("party info in room", partyId+", "+room_name+", "+ index);
+
 		final Handler handler = new Handler(){
 			public void handleMessage(android.os.Message msg){
 				TextView date = (TextView) findViewById(R.id.date_set);
@@ -95,8 +98,8 @@ public class RoomActivity extends Activity {
 						cell.setGravity(Gravity.CENTER);
 						int pad_size=5;
 						cell.setPadding(pad_size, pad_size, pad_size, pad_size);
-						cell.setBackgroundResource(R.drawable.table_border); 
-//						cell.setBackgroundColor(Color.parseColor("#????"));///////////////////////////here
+						//						cell.setBackgroundResource(R.drawable.table_border); 
+						cell.setBackgroundResource(R.drawable.cell_shape);
 						cell.setHighlightColor(0);
 
 						if(i==0){
@@ -115,8 +118,8 @@ public class RoomActivity extends Activity {
 								}
 								cell.setTextColor(Color.parseColor("#F5908D"));
 							}else{
-								SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
-								String mem_name = setting.getString("name", "");
+								//								SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
+								//								String mem_name = setting.getString("name", "");
 								cell.setText(".");
 								cell.setTextColor(Color.parseColor("#bbeeff"));
 								String str = datelist.get(j-1).getDate().substring(0, 10)+" "+(Integer.parseInt(start_time)+i-1);
@@ -133,26 +136,37 @@ public class RoomActivity extends Activity {
 									}
 								}
 								if(check){
-//									cell.setBackgroundResource(R.drawable.table_sel);
+									//									cell.setBackgroundResource(R.drawable.table_sel);
 									cell.setBackgroundResource(R.drawable.cell_shape_sel);
 
-//									int occurrences = Collections.frequency(votelist, str);
+									//									int occurrences = Collections.frequency(votelist, str);
 									count = partylist.get(index).getMemberList().length();
 									cell.setText(occurrences+"");
-									if(occurrences>0)
-										cell.setAlpha((float) 0.2);		// 1~2명 이상...?
-									if(occurrences>=count*0.2)
-										cell.setAlpha((float) 0.4);		// 20%이상
-									if(occurrences>=count*0.4)
-										cell.setAlpha((float) 0.6);		// 40% 이상
-									if(occurrences>=count*0.6)
-										cell.setAlpha((float) 0.8);		// 65% 이상
-									if(occurrences>=count*0.8)
-										cell.setAlpha((float) 1.0);		// 80% 이상
+									//									if(occurrences>0)
+									//										cell.setAlpha((float) 0.2);		// 1~2명 이상...?
+									//									if(occurrences>=count*0.2)
+									//										cell.setAlpha((float) 0.4);		// 20%이상
+									//									if(occurrences>=count*0.4)
+									//										cell.setAlpha((float) 0.6);		// 40% 이상
+									//									if(occurrences>=count*0.6)
+									//										cell.setAlpha((float) 0.8);		// 65% 이상
+									//									if(occurrences>=count*0.8)
+									//										cell.setAlpha((float) 1.0);		// 80% 이상
+									if(occurrences>0){
+										cell.setBackgroundResource(R.drawable.cell_shape_sel1);
+									}if(occurrences>=count*0.2){
+										cell.setBackgroundResource(R.drawable.cell_shape_sel2);
+									}if(occurrences>=count*0.4){
+										cell.setBackgroundResource(R.drawable.cell_shape_sel3);
+									}if(occurrences>=count*0.6){
+										cell.setBackgroundResource(R.drawable.cell_shape_sel4);
+									}if(occurrences>=count*0.8){
+										cell.setBackgroundResource(R.drawable.cell_shape_sel5);
+									}
 								}
 							}
 							cell.setOnClickListener(new OnClickListener() {
-								
+
 								@Override
 								public void onClick(View v) {
 									// TODO Auto-generated method stub
@@ -240,14 +254,29 @@ public class RoomActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				boolean already_voted=false;
+				SharedPreferences setting = getSharedPreferences("LOGIN_PREFRENCE", 0);
+				String mem_name = setting.getString("name", "");
+				selectedlist.clear();
+				for(int i=0; i<votelist.size(); i++){
+					String[] buffer = votelist.get(i).split("@"); 
+					if(votelist.get(i).contains(mem_name)){
+						already_voted = true;
+						selectedlist.add(buffer[0]);
+					}
+				}
+				//				Log.d("already??", ""+already_voted);
+
 				Intent i = new Intent(RoomActivity.this, RoomVoteActivity.class);
 				Bundle b = new Bundle();
 				b.putParcelableArrayList("datelist", datelist);
 				b.putParcelableArrayList("partylist", partylist);
+				b.putStringArrayList("selectedlist", selectedlist);
 				b.putInt("index", index);
 				b.putString("s_time", start_time);
 				b.putString("e_time", end_time);
 				b.putString("room_name", room_name);
+				b.putBoolean("already_voted", already_voted);
 				i.putExtras(b);
 				startActivity(i);
 			}
@@ -256,7 +285,7 @@ public class RoomActivity extends Activity {
 
 	private String SendByHttpVoteList(int id) {
 		String URL = "http://192.168.0.130:8080/getMemberSchedule";
-		
+
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
 			HttpPost post = new HttpPost(URL+"?partyId="+id);
@@ -274,7 +303,7 @@ public class RoomActivity extends Activity {
 			while ((line = bufreader.readLine()) != null) {
 				result += line;
 			}
-			
+
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();

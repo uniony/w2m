@@ -38,6 +38,7 @@ public class RoomVoteActivity extends Activity {
 	TextView room;
 	ArrayList<PartyClass> partylist;
 	TableLayout table;
+	boolean already_voted;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class RoomVoteActivity extends Activity {
 		final int index = bundle.getInt("index");
 		partylist = bundle.getParcelableArrayList("partylist");
 		datelist = bundle.getParcelableArrayList("datelist");
+		selectedlist = bundle.getStringArrayList("selectedlist");
+		already_voted = bundle.getBoolean("already_voted");
 
 		room.setText(room_name);
 		int s_time = Integer.parseInt(start_time);
@@ -80,8 +83,7 @@ public class RoomVoteActivity extends Activity {
 				cell.setGravity(Gravity.CENTER);
 				int pad_size = 5;
 				cell.setPadding(pad_size, pad_size, pad_size, pad_size);
-				cell.setBackgroundResource(R.drawable.table_border);
-//				cell.setBackgroundColor(Color.parseColor("#????"));///////////////////////////here
+				cell.setBackgroundResource(R.drawable.cell_shape);
 				cell.setHighlightColor(0);
 				if (i == 0) {
 					if (j > 0) {
@@ -103,16 +105,28 @@ public class RoomVoteActivity extends Activity {
 						cell.setTextColor(Color.parseColor("#BBEEFF"));
 						cell.setHint(datelist.get(j - 1).getDate().substring(0, 10) + " " + (Integer.parseInt(start_time) + i - 1));
 
+						boolean check=false;
+						for(int z=0; z<selectedlist.size(); z++){
+							if(selectedlist.get(z).equals(cell.getHint())){
+								Log.d("check seleted", cell.getHint()+", "+selectedlist.get(z));
+								check=true;
+							}
+						}
+						if(check){
+							cell.setBackgroundResource(R.drawable.cell_shape_sel1);
+							cell.setHighlightColor(7);
+						}
+						
 						cell.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
 								if (cell.getHighlightColor() != 7) {
-									cell.setBackgroundResource(R.drawable.table_selected);
+									cell.setBackgroundResource(R.drawable.cell_shape_sel1);
 									cell.setHighlightColor(7);
 									selectedlist.add((String) cell.getHint());
 								} else {
-									cell.setBackgroundResource(R.drawable.table_border);
+									cell.setBackgroundResource(R.drawable.cell_shape);
 									cell.setHighlightColor(0);
 									for(int z=0; z<selectedlist.size(); z++){
 										if(selectedlist.get(z).equals(cell.getHint())){
@@ -173,8 +187,12 @@ public class RoomVoteActivity extends Activity {
 							}
 						}
 						data = jarray.toString();
-						SendByHttpSelectedList(id, pwd, data);
-//						Log.d("sel" , data);
+						if(already_voted==false){
+							SendByHttpSelectedList(id, pwd, data);
+						}else{
+							SendByHttpModifySelectedList(data);
+						}
+//						Log.d("sel" , already_voted+"@"+data);
 					}					
 				}.start();
 
@@ -184,7 +202,7 @@ public class RoomVoteActivity extends Activity {
 				//				bundle.putParcelableArrayList("datelist", datelist);
 				bundle.putParcelableArrayList("partylist", partylist);
 				bundle.putInt("index",index);
-				bundle.putStringArrayList("selectedlist", selectedlist);
+//				bundle.putStringArrayList("selectedlist", selectedlist);
 				bundle.putString("s_time", start_time);
 				bundle.putString("e_time", end_time);
 				bundle.putString("room_name", room_name);
@@ -241,6 +259,37 @@ public class RoomVoteActivity extends Activity {
 				result += line;
 			}
 
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			client.getConnectionManager().shutdown();	
+			return ""; 
+		}
+	}
+	
+	private String SendByHttpModifySelectedList(String data) {
+		String URL = "http://192.168.0.130:8080/updateMemberSchedule";
+		
+		DefaultHttpClient client = new DefaultHttpClient();
+		try {
+			String url = URL+"?data="+URLEncoder.encode(data);
+			//			String url = URL+"?phoneNo="+id+"&pwd="+pwd+"&data="+URLEncoder.encode(data, "UTF-8");
+			HttpPost post = new HttpPost(url);
+			
+			HttpParams params = client.getParams();
+			HttpConnectionParams.setConnectionTimeout(params, 3000);
+			HttpConnectionParams.setSoTimeout(params, 3000);
+			
+			HttpResponse response = client.execute(post);
+			BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+			
+			String line = null;
+			String result = "";
+			
+			while ((line = bufreader.readLine()) != null) {
+				result += line;
+			}
+			
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
