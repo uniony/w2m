@@ -92,6 +92,7 @@ public class CreateRoomActivity extends Activity {
 						.substring(0, 2);
 				String end_time = (String.valueOf(s2.getSelectedItem()))
 						.substring(0, 2);
+				String room_name = room.getText().toString();
 
 				if (Integer.parseInt(start_time) >= Integer.parseInt(end_time)) {
 					Toast.makeText(CreateRoomActivity.this,
@@ -99,6 +100,9 @@ public class CreateRoomActivity extends Activity {
 				} else if (datelist.size() == 0){
 					Toast.makeText(CreateRoomActivity.this,
 							"날짜를 선택하세요", Toast.LENGTH_SHORT).show();
+				} else if (room_name.equals("") || room_name == null){
+					Toast.makeText(CreateRoomActivity.this,
+							"방 이름을 입력하세요", Toast.LENGTH_SHORT).show();
 				} else {
 					SharedPreferences sharedPreferences = getSharedPreferences(
 							"LOGIN_PREFRENCE", 0);

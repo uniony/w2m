@@ -276,13 +276,6 @@ public class ListActivity extends Activity {
 				for(int j=0; j<json_memberList.length(); j++){
 					json_member = (JSONObject) json_memberList.get(j);
 					member_name+=(json_member.getString("name")+", ");
-					//					try {
-					//						member_name_tmp = URLEncoder.encode(member_name_tmp,"EUC-KR");
-					//						
-					//					} catch (UnsupportedEncodingException e) {
-					//						// TODO Auto-generated catch block
-					//						e.printStackTrace();
-					//					}
 				}
 				member_name="("+member_name.substring(0, member_name.length()-2)+")";
 				member.add(member_name);
