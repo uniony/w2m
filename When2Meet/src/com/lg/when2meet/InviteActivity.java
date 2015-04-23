@@ -21,6 +21,7 @@ import com.lg.util.MyHttpPost;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -50,12 +51,17 @@ public class InviteActivity extends Activity {
 	ImageView create;
 	EditText search_id;
 	int partyId;
+	String masterId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_invite);
 		Intent gintent = getIntent();
+		SharedPreferences sharedPreferences = getSharedPreferences(
+				"LOGIN_PREFRENCE", 0);
+		masterId = sharedPreferences.getString("id", "");
+		Log.d("@@@@", masterId);
 		partyId = gintent.getIntExtra("partyId", 0);
 		if (partyId == 0) {
 			Toast.makeText(this, "방 정보를 가져올 수 없습니다.", Toast.LENGTH_SHORT)
@@ -112,7 +118,8 @@ public class InviteActivity extends Activity {
 						Toast.makeText(InviteActivity.this, "이미 선택한 ID입니다",
 								Toast.LENGTH_SHORT).show();
 					} else {
-						StringTokenizer stringTokenizer = new StringTokenizer(selected_mem, "()");
+						StringTokenizer stringTokenizer = new StringTokenizer(
+								selected_mem, "()");
 						String member_id = stringTokenizer.nextToken();
 						selectMemberIdList.add(member_id);
 
@@ -135,13 +142,13 @@ public class InviteActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				adp_mem.clearAddList() ;
+				adp_mem.clearAddList();
 				// db에서 search_id가 포함된 멤버 목록 검색해서 selectList에 넣기
 				new Thread() {
 					String id = search_id.getText().toString();
 
 					public void run() {
-						String result = SendByHttpSearchMember(id);
+						String result = SendByHttpSearchMember(id, masterId);
 						String decode_str = "";
 						try {
 							decode_str = URLDecoder.decode(result, "UTF-8");
@@ -182,49 +189,52 @@ public class InviteActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(InviteActivity.this,
-						"잠시만 기다리세요", Toast.LENGTH_SHORT).show();
-				InsertMemberThread insertMemberThread = new InsertMemberThread(); 
+				Toast.makeText(InviteActivity.this, "잠시만 기다리세요",
+						Toast.LENGTH_SHORT).show();
+				InsertMemberThread insertMemberThread = new InsertMemberThread();
 				insertMemberThread.start();
 			}
 		});
 	}
 
 	class InsertMemberThread extends Thread {
-		
+
 		@Override
 		public void run() {
 			String response;
 			JSONObject jsonObject = null;
-			for(int i = 0 ; i < selectMemberIdList.size() ; i++) {
+			for (int i = 0; i < selectMemberIdList.size(); i++) {
 				String URL = "http://192.168.0.130:8080/inviteMember";
-				HttpPost httpPost = new HttpPost(URL + "?memberId=" + selectMemberIdList.get(i) + "&partyId=" + partyId);
+				HttpPost httpPost = new HttpPost(URL + "?memberId="
+						+ selectMemberIdList.get(i) + "&partyId=" + partyId);
 				response = MyHttpPost.SendHttpPost(httpPost);
 				try {
 					jsonObject = new JSONObject(response);
 					Log.d("머지", jsonObject.getString("isSuccess"));
-					if("true".equals(jsonObject.getString("isSuccess"))) {
-//						Log.d("!@@@@@@@@@@", "added!!" + selectMemberIdList.get(i));
+					if ("true".equals(jsonObject.getString("isSuccess"))) {
+						Log.d("!@@@@@@@@@@",
+								"added!!" + selectMemberIdList.get(i));
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-			Intent intent = new Intent(InviteActivity.this,
-					ListActivity.class);
+
+			Intent intent = new Intent(InviteActivity.this, ListActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 		}
 	}
 
-	private String SendByHttpSearchMember(String id) {
+	private String SendByHttpSearchMember(String id, String masterId) {
 		String URL = "http://192.168.0.130:8080/getMembersById";
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {
-			HttpPost post = new HttpPost(URL + "?memberId=" + id);
+			Log.d("@@@@@@@@@@", masterId + "@@@@@@@@@@@@@@@2");
+			HttpPost post = new HttpPost(URL + "?masterId=" + masterId
+					+ "&memberId" + id);
 
 			HttpParams params = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(params, 3000);
@@ -250,10 +260,11 @@ public class InviteActivity extends Activity {
 		}
 
 	}
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		//super.onBackPressed();
+		// super.onBackPressed();
 	}
 }
 
@@ -282,7 +293,7 @@ class SearchAdapter extends BaseAdapter {
 	public int getAddNum() {
 		return addlist.size();
 	}
-	
+
 	public SearchAdapter(Context context, int resID, ArrayList<String> list,
 			boolean isMem) {
 		super();
@@ -332,7 +343,7 @@ class SearchAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 
-				if (mem.getCurrentTextColor() == Color.WHITE) {	//선택 된 것.
+				if (mem.getCurrentTextColor() == Color.WHITE) { // 선택 된 것.
 					mem.setBackgroundColor(Color.WHITE);
 					mem.setTextColor(Color.parseColor(mintColor));
 					addlist.remove(getItem(position).toString());
@@ -348,6 +359,5 @@ class SearchAdapter extends BaseAdapter {
 		});
 		return view;
 	}
-	
 
 }
