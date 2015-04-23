@@ -45,6 +45,22 @@ public class ListActivity extends Activity {
 	String id;
 
 	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		del = (ImageView) findViewById(R.id.del_room);
+		
+		if(clickTime == 1) {//눌러서 checkbox 활성화 상태
+			del.setImageResource(R.drawable.button_del);
+			adapter.changeVisibility(false);
+			adapter.notifyDataSetChanged();
+			listView.setAdapter(adapter);
+			clickTime = 0;
+		} else {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);

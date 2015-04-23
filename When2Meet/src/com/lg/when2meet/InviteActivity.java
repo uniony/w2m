@@ -212,8 +212,7 @@ public class InviteActivity extends Activity {
 			
 			Intent intent = new Intent(InviteActivity.this,
 					ListActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 		}
 	}
